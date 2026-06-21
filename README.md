@@ -1,6 +1,21 @@
 # Portfolio Customer Success & Automation — Abdel Arbaoui
 
-Bienvenue dans mon espace de démonstrations techniques. Ce dépôt regroupe et unifie des outils interactifs développés pour optimiser les opérations de Customer Success et la gestion d'activité.
+Bienvenue dans mon espace de démonstrations techniques. Ce dépôt regroupe et unifie des outils interactifs conçus pour optimiser les opérations de Customer Success et automatiser des workflows métier.
+
+## 📸 Aperçu Visuel
+
+![Portail - Vue d'ensemble](assets/vue_d_ensemble.png)
+
+<p align="center">
+  <img src="assets/money_tracker.png" width="49%" alt="Money Tracker Dashboard" />
+  <img src="assets/cs_analytics.png" width="49%" alt="CS Analytics Dashboard" />
+</p>
+
+<p align="center">
+  <i>À gauche : Money Tracker (Projet Personnel). À droite : CS Analytics (Moteur de Reporting).</i>
+</p>
+
+> 🎥 **Animation de Démonstration** : [Voir l'enregistrement dynamique du portail (WebP)](assets/demo_recording.webp)
 
 ## 📂 Structure du Workspace
 
