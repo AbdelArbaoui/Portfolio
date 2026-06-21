@@ -1063,12 +1063,12 @@
       headerBadge.textContent = "Money Tracker";
       headerBadge.className = "bar-badge";
       extBtn.style.display = "inline-flex";
-      currentIframeProject = '../money-tracker/index.html';
+      currentIframeProject = 'money-tracker/index.html';
       
       // Load source if changed
-      const targetSrc = window.location.origin + window.location.pathname.replace('portfolio-portal/index.html', 'money-tracker/index.html');
+      const targetSrc = new URL('money-tracker/index.html', window.location.href).href;
       if (iframeEl.src !== targetSrc) {
-        iframeEl.src = '../money-tracker/index.html';
+        iframeEl.src = 'money-tracker/index.html';
       }
     } 
     else if (viewName === 'cs-analytics') {
@@ -1078,12 +1078,12 @@
       headerBadge.textContent = "CS Analytics";
       headerBadge.className = "bar-badge cs-badge";
       extBtn.style.display = "inline-flex";
-      currentIframeProject = '../CS-Analytics/index.html';
+      currentIframeProject = 'CS-Analytics/index.html';
 
       // Load source if changed
-      const targetSrc = window.location.origin + window.location.pathname.replace('portfolio-portal/index.html', 'CS-Analytics/index.html');
+      const targetSrc = new URL('CS-Analytics/index.html', window.location.href).href;
       if (iframeEl.src !== targetSrc) {
-        iframeEl.src = '../CS-Analytics/index.html';
+        iframeEl.src = 'CS-Analytics/index.html';
       }
     }
   }
