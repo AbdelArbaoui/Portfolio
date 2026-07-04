@@ -35,6 +35,10 @@
     padding:7px 14px;font-size:12.5px;font-weight:600;color:#04121f;
     background:linear-gradient(90deg,#00F5D4,#34c3ff);letter-spacing:.2px}
   .demo-strip span{opacity:.85;font-weight:500}
+  .global-language-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);border:1px solid rgba(4,18,31,.25);
+    background:rgba(4,18,31,.12);color:#04121f;border-radius:6px;padding:3px 9px;font:800 11px var(--font);
+    cursor:pointer;transition:.15s}
+  .global-language-toggle:hover{background:#04121f;color:#00F5D4}
 
   .app{position:relative;z-index:1;display:flex;min-height:calc(100vh - 34px)}
 
@@ -238,10 +242,17 @@
     .scrim{position:fixed;inset:34px 0 0;background:rgba(0,0,0,.5);z-index:54;display:none}
     .scrim.show{display:block}
   }
+  @media(max-width:600px){
+    .demo-strip{justify-content:flex-start;padding-right:62px}
+    .demo-strip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  }
 </style>
 </head>
 <body>
-<div class="demo-strip">🔒 Démo — <span>Données 100 % fictives, aucune donnée réelle ou secrète incluse</span></div>
+<div class="demo-strip">
+  🔒 Démo — <span>Données 100 % fictives, aucune donnée réelle ou secrète incluse</span>
+  <button class="global-language-toggle" id="global-language-toggle" type="button" onclick="toggleGlobalLanguage()" aria-label="Traduire CS Analytics en anglais">EN</button>
+</div>
 
 <button class="burger" id="burger" aria-label="Menu">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -528,6 +539,295 @@
 <div class="toast" id="toast"><b id="toast-t"></b><p id="toast-p"></p></div>
 
 <script>
+/* ════════════════ BILINGUAL UI / SHARED LANGUAGE ════════════════ */
+const CS_EN = {
+  "🔒 Démo —": "🔒 Demo —",
+  "Données 100 % fictives, aucune donnée réelle ou secrète incluse": "100% fictional data; no real or secret data included",
+  "Customer Success · Démo": "Customer Success · Demo",
+  "Suivi": "Monitoring",
+  "Vue d'ensemble": "Overview",
+  "Clients & CRM": "Clients & CRM",
+  "Présentation": "Presentation",
+  "Automatisation": "Automation",
+  "Ingénierie": "Engineering",
+  "Architecture & Sécurité": "Architecture & Security",
+  "Démo statique, hors-ligne.": "Static offline demo.",
+  "Calcul 100 % local — aucun transfert cloud pour conformité cybersécurité.": "100% local processing — no cloud transfers, ensuring cybersecurity compliance.",
+  "Une suite d'": "A suite of ",
+  "analytics & d'automatisation": "analytics & automation tools",
+  "pour les équipes Customer Success": "for Customer Success teams",
+  "Une application desktop qui transforme des exports bruts (Excel/CSV) en rapports PowerPoint clés en main, gère un portefeuille clients et automatise les appels API d'infrastructure — le tout dans une interface unifiée, hors-ligne et sans serveur.": "A desktop application that turns raw Excel/CSV exports into ready-to-use PowerPoint reports, manages a client portfolio, and automates infrastructure API calls — all in one unified, offline, serverless interface.",
+  "Données": "Data",
+  "Rapports": "Reports",
+  "100 % Hors-ligne": "100% Offline",
+  "Fonctionnalités de l'application": "Application Features",
+  "Cliquez sur les sections interactives du menu (Analytics, Console API...).": "Use the interactive menu sections (Analytics, API Console, and more).",
+  "Tableau de bord interactif par client et par produit — KPIs, tendances, taux de consommation.": "Interactive dashboard by client and product — KPIs, trends, and usage rates.",
+  "Client": "Client",
+  "Produit": "Product",
+  "Période": "Period",
+  "16 dernières semaines": "Last 16 weeks",
+  "12 dernières semaines": "Last 12 weeks",
+  "8 dernières semaines": "Last 8 weeks",
+  "Générer le rapport (PPTX)": "Generate report (PPTX)",
+  "Contrat vs utilisation": "Contract vs Usage",
+  "Taux d'utilisation des capacités contractuelles.": "Usage rate against contracted capacity.",
+  "Évolution": "Trend",
+  "Activité secondaire": "Secondary Activity",
+  "Portefeuille personnel et base CRM partagée — deux scopes volontairement découplés.": "Personal portfolio and shared CRM database — two intentionally separate scopes.",
+  "⭐ Mon Portefeuille": "⭐ My Portfolio",
+  "local · privé": "local · private",
+  "Clients que": "Clients that",
+  "je": "I",
+  "suis. Strictement local à ma machine — jamais partagé.": "manage. Stored only on my device — never shared.",
+  "🤝 Fiches clients (CRM)": "🤝 Client Records (CRM)",
+  "partagé · équipe": "shared · team",
+  "Contacts, licences, suivi — partagé et **fusionné** entre collègues (la version la plus récente l'emporte).": "Contacts, licenses, and follow-up data — shared and **merged** across team members (the latest update wins).",
+  "Pourquoi ce découplage ?": "Why separate these scopes?",
+  "À l'origine, un seul fichier gérait ces deux aspects → les collègues écrasaient mutuellement leurs favoris. Le découplage en **favoris (local)** et **fiches CRM (partagé)** a éliminé les conflits : chacun garde son portefeuille privé tout en partageant une base commune de fiches synchronisées par fusion de timestamps. Entièrement couvert par tests de non-régression.": "Originally, one file handled both areas, causing team members to overwrite one another's favorites. Splitting **favorites (local)** from **CRM records (shared)** removed those conflicts: everyone keeps a private portfolio while contributing to a shared database synchronized through timestamp-based merging. This behavior is fully covered by regression tests.",
+  "Console API (Style Postman)": "API Console (Postman Style)",
+  "Composez une requête, prévisualisez le rendu et envoyez-la à tout un lot d'infrastructures en parallèle. **Tout est simulé** ici.": "Build a request, preview its output, and send it to a batch of infrastructure targets in parallel. **Everything is simulated** here.",
+  "Lot d'Infrastructures (multi-cibles)": "Infrastructure Batch (multiple targets)",
+  "Méthode": "Method",
+  "Authentification": "Authentication",
+  "Corps (JSON)": "Body (JSON)",
+  "Certificat client .p12 (mTLS)": ".p12 client certificate (mTLS)",
+  "🔐 Dans l'application réelle : le mot de passe du certificat .p12 et le jeton ne sont **jamais** persistés ni écrits dans l'historique ; les clés PEM temporaires sont systématiquement supprimées après l'appel.": "🔐 In the real application, the .p12 certificate password and token are **never** persisted or written to history; temporary PEM keys are systematically deleted after each call.",
+  "Aperçu du bandeau": "Banner Preview",
+  "Envoyer la requête": "Send Request",
+  "Mode diaporama pour les revues clients — conçu pour le double écran, l'édition en direct et le dessin.": "Slideshow mode for client reviews — designed for dual screens, live editing, and drawing.",
+  "Double écran": "Dual Screen",
+  "Édition live": "Live Editing",
+  "Mode dessin": "Drawing Mode",
+  "Slides manuelles": "Manual Slides",
+  "‹ Précédent": "‹ Previous",
+  "Suivant ›": "Next ›",
+  "Les choix d'ingénierie derrière l'application.": "The engineering decisions behind the application.",
+  "lignes de Python": "lines of Python",
+  "moteurs produits": "product engines",
+  "serveur requis": "server required",
+  "Le pont front ⇄ back": "The Frontend ⇄ Backend Bridge",
+  "Aucun serveur web : une fenêtre native (WebView2) affiche le HTML/JS communiquant avec Python via un pont API exposé. Les moteurs historiques de génération restent des « boîtes noires » exécutées en sous-processus sans modification.": "No web server is required: a native WebView2 window displays HTML/JS that communicates with Python through an exposed API bridge. Existing generation engines remain unchanged black boxes executed as subprocesses.",
+  "Calendrier": "Calendar",
+  "Pont": "Bridge",
+  "Classe Api": "Api Class",
+  "Moteurs": "Engines",
+  "Calcul & Rendu": "Processing & Rendering",
+  "— Calcul & Rendu": "— Processing & Rendering",
+  "adaptateurs analytics": "analytics adapters",
+  "sous-processus (boîtes noires)": "subprocesses (black boxes)",
+  "Choix de Sécurité & mTLS": "Security & mTLS Decisions",
+  "Calculs locaux (On-Premise)": "Local Processing (On-Premise)",
+  "— Tout le traitement de données, le parsing de logs et le rendu PPTX sont effectués localement.": "— All data processing, log parsing, and PPTX rendering take place locally.",
+  "Aucune donnée n'est jamais envoyée vers le cloud": "No data is ever sent to the cloud",
+  ", garantissant la conformité stricte avec les directives de cybersécurité.": ", ensuring strict compliance with cybersecurity policies.",
+  "Secrets éphémères": "Ephemeral Secrets",
+  "— Les mots de passe .p12 et tokens API ne sont jamais stockés ni loggués.": "— .p12 passwords and API tokens are never stored or logged.",
+  "mTLS sécurisé": "Secure mTLS",
+  "— Fichiers PEM temporaires extraits uniquement en mémoire puis supprimés dans un bloc": "— Temporary PEM files are extracted in memory only, then deleted in a strict",
+  "strict.": "block.",
+  "Sous-processus sécurisés": "Secure Subprocesses",
+  ", arguments validés (noms de clients, dates) avant exécution.": ", with validated arguments (client names and dates) before execution.",
+  "Calculs de KPI encadrés": "Controlled KPI Calculations",
+  "— Formules basées sur une liste blanche stricte de jetons, sans accès aux fonctions système.": "— Formulas use a strict token allowlist and cannot access system functions.",
+  "HTTPS obligatoire": "HTTPS Required",
+  "sur tous les appels d'infrastructure.": "for all infrastructure calls.",
+  "Fiabilité des Données": "Data Reliability",
+  "Sauvegarde miroir": "Mirrored Backup",
+  "— Copie de sauvegarde automatique de chaque configuration dans le profil utilisateur (anti-perte).": "— Automatic backup of every configuration in the user profile to prevent data loss.",
+  "Restauration intelligente": "Safe Restore",
+  "— Un fichier vide ne peut jamais écraser un fichier contenant des données.": "— An empty file can never overwrite a file containing data.",
+  "— Fusion des fiches partagées par timestamp (la modification la plus récente l'emporte).": "— Shared records are merged by timestamp, with the latest update winning.",
+  "Découplage local/partagé": "Local/Shared Separation",
+  "— Le portefeuille privé n'est jamais propagé sur le réseau.": "— The private portfolio is never propagated over the network.",
+  "Résilience PPTX": "PPTX Resilience",
+  "— Interception des fichiers verrouillés par PowerPoint avec fallbacks automatiques de sauvegarde.": "— PowerPoint-locked files are handled with automatic backup fallbacks.",
+  "Visualiseur de flux & Confidentialité": "Data Flow & Privacy Viewer",
+  "Schéma interactif démontrant le traitement 100 % hors-ligne de vos données d'activité.": "Interactive diagram showing fully offline processing of your activity data.",
+  "Logs clients bruts": "Raw Client Logs",
+  "Moteur local Python": "Local Python Engine",
+  "Rapport local": "Local Report",
+  "PPTX prêt à l'emploi": "Ready-to-use PPTX",
+  "Serveurs Cloud Publics (Bloqués)": "Public Cloud Servers (Blocked)",
+  "— Isolation réseau complète. Zéro fuite vers le cloud.": "— Complete network isolation. Zero cloud data leakage.",
+  "Rapports PowerPoint": "PowerPoint Reports",
+  "Génère des diaporamas PPTX complets (KPIs, graphiques, jauges) à partir d'exports Excel/CSV, par client et période, en FR/EN.": "Generates complete PPTX decks (KPIs, charts, and gauges) from Excel/CSV exports by client and period, in French or English.",
+  "Analytics Interactifs": "Interactive Analytics",
+  "Tableau de bord par client : tendances, pics, moyennes et taux d'utilisation des contrats.": "Per-client dashboard with trends, peaks, averages, and contract usage rates.",
+  "Portefeuille & CRM": "Portfolio & CRM",
+  "Favoris privés + fiches clients partagées fusionnés dynamiquement entre collègues, sans conflit.": "Private favorites plus shared client records dynamically merged across team members without conflicts.",
+  "Console API Infrastructure": "Infrastructure API Console",
+  "Composez, prévisualisez et envoyez des requêtes mTLS vers vos cibles d'infrastructure.": "Build, preview, and send mTLS requests to your infrastructure targets.",
+  "Présentation Client": "Client Presentation",
+  "Diaporama plein écran (avec support double écran, édition live et mode dessin) pour les revues clients.": "Full-screen slideshow with dual-screen support, live editing, and drawing for client reviews.",
+  "Suivi des déploiements, visites et incidents avec import/export .ics.": "Tracks deployments, visits, and incidents with .ics import/export.",
+  "Calculateur de KPI": "KPI Calculator",
+  "Indicateurs sur-mesure calculés via des formules Pandas sécurisées, réutilisables dans les rapports.": "Custom metrics calculated with secure Pandas formulas and reusable in reports.",
+  "Consolidation de Données": "Data Consolidation",
+  "Fusionnez plusieurs exports Excel/CSV en un seul fichier dédoublonné.": "Merge multiple Excel/CSV exports into one deduplicated file.",
+  "Sécurité & On-Premise": "Security & On-Premise",
+  "Calcul 100 % hors-ligne. Tous les calculs, parsing de logs et rendus PPTX sont locaux pour conformité cybersécurité.": "100% offline processing. All calculations, log parsing, and PPTX rendering are local for cybersecurity compliance.",
+  "Utilisateurs Max": "Peak Users",
+  "Invités Max": "Peak Guests",
+  "Stockage (Go)": "Storage (GB)",
+  "Workspaces Actifs": "Active Workspaces",
+  "Total Partages": "Total Shares",
+  "Utilisateurs": "Users",
+  "Invités": "Guests",
+  "Stockage": "Storage",
+  "Utilisateurs & invités": "Users & Guests",
+  "Activité fichiers": "File Activity",
+  "Accès fichiers": "File Access",
+  "Partages": "Shares",
+  "Pic Utilisateurs": "Peak Users",
+  "Total Messages": "Total Messages",
+  "Pic Messages": "Peak Messages",
+  "Taux Chiffrement": "Encryption Rate",
+  "Salons Chiffrés": "Encrypted Rooms",
+  "Messages Chiffrés": "Encrypted Messages",
+  "Adoption": "Adoption",
+  "Messages (Total vs Chiffrés)": "Messages (Total vs Encrypted)",
+  "Chiffrés de bout en bout": "End-to-End Encrypted",
+  "Salons & conférences": "Rooms & Conferences",
+  "Salons créés": "Rooms Created",
+  "Conférences": "Conferences",
+  "utilisateurs actifs": "active users",
+  "Contact Clé": "Key Contact",
+  "Licences": "Licenses",
+  "Mis à jour": "Updated",
+  "— Infra unique (défaut) —": "— Single infrastructure (default) —",
+  "Europe (3 infras)": "Europe (3 targets)",
+  "Amérique (2 infras)": "Americas (2 targets)",
+  "JSON Invalide": "Invalid JSON",
+  "Veuillez corriger le corps de la requête.": "Please correct the request body.",
+  "Lot traité (démo)": "Batch Processed (Demo)"
+};
+
+const csTextOriginals = new WeakMap();
+const csAttributeOriginals = new WeakMap();
+let currentLanguage = 'fr';
+
+function getInitialLanguage() {
+  const requested = new URLSearchParams(window.location.search).get('lang');
+  if (requested === 'fr' || requested === 'en') return requested;
+  try {
+    return localStorage.getItem('portfolioLanguage') === 'en' ? 'en' : 'fr';
+  } catch (error) {
+    return 'fr';
+  }
+}
+
+function csEnglishText(value) {
+  const compact = value.trim().replace(/\s+/g, ' ');
+  let translated = CS_EN[compact];
+
+  if (!translated) {
+    translated = compact
+      .replace(/^(\d+)j$/, '$1d')
+      .replace(/^(\d+) utilisateurs actifs$/, '$1 active users')
+      .replace(/^(\d+) actifs$/, '$1 active')
+      .replace(/^Total :/, 'Total:')
+      .replace(/^(\d+) infra\(s\)/, '$1 target(s)');
+  }
+
+  if (translated === compact) return null;
+  return value.replace(value.trim(), translated);
+}
+
+function localizeCsTextNode(node) {
+  if (!node.nodeValue.trim() || ['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(node.parentElement?.tagName)) return;
+
+  if (currentLanguage === 'fr') {
+    if (csTextOriginals.has(node) && node.nodeValue !== csTextOriginals.get(node)) {
+      node.nodeValue = csTextOriginals.get(node);
+    }
+    return;
+  }
+
+  const original = csTextOriginals.get(node) || node.nodeValue;
+  const translated = csEnglishText(original);
+  if (translated && node.nodeValue !== translated) {
+    if (!csTextOriginals.has(node)) csTextOriginals.set(node, original);
+    node.nodeValue = translated;
+  }
+}
+
+function localizeCsElementAttributes(element) {
+  ['placeholder', 'title', 'aria-label'].forEach(attribute => {
+    if (!element.hasAttribute?.(attribute)) return;
+    const originals = csAttributeOriginals.get(element) || {};
+
+    if (currentLanguage === 'fr') {
+      if (originals[attribute] && element.getAttribute(attribute) !== originals[attribute]) {
+        element.setAttribute(attribute, originals[attribute]);
+      }
+      return;
+    }
+
+    const original = originals[attribute] || element.getAttribute(attribute);
+    const translated = csEnglishText(original);
+    if (translated && element.getAttribute(attribute) !== translated) {
+      originals[attribute] = original;
+      csAttributeOriginals.set(element, originals);
+      element.setAttribute(attribute, translated);
+    }
+  });
+}
+
+function localizeCsSubtree(root) {
+  if (root.nodeType === Node.TEXT_NODE) {
+    localizeCsTextNode(root);
+    return;
+  }
+
+  if (root.nodeType !== Node.ELEMENT_NODE && root !== document.body) return;
+  if (root.nodeType === Node.ELEMENT_NODE) localizeCsElementAttributes(root);
+
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT);
+  let node;
+  while ((node = walker.nextNode())) {
+    if (node.nodeType === Node.TEXT_NODE) localizeCsTextNode(node);
+    else localizeCsElementAttributes(node);
+  }
+}
+
+function applyLanguage(language, notifyParent = false) {
+  currentLanguage = language === 'en' ? 'en' : 'fr';
+  document.documentElement.lang = currentLanguage;
+  document.title = currentLanguage === 'en' ? 'CS Analytics — Interactive Demo' : 'CS Analytics — Démo interactive';
+  document.querySelector('meta[name="description"]').content = currentLanguage === 'en'
+    ? 'Interactive demo of a desktop analytics and automation application using 100% fictional data.'
+    : "Démonstration interactive d'une application desktop d'analytics et d'automatisation (données 100 % fictives).";
+
+  const button = document.getElementById('global-language-toggle');
+  button.textContent = currentLanguage === 'en' ? 'FR' : 'EN';
+  button.setAttribute('aria-label', currentLanguage === 'en' ? 'Switch CS Analytics to French' : 'Traduire CS Analytics en anglais');
+
+  try {
+    localStorage.setItem('portfolioLanguage', currentLanguage);
+  } catch (error) {
+    // Language switching remains available when storage is disabled.
+  }
+
+  localizeCsSubtree(document.body);
+
+  if (typeof coLang !== 'undefined') {
+    coLang = currentLanguage;
+    document.querySelectorAll('.bn-toggle button').forEach(control => {
+      control.classList.toggle('on', control.dataset.lang === currentLanguage);
+    });
+    renderBanner();
+  }
+
+  if (notifyParent && window.parent !== window) {
+    window.parent.postMessage({ type: 'portfolio-language', language: currentLanguage }, '*');
+  }
+}
+
+function toggleGlobalLanguage() {
+  applyLanguage(currentLanguage === 'fr' ? 'en' : 'fr', true);
+}
+
 /* ════════════════ DONNÉES FICTIVES ════════════════ */
 const CLIENTS = ["Acme Corp","Globex","Initech","Umbrella","Soylent","Hooli","Vandelay","Wonka Ind."];
 const PRODUITS = {securedrive:"SecureDrive", teamchat:"TeamChat"};
@@ -840,6 +1140,36 @@ function toast(t,p,err){
 
 /* init */
 renderAnalytics();
+currentLanguage = getInitialLanguage();
+applyLanguage(currentLanguage);
+
+const csMutationObserver = new MutationObserver(mutations => {
+  if (currentLanguage !== 'en') return;
+  mutations.forEach(mutation => {
+    mutation.addedNodes.forEach(localizeCsSubtree);
+  });
+});
+csMutationObserver.observe(document.body, { childList: true, subtree: true });
+
+window.addEventListener('message', event => {
+  if (
+    event.data?.type === 'portfolio-language' &&
+    ['fr', 'en'].includes(event.data.language) &&
+    event.data.language !== currentLanguage
+  ) {
+    applyLanguage(event.data.language);
+  }
+});
+
+window.addEventListener('storage', event => {
+  if (
+    event.key === 'portfolioLanguage' &&
+    ['fr', 'en'].includes(event.newValue) &&
+    event.newValue !== currentLanguage
+  ) {
+    applyLanguage(event.newValue);
+  }
+});
 </script>
 </body>
 </html>

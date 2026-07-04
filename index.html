@@ -369,6 +369,25 @@
       border-color: rgba(255, 255, 255, 0.15);
     }
 
+    .bar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .language-toggle {
+      min-width: 42px;
+      justify-content: center;
+      color: var(--color-primary);
+      border-color: rgba(var(--color-primary-rgb), 0.25);
+    }
+
+    .language-toggle:hover {
+      color: #030a16;
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+    }
+
     /* Views container */
     .views-wrapper {
       flex: 1;
@@ -636,7 +655,7 @@
       gap: 8px;
     }
 
-    .section-head h2 span {
+    .section-head h2 > span:first-child {
       width: 6px;
       height: 14px;
       background: linear-gradient(to bottom, var(--color-primary), var(--color-secondary));
@@ -762,17 +781,17 @@
 
     <!-- Navigation Section -->
     <nav class="nav-section">
-      <div class="nav-label">Présentation</div>
+      <div class="nav-label" data-i18n="nav.presentation">Présentation</div>
       <button class="nav-item active" onclick="switchView('home')" id="btn-home">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-        <span>Vue d'ensemble</span>
+        <span data-i18n="nav.overview">Vue d'ensemble</span>
       </button>
       <button class="nav-item" onclick="switchView('architecture')" id="btn-architecture">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-        <span>Architecture & Décisions</span>
+        <span data-i18n="nav.architecture">Architecture & Décisions</span>
       </button>
 
-      <div class="nav-label">Démos Interactives</div>
+      <div class="nav-label" data-i18n="nav.demos">Démos Interactives</div>
       <button class="nav-item" onclick="switchView('money-tracker')" id="btn-money-tracker">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect><line x1="12" y1="20" x2="12" y2="4"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
         <span>Money Tracker</span>
@@ -785,11 +804,11 @@
 
     <!-- Talking Points / Cheat Sheet Widget -->
     <div class="cheat-sheet-widget">
-      <h4>💡 Talking Points</h4>
+      <h4 data-i18n="sidebar.talkingPoints">💡 Talking Points</h4>
       <ul>
-        <li><b>100% Hors-ligne</b> : Conformité cybersécurité et confidentialité des données.</li>
-        <li><b>Qualité Code</b> : 145+ tests unitaires intégrés sur le moteur Python.</li>
-        <li><b>Data Processing</b> : Modèles de prévision financière et agrégation de logs.</li>
+        <li data-i18n-html="sidebar.offline"><b>100% Hors-ligne</b> : Conformité cybersécurité et confidentialité des données.</li>
+        <li data-i18n-html="sidebar.codeQuality"><b>Qualité Code</b> : 145+ tests unitaires intégrés sur le moteur Python.</li>
+        <li data-i18n-html="sidebar.dataProcessing"><b>Data Processing</b> : Modèles de prévision financière et agrégation de logs.</li>
       </ul>
     </div>
 
@@ -805,10 +824,15 @@
         <span id="current-view-title">Vue d'ensemble du Portfolio</span>
         <span class="bar-badge" id="current-view-badge">Accueil</span>
       </div>
-      <button class="btn-external" id="btn-open-external" style="display: none;" onclick="openProjectExternally()">
-        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-        Ouvrir dans un nouvel onglet
-      </button>
+      <div class="bar-actions">
+        <button class="btn-external language-toggle" id="language-toggle" type="button" onclick="toggleLanguage()" aria-label="Traduire le site en anglais" title="Traduire en anglais">
+          EN
+        </button>
+        <button class="btn-external" id="btn-open-external" style="display: none;" onclick="openProjectExternally()">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          <span data-i18n="header.openTab">Ouvrir dans un nouvel onglet</span>
+        </button>
+      </div>
     </header>
 
     <div class="views-wrapper">
@@ -817,15 +841,15 @@
       <section class="view-panel active" id="panel-home">
         
         <div class="hero-section">
-          <div class="hero-tag">Démonstrations Techniques</div>
-          <h1>Outils et solutions d'automatisation <span>Customer Success &amp; Ops</span></h1>
-          <p>
+          <div class="hero-tag" data-i18n="home.heroTag">Démonstrations Techniques</div>
+          <h1 data-i18n-html="home.heroTitle">Outils et solutions d'automatisation <span>Customer Success &amp; Ops</span></h1>
+          <p data-i18n="home.heroDescription">
             Bienvenue sur mon portail interactif. Ce tableau de bord regroupe deux applications concrètes conçues pour optimiser et automatiser nos opérations de Customer Success et la gestion financière personnelle.
           </p>
         </div>
 
         <div class="section-head">
-          <h2><span></span>Projets à la Une</h2>
+          <h2><span></span><span data-i18n="home.featuredProjects">Projets à la Une</span></h2>
         </div>
 
         <div class="project-grid">
@@ -838,10 +862,10 @@
               </div>
               <div>
                 <div class="project-title">Money Tracker</div>
-                <div class="project-subtitle">Projet Personnel • Patrimoine &amp; Finance</div>
+                <div class="project-subtitle" data-i18n="projects.money.subtitle">Projet Personnel • Patrimoine &amp; Finance</div>
               </div>
             </div>
-            <p class="project-desc">
+            <p class="project-desc" data-i18n="projects.money.description">
               Application de suivi financier personnel à 100% hors-ligne. Permet le suivi multi-comptes, le suivi d'actifs (actions, cryptos), la gestion des abonnements récurrents et les projections d'intérêts composés sur 30 ans.
             </p>
             <div class="project-tags">
@@ -852,7 +876,7 @@
               <span class="project-tag">FastAPI Mock</span>
             </div>
             <button class="project-btn money-btn">
-              <span>Lancer la démo</span> ➔
+              <span data-i18n="projects.launchDemo">Lancer la démo</span> ➔
             </button>
           </div>
 
@@ -864,10 +888,10 @@
               </div>
               <div>
                 <div class="project-title">CS Analytics</div>
-                <div class="project-subtitle">Customer Success & Automatisation</div>
+                <div class="project-subtitle" data-i18n="projects.cs.subtitle">Customer Success & Automatisation</div>
               </div>
             </div>
-            <p class="project-desc">
+            <p class="project-desc" data-i18n="projects.cs.description">
               Outil d'analyse métier conçu pour transformer des données brutes (exports Excel/CSV) en rapports PowerPoint professionnels clé en main. Intègre une console API style Postman pour tester des requêtes mTLS.
             </p>
             <div class="project-tags">
@@ -878,35 +902,35 @@
               <span class="project-tag">mTLS / mTLS Client</span>
             </div>
             <button class="project-btn cs-btn">
-              <span>Lancer la démo</span> ➔
+              <span data-i18n="projects.launchDemo">Lancer la démo</span> ➔
             </button>
           </div>
 
         </div>
 
         <div class="section-head">
-          <h2><span></span>Valeurs d'Ingénierie Clés</h2>
+          <h2><span></span><span data-i18n="home.engineeringValues">Valeurs d'Ingénierie Clés</span></h2>
         </div>
 
         <div class="details-row">
           
           <div class="detail-card">
-            <h3>🛡️ Sécurité & Confidentialité</h3>
-            <p>
+            <h3 data-i18n="values.security.title">🛡️ Sécurité & Confidentialité</h3>
+            <p data-i18n="values.security.description">
               Les deux projets respectent des contraintes de confidentialité fortes : tout le traitement de données, le stockage et les rendus graphiques sont effectués localement. Aucune donnée n'est envoyée vers des serveurs tiers cloud.
             </p>
           </div>
 
           <div class="detail-card">
-            <h3>⚙️ Modularité & Fiabilité</h3>
-            <p>
+            <h3 data-i18n="values.reliability.title">⚙️ Modularité & Fiabilité</h3>
+            <p data-i18n-html="values.reliability.description">
               Utilisation de ponts de communication stables (ex: PyWebView <code>js_api</code>) pour coupler des interfaces modernes à des moteurs de calcul robustes en Python (pandas, python-pptx), avec une isolation complète par tests.
             </p>
           </div>
 
           <div class="detail-card">
-            <h3>💎 Expérience Utilisateur (UX)</h3>
-            <p>
+            <h3 data-i18n="values.ux.title">💎 Expérience Utilisateur (UX)</h3>
+            <p data-i18n="values.ux.description">
               Des interfaces épurées, hautement réactives, dotées d'ambient-glows, de glassmorphism et de visualisations interactives claires afin de rendre intelligibles des calculs complexes et des tableaux de données denses.
             </p>
           </div>
@@ -919,9 +943,9 @@
       <section class="view-panel" id="panel-architecture">
         
         <div class="hero-section">
-          <div class="hero-tag">Choix de Conception</div>
-          <h1>Architecture &amp; Décisions Techniques</h1>
-          <p>
+          <div class="hero-tag" data-i18n="architecture.heroTag">Choix de Conception</div>
+          <h1 data-i18n="architecture.heroTitle">Architecture &amp; Décisions Techniques</h1>
+          <p data-i18n="architecture.heroDescription">
             Analyse comparative et détails de conception mis en œuvre dans ces deux démonstrateurs techniques.
           </p>
         </div>
@@ -929,41 +953,41 @@
         <div class="details-row" style="margin-bottom: 24px;">
           
           <div class="detail-card" style="grid-column: span 2;">
-            <h3>🧱 Comparaison Technique</h3>
+            <h3 data-i18n="architecture.comparison">🧱 Comparaison Technique</h3>
             <div style="overflow-x: auto; margin-top: 14px;">
               <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left;">
                 <thead>
                   <tr style="border-bottom: 2px solid rgba(255,255,255,0.1); color: #fff;">
-                    <th style="padding: 10px;">Critère</th>
+                    <th style="padding: 10px;" data-i18n="architecture.table.criterion">Critère</th>
                     <th style="padding: 10px; color: var(--color-primary);">Money Tracker</th>
                     <th style="padding: 10px; color: var(--color-secondary);">CS Analytics</th>
                   </tr>
                 </thead>
                 <tbody style="color: var(--color-text-muted);">
                   <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <td style="padding: 10px; font-weight: bold; color: #fff;">Objectif principal</td>
-                    <td style="padding: 10px;">Suivi de finances personnelles locales</td>
-                    <td style="padding: 10px;">Automatisation de reporting & appels d'infrastructure</td>
+                    <td style="padding: 10px; font-weight: bold; color: #fff;" data-i18n="architecture.table.goal">Objectif principal</td>
+                    <td style="padding: 10px;" data-i18n="architecture.table.moneyGoal">Suivi de finances personnelles locales</td>
+                    <td style="padding: 10px;" data-i18n="architecture.table.csGoal">Automatisation de reporting & appels d'infrastructure</td>
                   </tr>
                   <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <td style="padding: 10px; font-weight: bold; color: #fff;">Couche UI</td>
-                    <td style="padding: 10px;">TailwindCSS & CDN Chart.js</td>
-                    <td style="padding: 10px;">Vanilla CSS & Moteur SVG natif sans bibliothèque</td>
+                    <td style="padding: 10px; font-weight: bold; color: #fff;" data-i18n="architecture.table.uiLayer">Couche UI</td>
+                    <td style="padding: 10px;" data-i18n="architecture.table.moneyUi">TailwindCSS & CDN Chart.js</td>
+                    <td style="padding: 10px;" data-i18n="architecture.table.csUi">Vanilla CSS & Moteur SVG natif sans bibliothèque</td>
                   </tr>
                   <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <td style="padding: 10px; font-weight: bold; color: #fff;">Couche logique locale</td>
-                    <td style="padding: 10px;">Calculs JS (intérêts composés, timeline)</td>
-                    <td style="padding: 10px;">Pont Python/JS natif (moteur pandas local)</td>
+                    <td style="padding: 10px; font-weight: bold; color: #fff;" data-i18n="architecture.table.logicLayer">Couche logique locale</td>
+                    <td style="padding: 10px;" data-i18n="architecture.table.moneyLogic">Calculs JS (intérêts composés, timeline)</td>
+                    <td style="padding: 10px;" data-i18n="architecture.table.csLogic">Pont Python/JS natif (moteur pandas local)</td>
                   </tr>
                   <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <td style="padding: 10px; font-weight: bold; color: #fff;">Gestion d'état</td>
-                    <td style="padding: 10px;">LocalStorage persistant avec synchronisation</td>
-                    <td style="padding: 10px;">Fichiers locaux privés vs. partagés via timestamps</td>
+                    <td style="padding: 10px; font-weight: bold; color: #fff;" data-i18n="architecture.table.state">Gestion d'état</td>
+                    <td style="padding: 10px;" data-i18n="architecture.table.moneyState">LocalStorage persistant avec synchronisation</td>
+                    <td style="padding: 10px;" data-i18n="architecture.table.csState">Fichiers locaux privés vs. partagés via timestamps</td>
                   </tr>
                   <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <td style="padding: 10px; font-weight: bold; color: #fff;">Sécurité / Réseau</td>
-                    <td style="padding: 10px;">Simulation hors-ligne robuste</td>
-                    <td style="padding: 10px;">Appels mTLS sécurisés, secrets éphémères (PEM en mémoire)</td>
+                    <td style="padding: 10px; font-weight: bold; color: #fff;" data-i18n="architecture.table.security">Sécurité / Réseau</td>
+                    <td style="padding: 10px;" data-i18n="architecture.table.moneySecurity">Simulation hors-ligne robuste</td>
+                    <td style="padding: 10px;" data-i18n="architecture.table.csSecurity">Appels mTLS sécurisés, secrets éphémères (PEM en mémoire)</td>
                   </tr>
                 </tbody>
               </table>
@@ -975,15 +999,15 @@
         <div class="details-row">
           
           <div class="detail-card">
-            <h3>⚙️ Le Moteur de Rapports (CS Analytics)</h3>
-            <p>
+            <h3 data-i18n="architecture.reporting.title">⚙️ Le Moteur de Rapports (CS Analytics)</h3>
+            <p data-i18n="architecture.reporting.description">
               Pour générer les diaporamas PowerPoint clients, l'application exécute un processus Python en arrière-plan. La structure de slide et le positionnement des formes/tableaux sont déterminés à partir de configurations JSON locales, évitant ainsi le couplage dur entre les scripts de traitement et le contenu final du livrable.
             </p>
           </div>
 
           <div class="detail-card">
-            <h3>📈 Algorithme de Forecast (Money Tracker)</h3>
-            <p>
+            <h3 data-i18n="architecture.forecast.title">📈 Algorithme de Forecast (Money Tracker)</h3>
+            <p data-i18n="architecture.forecast.description">
               La section "Forecast" utilise des modèles de calcul d'intérêts composés mensuels avec des décalages d'intervalles optimistes/pessimistes de ±3%. Les résultats de performance et d'allocation sont injectés dynamiquement dans des canvas HTML5 gérés par Chart.js pour un rendu fluide et interactif.
             </p>
           </div>
@@ -1004,9 +1028,194 @@
 </div>
 
 <script>
+  const translations = {
+    fr: {
+      pageTitle: "Portfolio Customer Success & Automation — Abdel Arbaoui",
+      pageDescription: "Portail de démonstration d'outils et d'automatisations Customer Success. Démonstrations de Money Tracker et CS Analytics.",
+      "language.switch": "Traduire le site en anglais",
+      "nav.presentation": "Présentation",
+      "nav.overview": "Vue d'ensemble",
+      "nav.architecture": "Architecture & Décisions",
+      "nav.demos": "Démos Interactives",
+      "sidebar.talkingPoints": "💡 Points clés",
+      "sidebar.offline": "<b>100% Hors-ligne</b> : conformité cybersécurité et confidentialité des données.",
+      "sidebar.codeQuality": "<b>Qualité du code</b> : plus de 145 tests unitaires intégrés au moteur Python.",
+      "sidebar.dataProcessing": "<b>Traitement des données</b> : modèles de prévision financière et agrégation de logs.",
+      "header.openTab": "Ouvrir dans un nouvel onglet",
+      "home.heroTag": "Démonstrations Techniques",
+      "home.heroTitle": "Outils et solutions d'automatisation <span>Customer Success &amp; Ops</span>",
+      "home.heroDescription": "Bienvenue sur mon portail interactif. Ce tableau de bord regroupe deux applications concrètes conçues pour optimiser et automatiser nos opérations de Customer Success et la gestion financière personnelle.",
+      "home.featuredProjects": "Projets à la Une",
+      "projects.money.subtitle": "Projet Personnel • Patrimoine & Finance",
+      "projects.money.description": "Application de suivi financier personnel à 100% hors-ligne. Permet le suivi multi-comptes, le suivi d'actifs (actions, cryptos), la gestion des abonnements récurrents et les projections d'intérêts composés sur 30 ans.",
+      "projects.cs.subtitle": "Customer Success & Automatisation",
+      "projects.cs.description": "Outil d'analyse métier conçu pour transformer des données brutes (exports Excel/CSV) en rapports PowerPoint professionnels clé en main. Intègre une console API de type Postman pour tester des requêtes mTLS.",
+      "projects.launchDemo": "Lancer la démo",
+      "home.engineeringValues": "Valeurs d'Ingénierie Clés",
+      "values.security.title": "🛡️ Sécurité & Confidentialité",
+      "values.security.description": "Les deux projets respectent des contraintes de confidentialité fortes : tout le traitement des données, le stockage et les rendus graphiques sont effectués localement. Aucune donnée n'est envoyée vers des serveurs cloud tiers.",
+      "values.reliability.title": "⚙️ Modularité & Fiabilité",
+      "values.reliability.description": "Utilisation de ponts de communication stables (ex. : PyWebView <code>js_api</code>) pour coupler des interfaces modernes à des moteurs de calcul robustes en Python (pandas, python-pptx), avec une isolation complète par tests.",
+      "values.ux.title": "💎 Expérience Utilisateur (UX)",
+      "values.ux.description": "Des interfaces épurées, hautement réactives, dotées d'ambient glows, de glassmorphism et de visualisations interactives claires afin de rendre intelligibles des calculs complexes et des tableaux de données denses.",
+      "architecture.heroTag": "Choix de Conception",
+      "architecture.heroTitle": "Architecture & Décisions Techniques",
+      "architecture.heroDescription": "Analyse comparative et détails de conception mis en œuvre dans ces deux démonstrateurs techniques.",
+      "architecture.comparison": "🧱 Comparaison Technique",
+      "architecture.table.criterion": "Critère",
+      "architecture.table.goal": "Objectif principal",
+      "architecture.table.moneyGoal": "Suivi de finances personnelles locales",
+      "architecture.table.csGoal": "Automatisation du reporting et des appels d'infrastructure",
+      "architecture.table.uiLayer": "Couche UI",
+      "architecture.table.moneyUi": "TailwindCSS et CDN Chart.js",
+      "architecture.table.csUi": "Vanilla CSS et moteur SVG natif sans bibliothèque",
+      "architecture.table.logicLayer": "Couche logique locale",
+      "architecture.table.moneyLogic": "Calculs JS (intérêts composés, chronologie)",
+      "architecture.table.csLogic": "Pont Python/JS natif (moteur pandas local)",
+      "architecture.table.state": "Gestion d'état",
+      "architecture.table.moneyState": "LocalStorage persistant avec synchronisation",
+      "architecture.table.csState": "Fichiers locaux privés ou partagés via horodatage",
+      "architecture.table.security": "Sécurité / Réseau",
+      "architecture.table.moneySecurity": "Simulation hors-ligne robuste",
+      "architecture.table.csSecurity": "Appels mTLS sécurisés, secrets éphémères (PEM en mémoire)",
+      "architecture.reporting.title": "⚙️ Le Moteur de Rapports (CS Analytics)",
+      "architecture.reporting.description": "Pour générer les diaporamas PowerPoint clients, l'application exécute un processus Python en arrière-plan. La structure des diapositives et le positionnement des formes et tableaux sont déterminés à partir de configurations JSON locales, évitant ainsi le couplage fort entre les scripts de traitement et le contenu final du livrable.",
+      "architecture.forecast.title": "📈 Algorithme de Prévision (Money Tracker)",
+      "architecture.forecast.description": "La section « Forecast » utilise des modèles de calcul d'intérêts composés mensuels avec des intervalles optimistes et pessimistes de ±3 %. Les résultats de performance et d'allocation sont injectés dynamiquement dans des canvas HTML5 gérés par Chart.js pour un rendu fluide et interactif.",
+      "view.home.title": "Vue d'ensemble du Portfolio",
+      "view.home.badge": "Accueil",
+      "view.architecture.title": "Architecture & Choix Techniques",
+      "view.architecture.badge": "Architecture",
+      "view.money.title": "Application : Money Tracker",
+      "view.cs.title": "Application : CS Analytics"
+    },
+    en: {
+      pageTitle: "Customer Success & Automation Portfolio — Abdel Arbaoui",
+      pageDescription: "A showcase of Customer Success tools and automations, featuring Money Tracker and CS Analytics demos.",
+      "language.switch": "Switch the site to French",
+      "nav.presentation": "Presentation",
+      "nav.overview": "Overview",
+      "nav.architecture": "Architecture & Decisions",
+      "nav.demos": "Interactive Demos",
+      "sidebar.talkingPoints": "💡 Talking Points",
+      "sidebar.offline": "<b>100% Offline</b>: cybersecurity compliance and data privacy.",
+      "sidebar.codeQuality": "<b>Code Quality</b>: 145+ unit tests built into the Python engine.",
+      "sidebar.dataProcessing": "<b>Data Processing</b>: financial forecasting models and log aggregation.",
+      "header.openTab": "Open in a new tab",
+      "home.heroTag": "Technical Demonstrations",
+      "home.heroTitle": "Automation tools and solutions for <span>Customer Success &amp; Ops</span>",
+      "home.heroDescription": "Welcome to my interactive portfolio. This dashboard brings together two practical applications designed to optimize and automate Customer Success operations and personal financial management.",
+      "home.featuredProjects": "Featured Projects",
+      "projects.money.subtitle": "Personal Project • Wealth & Finance",
+      "projects.money.description": "A 100% offline personal finance tracker. It supports multiple accounts, asset tracking (stocks and crypto), recurring subscription management, and 30-year compound interest projections.",
+      "projects.cs.subtitle": "Customer Success & Automation",
+      "projects.cs.description": "A business analytics tool that turns raw Excel and CSV exports into polished, ready-to-use PowerPoint reports. It also includes a Postman-style API console for testing mTLS requests.",
+      "projects.launchDemo": "Launch demo",
+      "home.engineeringValues": "Core Engineering Principles",
+      "values.security.title": "🛡️ Security & Privacy",
+      "values.security.description": "Both projects meet strict privacy requirements: all data processing, storage, and chart rendering take place locally. No data is sent to third-party cloud servers.",
+      "values.reliability.title": "⚙️ Modularity & Reliability",
+      "values.reliability.description": "Stable communication bridges (such as PyWebView <code>js_api</code>) connect modern interfaces to robust Python processing engines (pandas and python-pptx), with comprehensive test isolation.",
+      "values.ux.title": "💎 User Experience (UX)",
+      "values.ux.description": "Clean, highly responsive interfaces use ambient glows, glassmorphism, and clear interactive visualizations to make complex calculations and dense datasets easy to understand.",
+      "architecture.heroTag": "Design Choices",
+      "architecture.heroTitle": "Architecture & Technical Decisions",
+      "architecture.heroDescription": "A comparison and detailed review of the design decisions behind these two technical demos.",
+      "architecture.comparison": "🧱 Technical Comparison",
+      "architecture.table.criterion": "Criterion",
+      "architecture.table.goal": "Primary goal",
+      "architecture.table.moneyGoal": "Local personal finance tracking",
+      "architecture.table.csGoal": "Report automation and infrastructure calls",
+      "architecture.table.uiLayer": "UI layer",
+      "architecture.table.moneyUi": "TailwindCSS and Chart.js CDN",
+      "architecture.table.csUi": "Vanilla CSS and a library-free native SVG engine",
+      "architecture.table.logicLayer": "Local logic layer",
+      "architecture.table.moneyLogic": "JavaScript calculations (compound interest and timeline)",
+      "architecture.table.csLogic": "Native Python/JS bridge (local pandas engine)",
+      "architecture.table.state": "State management",
+      "architecture.table.moneyState": "Persistent, synchronized LocalStorage",
+      "architecture.table.csState": "Private and shared local files synchronized with timestamps",
+      "architecture.table.security": "Security / Network",
+      "architecture.table.moneySecurity": "Robust offline simulation",
+      "architecture.table.csSecurity": "Secure mTLS calls with ephemeral secrets (in-memory PEM)",
+      "architecture.reporting.title": "⚙️ Reporting Engine (CS Analytics)",
+      "architecture.reporting.description": "To generate client PowerPoint decks, the application runs a Python process in the background. Slide structure and the placement of shapes and tables are driven by local JSON configurations, keeping the processing scripts loosely coupled from the final deliverable.",
+      "architecture.forecast.title": "📈 Forecasting Algorithm (Money Tracker)",
+      "architecture.forecast.description": "The Forecast section uses monthly compound-interest models with optimistic and pessimistic ranges of ±3%. Performance and allocation results are dynamically injected into HTML5 canvases rendered by Chart.js for a smooth, interactive experience.",
+      "view.home.title": "Portfolio Overview",
+      "view.home.badge": "Home",
+      "view.architecture.title": "Architecture & Technical Choices",
+      "view.architecture.badge": "Architecture",
+      "view.money.title": "Application: Money Tracker",
+      "view.cs.title": "Application: CS Analytics"
+    }
+  };
+
   // Simple view router logic
   let currentActiveView = 'home';
   let currentIframeProject = '';
+  let currentLanguage = getSavedLanguage();
+
+  function getSavedLanguage() {
+    try {
+      return localStorage.getItem('portfolioLanguage') === 'en' ? 'en' : 'fr';
+    } catch (error) {
+      return 'fr';
+    }
+  }
+
+  function translate(key) {
+    return translations[currentLanguage][key] || key;
+  }
+
+  function applyLanguage(language) {
+    currentLanguage = language === 'en' ? 'en' : 'fr';
+    const languageToggle = document.getElementById('language-toggle');
+
+    document.documentElement.lang = currentLanguage;
+    document.title = translations[currentLanguage].pageTitle;
+    document.querySelector('meta[name="description"]').content = translations[currentLanguage].pageDescription;
+
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+      element.textContent = translate(element.dataset.i18n);
+    });
+
+    document.querySelectorAll('[data-i18n-html]').forEach(element => {
+      element.innerHTML = translate(element.dataset.i18nHtml);
+    });
+
+    languageToggle.textContent = currentLanguage === 'fr' ? 'EN' : 'FR';
+    languageToggle.setAttribute('aria-label', translate('language.switch'));
+    languageToggle.title = translate('language.switch');
+
+    try {
+      localStorage.setItem('portfolioLanguage', currentLanguage);
+    } catch (error) {
+      // The translation still works when local storage is unavailable.
+    }
+
+    switchView(currentActiveView);
+  }
+
+  function toggleLanguage() {
+    applyLanguage(currentLanguage === 'fr' ? 'en' : 'fr');
+  }
+
+  function getLocalizedProjectUrl(projectPath) {
+    const url = new URL(projectPath, window.location.href);
+    url.searchParams.set('lang', currentLanguage);
+    return url;
+  }
+
+  function syncIframeLanguage() {
+    const iframe = document.getElementById('viewport-iframe');
+    if (iframe && iframe.contentWindow && currentIframeProject) {
+      iframe.contentWindow.postMessage({
+        type: 'portfolio-language',
+        language: currentLanguage
+      }, '*');
+    }
+  }
 
   function switchView(viewName) {
     // Select HTML elements
@@ -1043,56 +1252,88 @@
     if (viewName === 'home') {
       panels.home.classList.add('active');
       navButtons.home.classList.add('active');
-      headerTitle.textContent = "Vue d'ensemble du Portfolio";
-      headerBadge.textContent = "Accueil";
+      headerTitle.textContent = translate('view.home.title');
+      headerBadge.textContent = translate('view.home.badge');
       headerBadge.className = "bar-badge";
       extBtn.style.display = "none";
     } 
     else if (viewName === 'architecture') {
       panels.architecture.classList.add('active');
       navButtons.architecture.classList.add('active');
-      headerTitle.textContent = "Architecture & Choix Techniques";
-      headerBadge.textContent = "Architecture";
+      headerTitle.textContent = translate('view.architecture.title');
+      headerBadge.textContent = translate('view.architecture.badge');
       headerBadge.className = "bar-badge";
       extBtn.style.display = "none";
     } 
     else if (viewName === 'money-tracker') {
       panels.iframe.classList.add('active');
       navButtons.moneyTracker.classList.add('active');
-      headerTitle.textContent = "Application: Money Tracker";
+      headerTitle.textContent = translate('view.money.title');
       headerBadge.textContent = "Money Tracker";
       headerBadge.className = "bar-badge";
       extBtn.style.display = "inline-flex";
-      currentIframeProject = 'money-tracker/index.html';
+      const projectPath = 'money-tracker/index.html';
+      const isProjectChange = currentIframeProject !== projectPath;
+      currentIframeProject = projectPath;
       
-      // Load source if changed
-      const targetSrc = new URL('money-tracker/index.html', window.location.href).href;
-      if (iframeEl.src !== targetSrc) {
-        iframeEl.src = 'money-tracker/index.html';
+      // Include the current language on first load without reloading the app on each toggle.
+      if (isProjectChange || !iframeEl.src || iframeEl.src === 'about:blank') {
+        iframeEl.src = getLocalizedProjectUrl(projectPath).href;
+      } else {
+        syncIframeLanguage();
       }
     } 
     else if (viewName === 'cs-analytics') {
       panels.iframe.classList.add('active');
       navButtons.csAnalytics.classList.add('active-cs');
-      headerTitle.textContent = "Application: CS Analytics";
+      headerTitle.textContent = translate('view.cs.title');
       headerBadge.textContent = "CS Analytics";
       headerBadge.className = "bar-badge cs-badge";
       extBtn.style.display = "inline-flex";
-      currentIframeProject = 'CS-Analytics/index.html';
+      const projectPath = 'CS-Analytics/index.html';
+      const isProjectChange = currentIframeProject !== projectPath;
+      currentIframeProject = projectPath;
 
-      // Load source if changed
-      const targetSrc = new URL('CS-Analytics/index.html', window.location.href).href;
-      if (iframeEl.src !== targetSrc) {
-        iframeEl.src = 'CS-Analytics/index.html';
+      // Include the current language on first load without reloading the app on each toggle.
+      if (isProjectChange || !iframeEl.src || iframeEl.src === 'about:blank') {
+        iframeEl.src = getLocalizedProjectUrl(projectPath).href;
+      } else {
+        syncIframeLanguage();
       }
     }
   }
 
   function openProjectExternally() {
     if (currentIframeProject) {
-      window.open(currentIframeProject, '_blank');
+      window.open(getLocalizedProjectUrl(currentIframeProject).href, '_blank');
     }
   }
+
+  document.getElementById('viewport-iframe').addEventListener('load', syncIframeLanguage);
+
+  window.addEventListener('message', event => {
+    const iframe = document.getElementById('viewport-iframe');
+    if (
+      event.source === iframe.contentWindow &&
+      event.data?.type === 'portfolio-language' &&
+      ['fr', 'en'].includes(event.data.language) &&
+      event.data.language !== currentLanguage
+    ) {
+      applyLanguage(event.data.language);
+    }
+  });
+
+  window.addEventListener('storage', event => {
+    if (
+      event.key === 'portfolioLanguage' &&
+      ['fr', 'en'].includes(event.newValue) &&
+      event.newValue !== currentLanguage
+    ) {
+      applyLanguage(event.newValue);
+    }
+  });
+
+  applyLanguage(currentLanguage);
 </script>
 </body>
 </html>

@@ -164,6 +164,7 @@
               class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-left transition-colors duration-150 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-semibold">
         <span class="material-symbols-outlined text-[20px]">payments</span>
         <span class="text-sm tracking-tight">Abonnements</span>
+      </button>
       <button onclick="switchTab('forecast')" id="nav-forecast"
               class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-left transition-colors duration-150 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-semibold">
         <span class="material-symbols-outlined text-[20px]">insights</span>
@@ -230,6 +231,11 @@
       </div>
       <div class="flex items-center gap-4">
         <span id="sync-indicator" class="text-xs font-semibold text-on-surface-variant hidden"></span>
+        <button onclick="toggleGlobalLanguage()" id="global-language-toggle" type="button"
+                aria-label="Traduire Money Tracker en anglais"
+                class="flex items-center justify-center min-w-10 px-3 py-1.5 bg-primary/10 hover:bg-primary text-xs font-black text-primary hover:text-on-primary border border-primary/20 rounded-sm transition-all active:scale-95">
+          EN
+        </button>
         <button onclick="triggerGlobalSync()" id="sync-button"
                 class="flex items-center gap-2 px-4 py-1.5 bg-surface-container-high hover:bg-surface-container-highest text-xs font-bold text-primary rounded-sm transition-all active:scale-95">
           <span id="sync-icon" class="material-symbols-outlined text-[16px]">sync</span>
@@ -1740,6 +1746,504 @@
 
   <!-- ==================== CORE SIMULATOR SCRIPTS ==================== -->
   <script>
+    // ==================== BILINGUAL UI / SHARED LANGUAGE ====================
+    const MT_EN = {
+      "Mode Démo Interactif": "Interactive Demo Mode",
+      "Vue d'ensemble": "Overview",
+      "Comptes bancaires": "Bank Accounts",
+      "Investissements": "Investments",
+      "Abonnements": "Subscriptions",
+      "Prévisions": "Forecast",
+      "Architecture & bMAD": "Architecture & bMAD",
+      "Simulation Active": "Simulation Active",
+      "Paramètres": "Settings",
+      "Mode Démo Actif :": "Demo Mode Active:",
+      "Cette version fonctionne à 100% en local avec des données simulées (parfait pour vos démonstrations).": "This version runs 100% locally with simulated data, making it ideal for demonstrations.",
+      "LocalStorage Persistant": "Persistent LocalStorage",
+      "Backend local injoignable (Simulé)": "Local Backend Unreachable (Simulated)",
+      "Vérifiez que le serveur FastAPI est démarré sur": "Check that the FastAPI server is running at",
+      "Rétablir la connexion (Mode Démo)": "Restore Connection (Demo Mode)",
+      "Synchroniser": "Sync",
+      "Bonjour ☀️": "Good morning ☀️",
+      "Bonne nuit 🌙": "Good night 🌙",
+      "Bon après-midi 🌤": "Good afternoon 🌤",
+      "Bonsoir 🌅": "Good evening 🌅",
+      "Patrimoine aujourd'hui :": "Net Worth Today:",
+      "aujourd'hui": "today",
+      "État des marchés": "Market Overview",
+      "Variation aujourd'hui · Données simulées en temps réel": "Today's movement · Simulated real-time data",
+      "Patrimoine Total": "Total Net Worth",
+      "Synchronisé il y a quelques secondes": "Synced a few seconds ago",
+      "Comptes": "Accounts",
+      "Répartition des actifs": "Asset Allocation",
+      "Comptes Bancaires": "Bank Accounts",
+      "Prélèvements sous 7 jours": "Payments Due Within 7 Days",
+      "Performance Portfolio": "Portfolio Performance",
+      "Évolution patrimoniale simulée (6 mois)": "Simulated Net Worth Trend (6 months)",
+      "Patrimoine": "Net Worth",
+      "Top Positions": "Top Holdings",
+      "Voir tout": "View all",
+      "Actif": "Asset",
+      "Valeur actuelle": "Current Value",
+      "P&L Global": "Overall P&L",
+      "Abonnements / mois": "Subscriptions / Month",
+      "Saisie manuelle ou synchronisation sécurisée": "Manual entry or secure synchronization",
+      "Compte Manuel": "Manual Account",
+      "Connecter une banque": "Connect a Bank",
+      "Total disponible": "Total Available",
+      "Paramètres de sécurité": "Security Settings",
+      "Clé API locale": "Local API Key",
+      "✅ Sécurisé": "✅ Secure",
+      "Gérer la sécurité": "Manage Security",
+      "Suivi du portefeuille : Actions, ETF, Crypto": "Portfolio tracking: stocks, ETFs, and crypto",
+      "Synchronisé à l'instant": "Just synced",
+      "Sync Trade Republic": "Sync Trade Republic",
+      "Ajouter une position": "Add a Holding",
+      "Valeur totale": "Total Value",
+      "Capital investi": "Invested Capital",
+      "Plateforme": "Platform",
+      "Quantité": "Quantity",
+      "Prix moyen": "Average Price",
+      "Prix actuel": "Current Price",
+      "Valeur": "Value",
+      "Gérez vos prélèvements et votre calendrier de facturation": "Manage payments and your billing calendar",
+      "Liste": "List",
+      "Calendrier": "Calendar",
+      "Ajouter": "Add",
+      "⚡ Prélèvements prévus sous 7 jours": "⚡ Payments Expected Within 7 Days",
+      "Abonnement": "Subscription",
+      "Montant": "Amount",
+      "Fréquence": "Frequency",
+      "Prochain": "Next",
+      "Statut": "Status",
+      "Planning sur les 30 prochains jours": "Schedule for the Next 30 Days",
+      "Estimez la croissance de votre patrimoine par intérêts composés": "Estimate your net worth growth using compound interest",
+      "Capital initial (€)": "Initial Capital (€)",
+      "Injecter Portfolio": "Use Portfolio Value",
+      "Apport mensuel (€)": "Monthly Contribution (€)",
+      "Taux de rendement (% / an)": "Rate of Return (% / year)",
+      "⚠️ Rendement très élevé — vérifiez vos hypothèses": "⚠️ Very high return — check your assumptions",
+      "Horizon": "Time Horizon",
+      "20 ans": "20 years",
+      "1 an": "1 year",
+      "30 ans": "30 years",
+      "Sauvegarder ce scénario": "Save This Scenario",
+      "Taux de référence": "Reference Rates",
+      "Moyenne historique 30a": "30-year Historical Average",
+      "Taux garanti réglementé": "Government-regulated Guaranteed Rate",
+      "Épargne populaire (plafonnée)": "Regulated Savings Account (capped)",
+      "Scénarios sauvegardés": "Saved Scenarios",
+      "Graphique de projection": "Projection Chart",
+      "Pessimiste (-3%)": "Pessimistic (-3%)",
+      "Fin de période": "End of Period",
+      "Base de calcul": "Baseline",
+      "Optimiste (+3%)": "Optimistic (+3%)",
+      "Note sur la méthode": "Methodology Note",
+      "• Les courbes calculent les intérêts mensuels composés :": "• The curves calculate monthly compound interest:",
+      "• La courbe **Base** correspond au taux annuel sélectionné.": "• The **Baseline** curve uses the selected annual rate.",
+      "• Les courbes **Pessimiste** et **Optimiste** décalent le taux de rendement de 3 points en moins ou en plus.": "• The **Pessimistic** and **Optimistic** curves shift the return rate down or up by 3 percentage points.",
+      "Configuration générale, gestion des clés de sécurité et simulateur de pannes.": "General configuration, security key management, and failure simulation.",
+      "Debug & Simulation (Entretien)": "Debug & Simulation (Interview)",
+      "Utilisez ces commandes pour démontrer la robustesse de l'application face aux échecs réseau ou aux alertes de volume de stockage.": "Use these controls to demonstrate the application's resilience to network failures and storage-volume alerts.",
+      "Simuler Hors-ligne": "Simulate Offline Mode",
+      "Affiche l'écran d'indisponibilité réseau": "Displays the network-unavailable screen",
+      "Activer": "Enable",
+      "Déclenche un message d'alerte stockage": "Triggers a storage warning",
+      "Simuler": "Simulate",
+      "Clé d'autorisation API": "API Authorization Key",
+      "Clé (masquée)": "Key (masked)",
+      "Permissions": "Permissions",
+      "Fichier d'accès local": "Local Access File",
+      "Régénérer la clé API": "Regenerate API Key",
+      "Base de données Locale": "Local Database",
+      "Base de données volumineuse (": "Large Database (",
+      "Mo) — Envisagez de réinitialiser vos données ou de vider les journaux historiques.": "MB) — Consider resetting your data or clearing historical logs.",
+      "Stockage": "Storage",
+      "Moteur": "Engine",
+      "Statut d'intégrité": "Integrity Status",
+      "✓ Sain (PRAGMA integrity_ok)": "✓ Healthy (PRAGMA integrity_ok)",
+      "Zone de danger": "Danger Zone",
+      "Efface toutes les données stockées dans le navigateur : comptes, investissements, abonnements, et scénarios de simulation. Cette action est irréversible.": "Deletes all browser-stored data: accounts, investments, subscriptions, and simulation scenarios. This action cannot be undone.",
+      "Effacer toutes les données de démo": "Delete All Demo Data",
+      "Architecture & Méthode bMAD": "Architecture & bMAD Method",
+      "Présentation technique et méthodologique interactive pour les recruteurs": "Interactive technical and methodological presentation for recruiters",
+      "1. Pitch & Vision": "1. Pitch & Vision",
+      "2. Diagramme C4": "2. C4 Diagram",
+      "3. Chiffrement & Sécurité": "3. Encryption & Security",
+      "4. Sync & Mutex": "4. Sync & Mutex",
+      "5. Méthode bMAD": "5. bMAD Method",
+      "Pourquoi le choix du Local-First ?": "Why Choose Local-First?",
+      "Les applications financières traditionnelles imposent de stocker vos données bancaires sur des serveurs tiers cloud. Cela engendre des risques de sécurité majeurs (fuites de données, piratage), des abonnements récurrents onéreux et rend l'application dépendante d'une connexion internet.": "Traditional finance applications require banking data to be stored on third-party cloud servers. This creates major security risks, costly recurring subscriptions, and a dependency on an internet connection.",
+      "Money Tracker résout ces problèmes en adoptant un modèle local-first strict.": "Money Tracker addresses these issues with a strict local-first model.",
+      "Modèle standard Cloud": "Standard Cloud Model",
+      "Serveur cloud stockant vos comptes": "Cloud server stores your accounts",
+      "Identifiants de banques partagés en ligne": "Bank credentials shared online",
+      "Modèle SaaS payant obligatoire": "Mandatory paid SaaS model",
+      "Hors-ligne inutilisable": "Unavailable offline",
+      "Modèle Local-First": "Local-First Model",
+      "SQLite local chiffré AES-128": "Local SQLite encrypted with AES-128",
+      "Clés stockées dans le Keychain OS": "Keys stored in the operating system keychain",
+      "100% gratuit & à vie": "100% free for life",
+      "Mode offline natif ultra-rapide": "Ultra-fast native offline mode",
+      "Indicateurs Locaux de Performance": "Local Performance Metrics",
+      "Latence de lecture": "Read Latency",
+      "SQLite en local direct": "Direct local SQLite access",
+      "Stockage SQLite": "SQLite Storage",
+      "Base ultra-légère optimisée": "Optimized lightweight database",
+      "Architecture Technique de l'application": "Application Technical Architecture",
+      "Interface utilisateur": "User Interface",
+      "API de synchronisation": "Synchronization API",
+      "FastAPI (Asynchrone)": "FastAPI (Asynchronous)",
+      "Chiffrement de base": "Database Encryption",
+      "Diagramme de Conteneurs (C4 Model) — Cliquer pour explorer": "Container Diagram (C4 Model) — Click to Explore",
+      "Client Frontend": "Frontend Client",
+      "OS Keychain": "OS Keychain",
+      "Keychain natif (keyring)": "Native Keychain (keyring)",
+      "Serveur API Backend": "Backend API Server",
+      "Python + FastAPI (Asynchrone)": "Python + FastAPI (Asynchronous)",
+      "Base de données": "Database",
+      "SQLite local + Chiffrement Fernet": "Local SQLite + Fernet Encryption",
+      "Sync Banques (Enable Banking)": "Bank Sync (Enable Banking)",
+      "Sync Investissements (TR pytr)": "Investment Sync (TR pytr)",
+      "Fédérateur Prix (yfinance / CG)": "Price Aggregator (yfinance / CG)",
+      "Description du composant": "Component Description",
+      "Nom du composant": "Component Name",
+      "Sélectionnez un composant sur le diagramme de gauche pour inspecter son rôle et ses contraintes architecturales.": "Select a component in the diagram to inspect its role and architectural constraints.",
+      "Stack technique": "Technology Stack",
+      "Règles critiques & Sécurité": "Critical Rules & Security",
+      "Fichiers sources associés": "Related Source Files",
+      "Inspection de la Base SQLite": "SQLite Database Inspection",
+      "Mode chiffré": "Encrypted Mode",
+      "Toutes les colonnes critiques (IBAN, soldes bruts, clés d'accès API) sont chiffrées en base via **Fernet (AES-128)**. Le code Python utilise des accesseurs transparents qui ne déchiffrent qu'à la volée en mémoire vive.": "All critical columns (IBANs, raw balances, and API access keys) are encrypted in the database with **Fernet (AES-128)**. Python uses transparent accessors that decrypt values only in memory when needed.",
+      "Compte": "Account",
+      "Banque": "Bank",
+      "Solde": "Balance",
+      "Compte Courant": "Checking Account",
+      "État de la table : Chiffré de bout en bout": "Table Status: End-to-End Encrypted",
+      "Les valeurs réelles ne sont visibles par aucun processus système autre que Money Tracker. En cas d'extraction brute du fichier `db.sqlite3`, le contenu reste totalement indéchiffrable.": "Real values are not visible to any system process other than Money Tracker. If the raw `db.sqlite3` file is extracted, its contents remain completely unreadable.",
+      "Code Backend (SQLAlchemy + keyring)": "Backend Code (SQLAlchemy + keyring)",
+      "# Stockage de la colonne chiffrée": "# Encrypted column storage",
+      "Zéro clé API en clair :": "No Plaintext API Keys:",
+      "Le secret maître Fernet est lui-même extrait au démarrage du Keychain OS natif via la bibliothèque `keyring`. Le mot de passe n'apparaît ni dans les commits, ni dans les fichiers `.env`.": "The master Fernet secret is loaded at startup from the native OS keychain through `keyring`. The password never appears in commits or `.env` files.",
+      "Simulateur de Verrou Mutex": "Mutex Lock Simulator",
+      "Lancer Simulation Concurrentielle": "Run Concurrency Simulation",
+      "SQLite n'autorise qu'un seul écrivain à la fois. Pour éliminer les erreurs `database is locked` lors des synchronisations automatiques multiples, un **Mutex unique asynchrone (`asyncio.Lock`)** orchestre l'accès au moteur de sync.": "SQLite allows only one writer at a time. To prevent `database is locked` errors during concurrent automatic syncs, a single **asynchronous mutex (`asyncio.Lock`)** coordinates access to the sync engine.",
+      "État du Mutex _SYNC_LOCK": "_SYNC_LOCK Mutex Status",
+      "Libre (Unlocked)": "Available (Unlocked)",
+      "Tâche A : Sync Banque DSP2": "Task A: PSD2 Bank Sync",
+      "Tâche B : Sync Trade Republic": "Task B: Trade Republic Sync",
+      "Pourquoi cette mécanique est robuste ?": "Why Is This Mechanism Robust?",
+      "Évite les conflits d'écritures :": "Prevents Write Conflicts:",
+      "La seconde tâche attend sagement que la première tâche ait fini de valider ses transactions SQLite avant d'acquérir le verrou.": "The second task waits until the first has committed its SQLite transactions before acquiring the lock.",
+      "Timeout et résilience de 60s :": "60-Second Timeout and Resilience:",
+      "Si un connecteur externe plante (DSP2 en panne, OTP expiré), la tâche lève une exception sécurisée et libère le verrou (`finally: lock.release()`) pour ne pas bloquer les synchronisations suivantes.": "If an external connector fails (PSD2 outage or expired OTP), the task raises a safe exception and releases the lock (`finally: lock.release()`) so later syncs are not blocked.",
+      "Cooldown restrictif de 60s :": "Strict 60-Second Cooldown:",
+      "Le backend rejette les requêtes de sync trop rapprochées dans le temps pour économiser l'usage réseau et éviter les bannissements d'IP (rate limit).": "The backend rejects sync requests made too close together to reduce network usage and avoid IP bans from rate limits.",
+      "Behavior-Driven Model Agent Development (bMAD)": "Behavior-Driven Model Agent Development (bMAD)",
+      "La méthodologie **bMAD** est un cadre d'ingénierie rigoureux qui structure le développement collaboratif entre des agents d'IA autonomes et l'humain. Elle repose sur des spécifications formalisées permettant de supprimer les régressions.": "The **bMAD** methodology is a rigorous engineering framework for collaboration between autonomous AI agents and humans. It relies on formal specifications designed to eliminate regressions.",
+      "Phase 1": "Phase 1",
+      "Spécification stricte de 64 exigences fonctionnelles dans `prd.md` comme unique source de vérité.": "A strict set of 64 functional requirements in `prd.md` serves as the single source of truth.",
+      "Phase 2": "Phase 2",
+      "Consensus sur 10 Architectural Decision Records (ADR) archivés dans `architecture.md`.": "Consensus through 10 Architectural Decision Records (ADRs) stored in `architecture.md`.",
+      "Phase 3": "Phase 3",
+      "Sprints Roadmaps": "Sprint Roadmaps",
+      "Backlog de sprint découpé en Epics et suivi de tâches structuré (`sprint-status.yaml`).": "Sprint backlog organized into epics with structured task tracking in `sprint-status.yaml`.",
+      "Phase 4": "Phase 4",
+      "Agent Autonome": "Autonomous Agent",
+      "Exécution par un agent autonome avec validation systématique des tests de non-régression.": "Implementation by an autonomous agent with systematic regression-test validation.",
+      "Phase 1 : PRD & Spécifications fonctionnelles strictes": "Phase 1: PRD & Strict Functional Specifications",
+      "Avant d'écrire la première ligne de code, l'ensemble des règles de gestion financière, des calculs d'abonnements, de résilience locale et de synchronisation d'investissements ont été fixés dans un document de PRD. Cette préparation limite les hallucinations et garantit la cohérence du développement d'IA.": "Before the first line of code was written, all financial rules, subscription calculations, local resilience behavior, and investment synchronization requirements were defined in a PRD. This preparation limits hallucinations and keeps AI-assisted development consistent.",
+      "Ajouter un compte manuel": "Add a Manual Account",
+      "Nom du compte": "Account Name",
+      "Banque / Institution": "Bank / Institution",
+      "Solde initial (€)": "Initial Balance (€)",
+      "Type de compte": "Account Type",
+      "Courant": "Checking",
+      "Épargne": "Savings",
+      "Investissement": "Investment",
+      "Ajouter le compte": "Add Account",
+      "Connecter un compte": "Connect an Account",
+      "1 — Choisir sa banque": "1 — Choose Your Bank",
+      "Changer": "Change",
+      "Nom de ce compte dans Money Tracker": "Account Name in Money Tracker",
+      "Initier la connexion sécurisée →": "Start Secure Connection →",
+      "Simulation de liaison DSP2": "PSD2 Connection Simulation",
+      "Dans la version réelle, l'utilisateur est redirigé vers l'interface de sa banque par le connecteur GoCardless / Bankin' afin d'authentifier sa transaction.": "In the real version, the user is redirected to their bank through the GoCardless / Bankin' connector to authorize the connection.",
+      "Statut : En attente d'approbation banque client...": "Status: Waiting for Customer Bank Approval...",
+      "Simuler l'autorisation bancaire client (Succès) →": "Simulate Customer Bank Authorization (Success) →",
+      "Liaison réussie !": "Connection Successful!",
+      "Les clés d'accès chiffrées ont été configurées. L'application va lire les soldes bancaires initiaux et commencer la surveillance locale.": "Encrypted access keys have been configured. The application will read the initial bank balances and begin local monitoring.",
+      "Confirmer et synchroniser le solde →": "Confirm and Sync Balance →",
+      "Ajouter un investissement": "Add an Investment",
+      "Type d'actif": "Asset Type",
+      "Action": "Stock",
+      "Cryptomonnaie": "Cryptocurrency",
+      "Obligation": "Bond",
+      "Nom de l'actif": "Asset Name",
+      "Ticker / Symbole": "Ticker / Symbol",
+      "Quantité (parts)": "Quantity (units)",
+      "Prix d'achat moyen (€)": "Average Purchase Price (€)",
+      "Prix actuel (€)": "Current Price (€)",
+      "Ajouter au portefeuille": "Add to Portfolio",
+      "Ajouter un abonnement": "Add a Subscription",
+      "Nom du service": "Service Name",
+      "Montant (€)": "Amount (€)",
+      "Jour de facturation (1–31)": "Billing Day (1–31)",
+      "Périodicité": "Billing Cycle",
+      "Mensuel": "Monthly",
+      "Annuel": "Yearly",
+      "Hebdomadaire": "Weekly",
+      "Catégorie": "Category",
+      "Cloud / Stockage": "Cloud / Storage",
+      "Productivité": "Productivity",
+      "Autre": "Other",
+      "Couleur d'identification": "Identification Color",
+      "Créer l'abonnement": "Create Subscription",
+      "Sauvegarder le scénario": "Save Scenario",
+      "Le scénario sera enregistré localement et pourra être comparé à d'autres simulations.": "The scenario will be stored locally and can be compared with other simulations.",
+      "Annuler": "Cancel",
+      "Enregistrer": "Save",
+      "Terminal Sync — Trade Republic API": "Sync Terminal — Trade Republic API",
+      "Suppression de": "Deleting",
+      "Aucun prélèvement actif": "No Active Payments",
+      "Aucun scénario sauvegardé": "No Saved Scenarios",
+      "Actif": "Active",
+      "Annulé": "Cancelled",
+      "Pausé": "Paused",
+      "Coût mensuel": "Monthly Cost",
+      "Coût annuel": "Annual Cost",
+      "Abonnements actifs": "Active Subscriptions",
+      "Économies potentielles": "Potential Savings",
+      "Charger": "Load",
+      "Comparer": "Compare",
+      "Supprimer": "Delete",
+      "Supprimer le compte": "Delete Account",
+      "ex: Livret A": "e.g. Savings Account",
+      "ex: Caisse d'Epargne": "e.g. Local Bank",
+      "Rechercher une banque...": "Search for a bank...",
+      "ex: SG Compte Courant": "e.g. Main Checking Account",
+      "ex: Vanguard S&P 500": "e.g. Vanguard S&P 500",
+      "Netflix, Spotify...": "Netflix, Spotify...",
+      "ex: Achat Immobilier 10a": "e.g. Home Purchase in 10 Years",
+      "Sync en cours...": "Sync in progress...",
+      "✓ Sync terminée": "✓ Sync complete",
+      "⚠️ Taille de base critique : La base SQLite locale dépasse 500 Mo. Pensez à vider l'historique dans les paramètres.": "⚠️ Critical database size: the local SQLite database exceeds 500 MB. Consider clearing history in Settings.",
+      "Supprimer ce compte bancaire ?": "Delete this bank account?",
+      "Le nom du compte est requis": "The account name is required",
+      "Supprimer cette position d'investissement ?": "Delete this investment holding?",
+      "Nom, quantité, et prix d'achat sont obligatoires": "Name, quantity, and purchase price are required",
+      "Nom et montant de l'abonnement requis": "Subscription name and amount are required",
+      "Le nom du scénario est obligatoire": "The scenario name is required",
+      "Clé d'autorisation API régénérée et réappliquée au backend simulé.": "The API authorization key was regenerated and applied to the simulated backend.",
+      "Êtes-vous certain ?": "Are You Sure?",
+      "Cette action réinitialisera toutes les données de simulation aux valeurs d'usine.": "This will reset all simulation data to factory defaults.",
+      "Continuer": "Continue",
+      "Tapez": "Type",
+      "pour valider la réinitialisation :": "to confirm the reset:",
+      "Réinitialiser définitivement": "Reset Permanently",
+      "Toutes les données ont été réinitialisées.": "All data has been reset.",
+      "État de la table : Décrypté en clair (Simulation)": "Table Status: Decrypted Plaintext (Simulation)",
+      "Les accesseurs transparents SQLAlchemy déchiffrent les colonnes à la volée en mémoire lors des lectures en mémoire vive, offrant une utilisation simple côté code sans compromettre la sécurité au repos.": "Transparent SQLAlchemy accessors decrypt columns in memory on demand, keeping application code simple without compromising security at rest.",
+      "Acquisition du Lock...": "Acquiring Lock...",
+      "Verrou acquis. Téléchargement DSP2 (0%)...": "Lock Acquired. Downloading PSD2 Data (0%)...",
+      "En attente du Lock... ⏳": "Waiting for Lock... ⏳",
+      "Écriture SQLite sécurisée...": "Secure SQLite Write...",
+      "Terminé ✅": "Complete ✅",
+      "Verrouillé par Tâche A": "Locked by Task A",
+      "Verrouillé par Tâche B": "Locked by Task B",
+      "Verrou acquis. Sync Trade Republic (0%)...": "Lock Acquired. Trade Republic Sync (0%)...",
+      "Phase 2 : ADR (Architectural Decision Records) & Consensus technique": "Phase 2: ADRs (Architectural Decision Records) & Technical Consensus",
+      "Chaque choix technologique (Fernet pour le chiffrement SQLite local, keyring pour l'OS Keychain, slowapi pour la protection anti-DDOS locale) a fait l'objet d'une fiche ADR. Ces fiches valident les contraintes de sécurité et d'évolutivité avant l'implémentation.": "Every technology decision (Fernet for local SQLite encryption, keyring for the OS keychain, and slowapi for local anti-DDoS protection) was documented in an ADR. These records validate security and scalability constraints before implementation.",
+      "Phase 3 : Sprints & Epics (Plan de route par étapes)": "Phase 3: Sprints & Epics (Incremental Roadmap)",
+      "Le développement a été découpé en 7 Epics de sprint. Ce découpage permet une livraison incrémentale par blocs fonctionnels autonomes (ex: moteur de base -> authentification locale -> connecteurs réels -> prévisions de simulation).": "Development was split into seven sprint epics, enabling incremental delivery through self-contained functional blocks: database engine, local authentication, live connectors, and simulation forecasts.",
+      "Phase 4 : Boucle d'Exécution IA & Assurance Qualité locale": "Phase 4: AI Execution Loop & Local Quality Assurance",
+      "L'agent d'IA autonome implémente les fonctionnalités en exécutant une suite de tests rigoureuse : vérification d'idempotence des scripts SQL, tests d'intégration en mémoire SQLite, et audit de sécurité des variables d'environnement.": "The autonomous AI agent implements features while running a rigorous test suite: SQL script idempotency checks, in-memory SQLite integration tests, and security audits of environment variables.",
+      "SG Compte Courant": "SG Checking Account",
+      "Trade Republic Espèces": "Trade Republic Cash",
+      "Plan Épargne Retraite": "Retirement Savings Plan",
+      "autre": "other",
+      "2 — Nommer le compte": "2 — Name the Account",
+      "3 — Autoriser l'accès (Simulation)": "3 — Authorize Access (Simulation)",
+      "4 — Finaliser la connexion": "4 — Complete the Connection",
+      "Frontend Client (Vite + React)": "Frontend Client (Vite + React)",
+      "Interface utilisateur moderne, responsive et local-first. Offre une expérience premium sans latence grâce à l'exécution 100% côté client des graphiques de prévision.": "A modern, responsive, local-first user interface. Client-side forecast charts provide a premium experience with no network latency.",
+      "Pas de React Router (routage personnalisé basé sur le hash), appels API groupés dans src/api.js pour centraliser la sécurité, vérification d'état 'loading' | 'ready' | 'offline'.": "No React Router: custom hash-based routing, API calls centralized in src/api.js for security, and explicit loading, ready, and offline states.",
+      "Serveur asynchrone local exposant des API REST sécurisées. Il orchestre les requêtes de synchronisation des banques, des investissements et le cache des prix des actifs.": "A local asynchronous server exposing secure REST APIs. It coordinates bank and investment synchronization requests and the asset-price cache.",
+      "Python 3.9+, FastAPI, APScheduler (tâches récurrentes en arrière-plan), slowapi (limitation de débit).": "Python 3.9+, FastAPI, APScheduler (recurring background tasks), and slowapi (rate limiting).",
+      "Routes protégées par défaut via un middleware global. Mutex asynchrone d'acquisition de verrou de synchronisation pour éviter les écritures concurrentes SQLite.": "Routes are protected by default through global middleware. An asynchronous synchronization mutex prevents concurrent SQLite writes.",
+      "Base SQLite & Chiffrement AES-128": "SQLite Database & AES-128 Encryption",
+      "Stockage local-first unique dans un fichier SQLite chiffré. Respecte le principe de cloisonnement des données (aucun stockage cloud, confidentialité totale).": "Single local-first storage in an encrypted SQLite file, with strict data isolation, no cloud storage, and complete privacy.",
+      "SQLite 3, SQLAlchemy 2.x (ORM asynchrone), cryptography (Fernet AES-128), aiosqlite.": "SQLite 3, SQLAlchemy 2.x (asynchronous ORM), cryptography (Fernet AES-128), and aiosqlite.",
+      "Chiffrement au niveau des colonnes (Fernet) pour les données sensibles (IBAN, soldes, clés d'accès). Pas de migrations Alembic : la base est intègre et testée via PRAGMA au démarrage.": "Column-level Fernet encryption protects sensitive data such as IBANs, balances, and access keys. There are no Alembic migrations; database integrity is checked with PRAGMA at startup.",
+      "Sécurise les clés d'accès locales et secrets API (ex: identifiants Trade Republic ou clé de chiffrement Fernet locale) dans le trousseau d'accès natif du système d'exploitation.": "Secures local access keys and API secrets, such as Trade Republic credentials and the local Fernet key, in the operating system's native keychain.",
+      "Bibliothèque Python keyring (keychain macOS / Windows Credential Manager).": "Python keyring library (macOS Keychain / Windows Credential Manager).",
+      "Ne jamais stocker de mots de passe ou secrets en clair dans les fichiers de configuration (.env, git). Fallback dégradé sécurisé si le keyring n'est pas disponible.": "Passwords and secrets are never stored in plaintext configuration files such as .env or Git. A secure degraded fallback is used if the keyring is unavailable.",
+      "Passerelle Enable Banking (ex-GoCardless)": "Enable Banking Gateway (formerly GoCardless)",
+      "Fournit une connexion directe et sécurisée (OAuth2 / DSP2) avec plus de 2500 institutions bancaires en Europe pour récupérer les soldes et historiques sans intermédiaire.": "Provides a direct, secure OAuth2/PSD2 connection to more than 2,500 European banks for retrieving balances and transaction history without an intermediary.",
+      "Enable Banking API (migration en cours pour remplacer l'ancienne API gratuite GoCardless).": "Enable Banking API (migration underway to replace the former free GoCardless API).",
+      "Signature des requêtes via paire de clés RSA locales. Clés stockées sous ~/.config/money-tracker/enable_banking.key.": "Requests are signed with a local RSA key pair stored under ~/.config/money-tracker/enable_banking.key.",
+      "Client Trade Republic (pytr)": "Trade Republic Client (pytr)",
+      "Liaison non-officielle avec Trade Republic pour récupérer l'état des portefeuilles d'investissements, ordres d'achat, et liquidités courantes.": "Unofficial Trade Republic integration for retrieving investment portfolios, buy orders, and current cash balances.",
+      "Bibliothèque Python pytr (protocole WebSocket officiel de TR).": "Python pytr library using Trade Republic's official WebSocket protocol.",
+      "Authentification à double facteur (2FA) via SMS OTP. Enregistrement sécurisé du jeton de session dans le trousseau système.": "Two-factor authentication through SMS OTP, with the session token stored securely in the system keychain.",
+      "Enrichissement Prix (yfinance / CoinGecko)": "Price Enrichment (yfinance / CoinGecko)",
+      "Récupération des cotations boursières et des cours crypto en temps réel pour évaluer la valeur actuelle nette du portefeuille.": "Retrieves real-time stock and cryptocurrency prices to calculate the portfolio's current net value.",
+      "Validation obligatoire des ISIN et tickers. Cache local de 15 minutes pour éviter d'être banni par les API (rate limiting). Protection contre les hausses/baisses anormales (>50%).": "ISINs and tickers are validated. A 15-minute local cache prevents API rate-limit bans, with protection against abnormal price moves above 50%.",
+      "Les valeurs réelles ne sont visibles par aucun processus système autre que Money Tracker. En cas d'extraction brute du fichier db.sqlite3, le contenu reste totalement indéchiffrable.": "Real values are not visible to any system process other than Money Tracker. If the raw db.sqlite3 file is extracted, its contents remain completely unreadable."
+    };
+
+    const mtTextOriginals = new WeakMap();
+    const mtAttributeOriginals = new WeakMap();
+    let currentLanguage = 'fr';
+
+    function getInitialLanguage() {
+      const requested = new URLSearchParams(window.location.search).get('lang');
+      if (requested === 'fr' || requested === 'en') return requested;
+      try {
+        return localStorage.getItem('portfolioLanguage') === 'en' ? 'en' : 'fr';
+      } catch (error) {
+        return 'fr';
+      }
+    }
+
+    function mtEnglishText(value) {
+      const compact = value.trim().replace(/\s+/g, ' ');
+      let translated = MT_EN[compact];
+
+      if (!translated) {
+        translated = compact
+          .replace(/^\((\d+) actifs\)$/, '($1 active)')
+          .replace(/^(\d+) ans$/, '$1 years')
+          .replace(/^(\d+) an$/, '$1 year')
+          .replace(/^(\d+)a$/, '$1y')
+          .replace(/^(\d+) abonnements?$/, '$1 subscriptions')
+          .replace(/^Jour (\d+)$/, 'Day $1')
+          .replace(/^Comparaison :/, 'Comparison:')
+          .replace(/ · Jour /, ' · Day ')
+          .replace(/ · J-(\d+)/, ' · D-$1')
+          .replace(/^Mensuel/, 'Monthly')
+          .replace(/^Annuel/, 'Yearly')
+          .replace(/^Hebdo/, 'Weekly')
+          .replace(/%\/an/, '%/year')
+          .replace(/^MAJ /, 'Updated ')
+          .replace(/^Téléchargement DSP2 \((\d+)%\)\.\.\.$/, 'Downloading PSD2 data ($1%)...')
+          .replace(/^Sync Trade Republic \((\d+)%\)\.\.\.$/, 'Trade Republic sync ($1%)...');
+      }
+
+      if (translated === compact) return null;
+      return value.replace(value.trim(), translated);
+    }
+
+    function mt(frText) {
+      return currentLanguage === 'en' ? (MT_EN[frText] || frText) : frText;
+    }
+
+    function localizeMtTextNode(node) {
+      if (!node.nodeValue.trim() || ['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(node.parentElement?.tagName)) return;
+
+      if (currentLanguage === 'fr') {
+        if (mtTextOriginals.has(node) && node.nodeValue !== mtTextOriginals.get(node)) {
+          node.nodeValue = mtTextOriginals.get(node);
+        }
+        return;
+      }
+
+      const original = mtTextOriginals.get(node) || node.nodeValue;
+      const translated = mtEnglishText(original);
+      if (translated && node.nodeValue !== translated) {
+        if (!mtTextOriginals.has(node)) mtTextOriginals.set(node, original);
+        node.nodeValue = translated;
+      }
+    }
+
+    function localizeMtElementAttributes(element) {
+      ['placeholder', 'title', 'aria-label'].forEach(attribute => {
+        if (!element.hasAttribute?.(attribute)) return;
+        const originals = mtAttributeOriginals.get(element) || {};
+
+        if (currentLanguage === 'fr') {
+          if (originals[attribute] && element.getAttribute(attribute) !== originals[attribute]) {
+            element.setAttribute(attribute, originals[attribute]);
+          }
+          return;
+        }
+
+        const original = originals[attribute] || element.getAttribute(attribute);
+        const translated = mtEnglishText(original);
+        if (translated && element.getAttribute(attribute) !== translated) {
+          originals[attribute] = original;
+          mtAttributeOriginals.set(element, originals);
+          element.setAttribute(attribute, translated);
+        }
+      });
+    }
+
+    function localizeMtSubtree(root) {
+      if (root.nodeType === Node.TEXT_NODE) {
+        localizeMtTextNode(root);
+        return;
+      }
+
+      if (root.nodeType !== Node.ELEMENT_NODE && root !== document.body) return;
+      if (root.nodeType === Node.ELEMENT_NODE) localizeMtElementAttributes(root);
+
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT);
+      let node;
+      while ((node = walker.nextNode())) {
+        if (node.nodeType === Node.TEXT_NODE) localizeMtTextNode(node);
+        else localizeMtElementAttributes(node);
+      }
+    }
+
+    function applyLanguage(language, notifyParent = false) {
+      currentLanguage = language === 'en' ? 'en' : 'fr';
+      document.documentElement.lang = currentLanguage;
+      document.title = currentLanguage === 'en' ? 'Money Tracker — Interactive Demo' : 'Money Tracker — Démo Interactive';
+      document.querySelector('meta[name="description"]').content = currentLanguage === 'en'
+        ? 'Interactive offline Money Tracker demo for tracking local accounts, investments, and subscriptions.'
+        : 'Démonstration interactive hors-ligne de Money Tracker. Suivez vos comptes, investissements et abonnements locaux.';
+
+      const button = document.getElementById('global-language-toggle');
+      button.textContent = currentLanguage === 'en' ? 'FR' : 'EN';
+      button.setAttribute('aria-label', currentLanguage === 'en' ? 'Switch Money Tracker to French' : 'Traduire Money Tracker en anglais');
+
+      try {
+        localStorage.setItem('portfolioLanguage', currentLanguage);
+      } catch (error) {
+        // Language switching remains available when storage is disabled.
+      }
+
+      if (typeof activeTab !== 'undefined' && document.getElementById(`tab-${activeTab}`)) {
+        const headerTitles = {
+          dashboard: "Vue d'ensemble",
+          accounts: "Comptes bancaires",
+          investments: "Investissements",
+          subscriptions: "Abonnements",
+          forecast: "Forecast & Simulations",
+          architecture: "Architecture & Méthode bMAD",
+          settings: "Paramètres"
+        };
+        document.getElementById('header-title').textContent = mt(headerTitles[activeTab] || "Money Tracker");
+
+        if (activeTab === 'dashboard') renderDashboard();
+        else if (activeTab === 'accounts') renderAccountsPage();
+        else if (activeTab === 'investments') renderInvestmentsPage();
+        else if (activeTab === 'subscriptions') renderSubscriptionsPage();
+        else if (activeTab === 'forecast') initForecastPage();
+        else if (activeTab === 'architecture') goToSlide(activeSlide);
+        else if (activeTab === 'settings') renderSettingsPage();
+      }
+      localizeMtSubtree(document.body);
+
+      if (notifyParent && window.parent !== window) {
+        window.parent.postMessage({ type: 'portfolio-language', language: currentLanguage }, '*');
+      }
+    }
+
+    function toggleGlobalLanguage() {
+      applyLanguage(currentLanguage === 'fr' ? 'en' : 'fr', true);
+    }
+
     // ==================== STATE MANAGEMENT ====================
     
     // Initial mock data templates
@@ -1877,7 +2381,7 @@
         architecture: "Architecture & Méthode bMAD",
         settings: "Paramètres"
       };
-      document.getElementById('header-title').textContent = titles[tabId] || "Money Tracker";
+      document.getElementById('header-title').textContent = mt(titles[tabId] || "Money Tracker");
 
       // Trigger specific re-renders
       if (tabId === 'dashboard') {
@@ -1926,7 +2430,7 @@
     // ==================== REUSABLE FORMATTERS ====================
     function fmtEUR(n, digits = 2) {
       if (n == null || isNaN(n)) return "—";
-      return new Intl.NumberFormat('fr-FR', {
+      return new Intl.NumberFormat(currentLanguage === 'en' ? 'en-GB' : 'fr-FR', {
         style: 'currency',
         currency: 'EUR',
         maximumFractionDigits: digits
@@ -1935,10 +2439,10 @@
 
     function getGreeting() {
       const h = new Date().getHours();
-      if (h < 6) return "Bonne nuit 🌙";
-      if (h < 12) return "Bonjour ☀️";
-      if (h < 18) return "Bon après-midi 🌤";
-      return "Bonsoir 🌅";
+      if (h < 6) return mt("Bonne nuit 🌙");
+      if (h < 12) return mt("Bonjour ☀️");
+      if (h < 18) return mt("Bon après-midi 🌤");
+      return mt("Bonsoir 🌅");
     }
 
     // ==================== GLOBAL INTERACTIVE SYNC ====================
@@ -1950,7 +2454,7 @@
       const icon = document.getElementById('sync-icon');
       const btnText = document.querySelector('#sync-button span:not(#sync-icon)');
 
-      indicator.textContent = "Sync en cours...";
+      indicator.textContent = mt("Sync en cours...");
       indicator.classList.remove('hidden');
       icon.classList.add('animate-spin');
       if (btnText) btnText.textContent = "Sync...";
@@ -1959,8 +2463,8 @@
         // Complete sync simulator
         isSyncing = false;
         icon.classList.remove('animate-spin');
-        indicator.textContent = "✓ Sync terminée";
-        if (btnText) btnText.textContent = "Synchroniser";
+        indicator.textContent = mt("✓ Sync terminée");
+        if (btnText) btnText.textContent = mt("Synchroniser");
         
         // Randomly simulate small market fluctuation for realism
         state.investments.forEach(inv => {
@@ -2021,7 +2525,7 @@
       container.innerHTML = marketData.map(idx => {
         const isPos = idx.change_pct >= 0;
         const color = isPos ? "text-primary" : "text-tertiary";
-        const valStr = idx.region === "FX" ? idx.price.toFixed(4) : idx.region === "CRYPTO" ? fmtEUR(idx.price, 0) : idx.price.toLocaleString('fr-FR');
+        const valStr = idx.region === "FX" ? idx.price.toFixed(4) : idx.region === "CRYPTO" ? fmtEUR(idx.price, 0) : idx.price.toLocaleString(currentLanguage === 'en' ? 'en-GB' : 'fr-FR');
         
         return `
           <div class="p-3 bg-surface-container-high/40 rounded-sm border border-outline-variant/10">
@@ -2052,7 +2556,7 @@
         alerts.push({
           severity: "warning",
           icon: "warning",
-          message: "⚠️ Taille de base critique : La base SQLite locale dépasse 500 Mo. Pensez à vider l'historique dans les paramètres."
+          message: mt("⚠️ Taille de base critique : La base SQLite locale dépasse 500 Mo. Pensez à vider l'historique dans les paramètres.")
         });
       }
 
@@ -2062,7 +2566,9 @@
         alerts.push({
           severity: "info",
           icon: "payments",
-          message: `Prélèvements aujourd'hui : Vous avez ${upcomingCount} abonnement(s) prélevé(s) ce jour.`
+          message: currentLanguage === 'en'
+            ? `Payments today: ${upcomingCount} subscription(s) are being charged today.`
+            : `Prélèvements aujourd'hui : Vous avez ${upcomingCount} abonnement(s) prélevé(s) ce jour.`
         });
       }
 
@@ -2099,7 +2605,7 @@
       const varPct = 0.55;
       const varAbs = totalNetWorth * (varPct / 100);
       document.getElementById('patrimoine-variation-badge').innerHTML = `
-        +${fmtEUR(varAbs, 2)} (+${varPct}%) <span class="text-on-surface-variant font-normal">aujourd'hui</span>
+        +${fmtEUR(varAbs, 2)} (+${varPct}%) <span class="text-on-surface-variant font-normal">${mt("aujourd'hui")}</span>
       `;
 
       // Totals
@@ -2116,7 +2622,7 @@
         .reduce((sum, s) => sum + (s.billing_cycle === 'yearly' ? s.amount / 12 : s.amount), 0);
       const subCount = state.subscriptions.filter(s => s.status === 'active').length;
       document.getElementById('dashboard-subs-monthly').innerHTML = `
-        ${fmtEUR(subMonthly)} <span class="text-[10px] text-on-surface-variant ml-1 font-sans font-normal">(${subCount} actifs)</span>
+        ${fmtEUR(subMonthly)} <span class="text-[10px] text-on-surface-variant ml-1 font-sans font-normal">(${subCount} ${currentLanguage === 'en' ? 'active' : 'actifs'})</span>
       `;
 
       // Allocation details
@@ -2131,7 +2637,7 @@
       allocationChart = new Chart(ctxAlloc, {
         type: 'doughnut',
         data: {
-          labels: ['Comptes', 'Investissements'],
+          labels: currentLanguage === 'en' ? ['Accounts', 'Investments'] : ['Comptes', 'Investissements'],
           datasets: [{
             data: [totalBank, totalInvestments],
             backgroundColor: ['#4cd6fb', '#00b4d8'],
@@ -2159,14 +2665,16 @@
 
       // Merge historical data + current total
       const histData = [...state.history, totalNetWorth];
-      const labels = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Ce mois'];
+      const labels = currentLanguage === 'en'
+        ? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'This month']
+        : ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Ce mois'];
 
       performanceChart = new Chart(ctxPerf, {
         type: 'line',
         data: {
           labels: labels,
           datasets: [{
-            label: 'Patrimoine',
+            label: currentLanguage === 'en' ? 'Net Worth' : 'Patrimoine',
             data: histData,
             borderColor: '#4cd6fb',
             borderWidth: 2,
@@ -2308,7 +2816,7 @@
 
               <div class="flex items-center justify-between">
                 <span class="text-[10px] text-on-surface-variant">
-                  MAJ ${new Date(acc.last_synced).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}
+                  ${currentLanguage === 'en' ? 'Updated' : 'MAJ'} ${new Date(acc.last_synced).toLocaleString(currentLanguage === 'en' ? 'en-GB' : 'fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}
                 </span>
               </div>
             </div>
@@ -2331,7 +2839,7 @@
     }
 
     function deleteAccount(id) {
-      if (!confirm("Supprimer ce compte bancaire ?")) return;
+      if (!confirm(mt("Supprimer ce compte bancaire ?"))) return;
       state.accounts = state.accounts.filter(a => a.id !== id);
       saveState();
       recalculateDerivedData();
@@ -2344,7 +2852,7 @@
       const balance = parseFloat(document.getElementById('manual-acc-balance').value) || 0;
       const type = document.getElementById('manual-acc-type').value;
 
-      if (!name) { alert("Le nom du compte est requis"); return; }
+      if (!name) { alert(mt("Le nom du compte est requis")); return; }
 
       const newAcc = {
         id: 'acc_' + Date.now(),
@@ -2405,7 +2913,7 @@
     function selectGcBank(id, name) {
       gcSelectedBank = { id, name };
       document.getElementById('selected-bank-name').textContent = name;
-      document.getElementById('connect-account-name').value = name + " Courant";
+      document.getElementById('connect-account-name').value = name + (currentLanguage === 'en' ? " Checking" : " Courant");
       connectSetStep('name');
     }
 
@@ -2529,7 +3037,7 @@
     }
 
     function deleteInvestment(id) {
-      if (!confirm("Supprimer cette position d'investissement ?")) return;
+      if (!confirm(mt("Supprimer cette position d'investissement ?"))) return;
       state.investments = state.investments.filter(i => i.id !== id);
       saveState();
       recalculateDerivedData();
@@ -2547,7 +3055,7 @@
       const current = parseFloat(document.getElementById('invest-current-price').value) || avg;
 
       if (!name || !qty || !avg) {
-        alert("Nom, quantité, et prix d'achat sont obligatoires");
+        alert(mt("Nom, quantité, et prix d'achat sont obligatoires"));
         return;
       }
 
@@ -2587,7 +3095,15 @@
       logsEl.innerHTML = '';
       progressEl.style.width = '0%';
 
-      const steps = [
+      const steps = currentLanguage === 'en' ? [
+        { time: 0, text: "➜ Initializing local session...", pct: 10 },
+        { time: 800, text: "➜ Connecting to secure Trade Republic gateways...", pct: 30 },
+        { time: 1800, text: "✉ OTP required. Sending SMS to +33 6 ** ** ** 78...", pct: 50 },
+        { time: 2600, text: "✓ Code received through WebSocket callback. 2FA session authorized.", pct: 70 },
+        { time: 3500, text: "✓ Retrieving local trading account statement...", pct: 85 },
+        { time: 4200, text: "✓ Sync active: retrieving yfinance prices (MSCI World, Apple)...", pct: 95 },
+        { time: 5000, text: "✓ Sync completed successfully! Market prices updated.", pct: 100 }
+      ] : [
         { time: 0, text: "➜ Initialisation de la session locale...", pct: 10 },
         { time: 800, text: "➜ Connexion aux passerelles sécurisées Trade Republic...", pct: 30 },
         { time: 1800, text: "✉ OTP Requis. Envoi du SMS sur +33 6 ** ** ** 78...", pct: 50 },
@@ -2804,7 +3320,7 @@
           if (matched.length > 0) {
             bills.push({
               date: dateObj,
-              dayLabel: dateObj.toLocaleDateString('fr-FR', { weekday: 'short', day: '2-digit', month: 'short' }),
+              dayLabel: dateObj.toLocaleDateString(currentLanguage === 'en' ? 'en-GB' : 'fr-FR', { weekday: 'short', day: '2-digit', month: 'short' }),
               items: matched
             });
           }
@@ -2928,7 +3444,7 @@
       const color = activeColorBtn ? activeColorBtn.getAttribute('data-color') : "#4cd6fb";
 
       if (!name || !amount) {
-        alert("Nom et montant de l'abonnement requis");
+        alert(mt("Nom et montant de l'abonnement requis"));
         return;
       }
 
@@ -2969,7 +3485,7 @@
 
     function updateForecastHorizonLabel() {
       const yrs = document.getElementById('forecast-horizon').value;
-      document.getElementById('forecast-horizon-val').textContent = `${yrs} ans`;
+      document.getElementById('forecast-horizon-val').textContent = `${yrs} ${currentLanguage === 'en' ? 'years' : 'ans'}`;
     }
 
     function setForecastRate(rate) {
@@ -3008,7 +3524,7 @@
       const labels = [];
 
       for (let y = 0; y <= years; y++) {
-        labels.push(y === 0 ? "Auj." : `${y}a`);
+        labels.push(y === 0 ? (currentLanguage === 'en' ? "Now" : "Auj.") : `${y}${currentLanguage === 'en' ? 'y' : 'a'}`);
         
         Object.keys(rates).forEach(key => {
           const r = rates[key] / 100 / 12; // monthly compounding rate
@@ -3039,7 +3555,7 @@
 
       const datasets = [
         {
-          label: `Pessimiste (${rates.pessimistic.toFixed(1)}%)`,
+          label: `${currentLanguage === 'en' ? 'Pessimistic' : 'Pessimiste'} (${rates.pessimistic.toFixed(1)}%)`,
           data: datasetsData.pessimistic,
           borderColor: '#94a3b8',
           borderWidth: 1.5,
@@ -3047,7 +3563,7 @@
           pointRadius: 0
         },
         {
-          label: `Base (${rates.base.toFixed(1)}%)`,
+          label: `${currentLanguage === 'en' ? 'Baseline' : 'Base'} (${rates.base.toFixed(1)}%)`,
           data: datasetsData.base,
           borderColor: '#0071e3',
           borderWidth: 2.5,
@@ -3055,7 +3571,7 @@
           pointRadius: 0
         },
         {
-          label: `Optimiste (${rates.optimistic.toFixed(1)}%)`,
+          label: `${currentLanguage === 'en' ? 'Optimistic' : 'Optimiste'} (${rates.optimistic.toFixed(1)}%)`,
           data: datasetsData.optimistic,
           borderColor: '#34d399',
           borderWidth: 1.5,
@@ -3090,7 +3606,7 @@
 
         datasets.push(
           {
-            label: `${comparedScenarioRef.name} - Pessimiste`,
+            label: `${comparedScenarioRef.name} - ${currentLanguage === 'en' ? 'Pessimistic' : 'Pessimiste'}`,
             data: compData.pessimistic,
             borderColor: '#c4b5fd',
             borderWidth: 1.5,
@@ -3099,7 +3615,7 @@
             pointRadius: 0
           },
           {
-            label: `${comparedScenarioRef.name} - Base`,
+            label: `${comparedScenarioRef.name} - ${currentLanguage === 'en' ? 'Baseline' : 'Base'}`,
             data: compData.base,
             borderColor: '#a855f7',
             borderWidth: 2,
@@ -3108,7 +3624,7 @@
             pointRadius: 0
           },
           {
-            label: `${comparedScenarioRef.name} - Optimiste`,
+            label: `${comparedScenarioRef.name} - ${currentLanguage === 'en' ? 'Optimistic' : 'Optimiste'}`,
             data: compData.optimistic,
             borderColor: '#f0abfc',
             borderWidth: 1.5,
@@ -3154,7 +3670,7 @@
     function renderForecastScenarios() {
       const container = document.getElementById('forecast-scenarios-list');
       if (state.scenarios.length === 0) {
-        container.innerHTML = `<p class="text-[10px] text-on-surface-variant/60 text-center py-3">Aucun scénario sauvegardé</p>`;
+        container.innerHTML = `<p class="text-[10px] text-on-surface-variant/60 text-center py-3">${mt("Aucun scénario sauvegardé")}</p>`;
         return;
       }
 
@@ -3167,7 +3683,7 @@
             <div class="flex-1 min-w-0">
               <p class="text-xs font-semibold text-on-surface truncate">${s.name}</p>
               <p class="text-[9px] text-on-surface-variant">
-                ${fmtEUR(s.capital_initial, 0)} · ${s.taux_rendement}%/an · ${s.horizon_annees} ans
+                ${fmtEUR(s.capital_initial, 0)} · ${s.taux_rendement}%/${currentLanguage === 'en' ? 'year' : 'an'} · ${s.horizon_annees} ${currentLanguage === 'en' ? 'years' : 'ans'}
               </p>
             </div>
             <button onclick="loadScenarioIntoForecast('${s.id}')" title="Charger" class="text-on-surface-variant hover:text-primary">
@@ -3203,7 +3719,7 @@
         clearForecastComparison();
       } else {
         comparedScenarioRef = s;
-        document.getElementById('forecast-comparison-label').textContent = `Comparaison : ${s.name}`;
+        document.getElementById('forecast-comparison-label').textContent = `${currentLanguage === 'en' ? 'Comparison' : 'Comparaison'} : ${s.name}`;
         document.getElementById('forecast-comparison-indicator').classList.remove('hidden');
         renderForecastScenarios();
         runForecastCalculation();
@@ -3233,7 +3749,7 @@
       const rate = parseFloat(document.getElementById('forecast-rate').value) || 0;
       const yrs = parseInt(document.getElementById('forecast-horizon').value) || 10;
 
-      if (!name) { alert("Le nom du scénario est obligatoire"); return; }
+      if (!name) { alert(mt("Le nom du scénario est obligatoire")); return; }
 
       const newScen = {
         id: 'scen_' + Date.now(),
@@ -3262,10 +3778,10 @@
       if (state.isLargeDb) {
         alertBox.classList.remove('hidden');
         document.getElementById('alert-db-size').textContent = "512.4";
-        sizeLabel.textContent = "512.4 Mo";
+        sizeLabel.textContent = `512.4 ${currentLanguage === 'en' ? 'MB' : 'Mo'}`;
       } else {
         alertBox.classList.add('hidden');
-        sizeLabel.textContent = "12.4 Mo";
+        sizeLabel.textContent = `12.4 ${currentLanguage === 'en' ? 'MB' : 'Mo'}`;
       }
 
       // API Key
@@ -3274,7 +3790,9 @@
 
       // Large DB Button Sync text
       const dbBtn = document.getElementById('large-db-btn');
-      dbBtn.textContent = state.isLargeDb ? "Effacer Alerte" : "Simuler (>500 Mo)";
+      dbBtn.textContent = state.isLargeDb
+        ? (currentLanguage === 'en' ? "Clear Alert" : "Effacer Alerte")
+        : (currentLanguage === 'en' ? "Simulate (>500 MB)" : "Simuler (>500 Mo)");
     }
 
     function regenerateDemoApiKey() {
@@ -3287,7 +3805,7 @@
       state.apiKey = nextKey;
       saveState();
       renderSettingsPage();
-      alert("Clé d'autorisation API régénérée et réappliquée au backend simulé.");
+      alert(mt("Clé d'autorisation API régénérée et réappliquée au backend simulé."));
     }
 
     let dangerStep = 0;
@@ -3346,11 +3864,17 @@
     }
 
     function executeFullFactoryReset() {
+      const preservedLanguage = currentLanguage;
       localStorage.clear();
+      try {
+        localStorage.setItem('portfolioLanguage', preservedLanguage);
+      } catch (error) {
+        // The reset can continue if storage is unavailable.
+      }
       loadState();
       setDangerStep(0);
       switchTab('dashboard');
-      alert("Toutes les données ont été réinitialisées.");
+      alert(mt("Toutes les données ont été réinitialisées."));
     }
 
 
@@ -3690,13 +4214,43 @@
     }
 
     // ==================== ON SYSTEM INIT ====================
+    const mtMutationObserver = new MutationObserver(mutations => {
+      if (currentLanguage !== 'en') return;
+      mutations.forEach(mutation => {
+        mutation.addedNodes.forEach(localizeMtSubtree);
+      });
+    });
+    mtMutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    window.addEventListener('message', event => {
+      if (
+        event.data?.type === 'portfolio-language' &&
+        ['fr', 'en'].includes(event.data.language) &&
+        event.data.language !== currentLanguage
+      ) {
+        applyLanguage(event.data.language);
+      }
+    });
+
+    window.addEventListener('storage', event => {
+      if (
+        event.key === 'portfolioLanguage' &&
+        ['fr', 'en'].includes(event.newValue) &&
+        event.newValue !== currentLanguage
+      ) {
+        applyLanguage(event.newValue);
+      }
+    });
+
     window.onload = function() {
+      currentLanguage = getInitialLanguage();
       loadState();
       if (state.isOffline) {
         showOfflineScreen();
       } else {
         switchTab('dashboard');
       }
+      applyLanguage(currentLanguage);
     };
   </script>
 </body>
