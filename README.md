@@ -1,72 +1,76 @@
-# Portfolio Customer Success & Automation — Abdel Arbaoui
+# Customer Success & Automation Portfolio — Abdel Arbaoui
 
-Bienvenue dans mon espace de démonstrations techniques. Ce dépôt regroupe et unifie des outils interactifs conçus pour optimiser les opérations de Customer Success et automatiser des workflows métier.
+Welcome to my technical demo portfolio. This repository brings together interactive tools designed to optimize Customer Success operations and automate business workflows.
 
-## 📸 Aperçu Visuel
+## 📸 Visual Overview
 
-![Portail - Vue d'ensemble](assets/vue_d_ensemble.png)
+![Portfolio overview](assets/vue_d_ensemble.png)
 
 <p align="center">
-  <img src="assets/money_tracker.png" width="49%" alt="Money Tracker Dashboard" />
-  <img src="assets/cs_analytics.png" width="49%" alt="CS Analytics Dashboard" />
+  <img src="assets/money_tracker.png" width="49%" alt="Money Tracker dashboard" />
+  <img src="assets/cs_analytics.png" width="49%" alt="CS Analytics dashboard" />
 </p>
 
 <p align="center">
-  <i>À gauche : Money Tracker (Projet Personnel). À droite : CS Analytics (Moteur de Reporting).</i>
+  <i>Left: Money Tracker (personal project). Right: CS Analytics (reporting engine).</i>
 </p>
 
-> 🎥 **Animation de Démonstration** : [Voir l'enregistrement dynamique du portail (WebP)](assets/demo_recording.webp)
+> 🎥 **Demo animation:** [Watch the interactive portfolio recording (WebP)](assets/demo_recording.webp)
 
-## 📂 Structure du Workspace
+## 📂 Repository Structure
 
-Le portfolio est organisé de manière découplée avec une structure en dossier partagé :
+The portfolio uses a modular structure. Each project remains independent while being accessible from the main portal:
 
 ```text
-Documents/
-├── portfolio-portal/        # Ce dossier (Portail de présentation)
-│   ├── index.html           # Interface globale de navigation (iframe-based)
-│   └── README.md            # Ce fichier explicatif
-├── money-tracker/           # Projet 1 : Projet Personnel (Finance &amp; Patrimoine)
-│   └── index.html           # Application interactive
-└── CS-Analytics/            # Projet 2 : Suite d'Analytics & Reporting CS
-    └── index.html           # Application interactive
+portfolio-portal/
+├── index.html               # Main navigation portal using iframes
+├── README.md                # Project documentation
+├── assets/                  # Screenshots and demo media
+├── money-tracker/
+│   └── index.html           # Money Tracker interactive application
+└── CS-Analytics/
+    └── index.html           # CS Analytics interactive application
 ```
 
 ---
 
-## 🚀 Comment lancer le Portfolio ?
+## 🚀 Running the Portfolio
 
-Il suffit d'ouvrir le fichier principal dans votre navigateur internet :
-1. Naviguez dans le dossier `portfolio-portal`.
-2. Ouvrez ou double-cliquez sur [index.html](file:///Users/abdelarbaoui/Documents/portfolio-portal/index.html).
-3. Utilisez le menu latéral gauche pour basculer de façon fluide entre les projets.
-
----
-
-## 📊 Projets présentés
-
-### 1. Money Tracker (Projet Personnel — Gestion de Patrimoine)
-Une application de suivi de portefeuille financier conçue pour fonctionner à 100% hors-ligne.
-- **Fonctionnalités clés** : Suivi multi-comptes, gestion d'actifs (actions, cryptomonnaies), calendrier d'abonnements récurrents et outil de simulation d'intérêts composés sur 30 ans.
-- **Technologies** : HTML/JS, Tailwind CSS, CDN Chart.js, LocalStorage persistant, simulations d'API FastAPI en local.
-
-### 2. CS Analytics (Customer Success Operations & Automation)
-Un dashboard d'analytics métier visant à consolider des imports de logs pour les transformer en rapports PowerPoint (PPTX) d'activité client.
-- **Fonctionnalités clés** : Statistiques d'utilisation produits (SecureDrive & TeamChat), console de requêtes style Postman supportant l'authentification mTLS sécurisée par certificat PEM temporaire, et mode diaporama pour double écran.
-- **Technologies** : Moteur Pandas (Python), python-pptx (génération PPTX), pont WebView2 (PyWebView), Vanilla CSS.
+1. Open the `portfolio-portal` directory.
+2. Open or double-click [index.html](index.html).
+3. Use the left sidebar to switch between the two projects.
+4. Use the `FR/EN` button to change the language across the portal and both applications.
 
 ---
 
-## 🛡️ Engagements de Conception
+## 📊 Featured Projects
 
-- **Conception 100% Client-Side / Off-line** : Toutes les données d'analyse et de gestion restent locales. Aucun flux de données n'est transmis vers un cloud public tiers pour garantir une conformité cybersécurité absolue.
-- **Qualité & Fiabilité** : Plus de 145 tests unitaires en Python couvrent les algorithmes de calculs et de fusions de données (timestamps concurrent-merge).
-- **Expérience Utilisateur Moderne** : Thème sombre harmonieux, micro-animations, et intégration fluide par iframes pour les présentations.
+### 1. Money Tracker — Personal Wealth Management
+
+A personal finance and investment portfolio tracker designed to run entirely offline.
+
+- **Core features:** Multiple-account tracking, asset management for stocks and cryptocurrencies, recurring subscription calendar, and 30-year compound-interest simulations.
+- **Technologies:** HTML/JavaScript, Tailwind CSS, Chart.js CDN, persistent LocalStorage, and local FastAPI simulations.
+
+### 2. CS Analytics — Customer Success Operations & Automation
+
+A business analytics dashboard that consolidates log exports and transforms them into client activity reports in PowerPoint format.
+
+- **Core features:** SecureDrive and TeamChat usage analytics, a Postman-style request console with secure mTLS authentication through temporary PEM certificates, and a dual-screen presentation mode.
+- **Technologies:** pandas, python-pptx, WebView2 through PyWebView, and vanilla CSS.
+
+---
+
+## 🛡️ Engineering Principles
+
+- **100% client-side and offline:** All analytics and financial data remain local. No data is transmitted to third-party public cloud services.
+- **Quality and reliability:** More than 145 Python unit tests cover calculation algorithms, data merging, and concurrent timestamp resolution.
+- **Modern user experience:** A consistent dark theme, micro-interactions, responsive interfaces, and seamless iframe integration for presentations.
 
 ---
 
 ## ✉️ Contact
 
-- **LinkedIn** : [Abdelkader Arbaoui](https://www.linkedin.com/in/abdelkader-arbaoui-423852197/)
-- **GitHub** : [AbdelArbaoui](https://github.com/AbdelArbaoui)
-- **Email** : [abdelarbb@gmail.com](mailto:abdelarbb@gmail.com)
+- **LinkedIn:** [Abdelkader Arbaoui](https://www.linkedin.com/in/abdelkader-arbaoui-423852197/)
+- **GitHub:** [AbdelArbaoui](https://github.com/AbdelArbaoui)
+- **Email:** [abdelarbb@gmail.com](mailto:abdelarbb@gmail.com)
