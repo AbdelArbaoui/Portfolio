@@ -14,18 +14,19 @@
 
 .cv-hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.08fr) minmax(380px, 0.72fr);
+  gap: clamp(48px, 7vw, 108px);
   align-items: center;
   padding-block: clamp(64px, 8vw, 112px);
 }
 
 .cv-introduction {
-  max-width: 1000px;
+  max-width: 860px;
   min-width: 0;
 }
 
 .cv-introduction h1 {
-  max-width: 1000px;
+  max-width: 860px;
   margin: 28px 0 0;
   font-size: clamp(3.8rem, 7vw, 7.4rem);
   line-height: 0.9;
@@ -88,11 +89,87 @@
   min-width: 210px;
 }
 
+.cv-snapshot {
+  min-width: 0;
+  padding: clamp(28px, 3vw, 42px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-large);
+  background: var(--paper-strong);
+  box-shadow: var(--shadow);
+}
+
+.cv-snapshot-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.cv-snapshot-kicker {
+  margin: 0;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.cv-snapshot-header h2 {
+  max-width: 480px;
+  margin: 12px 0 0;
+  font-size: clamp(1.8rem, 2.8vw, 3.2rem);
+  line-height: 0.98;
+}
+
+.cv-snapshot-location {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink-soft);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  text-transform: uppercase;
+}
+
+.cv-snapshot-location i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 0 4px rgba(110, 231, 164, 0.12);
+}
+
+.cv-snapshot-mark {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 42px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.cv-snapshot-mark strong {
+  color: var(--accent);
+  font-size: clamp(5rem, 9vw, 8rem);
+  font-weight: 800;
+  line-height: 0.72;
+}
+
+.cv-snapshot-mark span {
+  color: var(--ink-soft);
+  font-family: var(--font-mono);
+  font-size: 8px;
+}
+
 .cv-facts {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  max-width: 720px;
-  margin: clamp(48px, 7vw, 76px) 0 0;
+  margin: 30px 0 0;
 }
 
 .cv-facts div {
@@ -118,6 +195,31 @@
   font-family: var(--font-mono);
   font-size: 8px;
   text-transform: uppercase;
+}
+
+.cv-snapshot-focus {
+  margin: 28px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+
+.cv-snapshot-focus li {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 12px;
+  padding-block: 13px;
+  border-bottom: 1px solid var(--line);
+}
+
+.cv-snapshot-focus span {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 8px;
+}
+
+.cv-snapshot-focus strong {
+  font-size: 12px;
 }
 
 .cv-document {
@@ -351,6 +453,18 @@
 }
 
 @media (max-width: 1040px) {
+  .cv-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .cv-introduction {
+    max-width: 920px;
+  }
+
+  .cv-snapshot {
+    width: min(100%, 760px);
+  }
+
   .cv-document {
     grid-template-columns: 1fr;
   }
@@ -383,25 +497,23 @@
   }
 
   .cv-facts {
-    grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 0;
   }
 
   .cv-facts div {
-    display: grid;
-    grid-template-columns: 90px 1fr;
-    align-items: center;
-    padding: 12px 0 0;
-    border-top: 1px solid var(--line);
-    border-left: 0;
+    display: block;
+    padding: 0 12px;
+    border-top: 0;
+    border-left: 1px solid var(--line);
   }
 
   .cv-facts div:first-child {
-    border-top: 0;
+    padding-left: 0;
+    border-left: 0;
   }
 
   .cv-facts dd {
-    margin: 0;
+    margin-top: 7px;
   }
 
   .cv-document {
@@ -431,6 +543,44 @@
   .cv-contact-list a {
     width: 100%;
     justify-content: center;
+  }
+
+  .cv-snapshot {
+    padding: 24px 20px;
+  }
+
+  .cv-snapshot-header {
+    flex-direction: column;
+  }
+
+  .cv-snapshot-mark {
+    margin-top: 34px;
+  }
+
+  .cv-snapshot-mark strong {
+    font-size: 5rem;
+  }
+
+  .cv-facts {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .cv-facts div {
+    display: grid;
+    grid-template-columns: 86px 1fr;
+    align-items: center;
+    padding: 12px 0 0;
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .cv-facts div:first-child {
+    border-top: 0;
+  }
+
+  .cv-facts dd {
+    margin: 0;
   }
 
 }
@@ -467,6 +617,7 @@
   .site-header,
   .mobile-nav,
   .cv-actions,
+  .cv-snapshot,
   .site-footer {
     display: none;
   }
