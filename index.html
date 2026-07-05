@@ -47,9 +47,9 @@
   </nav>
 
   <main id="main-content">
-    <section class="hero section-shell" id="top" aria-labelledby="hero-title">
+    <section class="hero section-shell" id="top" aria-labelledby="hero-title" data-motion-hero>
       <div class="hero-copy">
-        <p class="role-label">
+        <p class="role-label motion-hero-item">
           <span aria-hidden="true">01</span>
           <span data-i18n="hero.role">Customer Success Ops · Product · Data</span>
         </p>
@@ -57,11 +57,11 @@
           <span data-i18n="hero.titleMain">Des besoins métier aux</span>
           <em data-i18n="hero.titleAccent">produits fiables et démontrables.</em>
         </h1>
-        <p class="hero-lead text-pretty" data-i18n="hero.lead">
+        <p class="hero-lead text-pretty motion-hero-item" data-i18n="hero.lead">
           Ce portfolio présente ma façon d’analyser un problème, de concevoir une solution et d’aller jusqu’à un produit fonctionnel, testable et clair.
         </p>
 
-        <div class="hero-actions">
+        <div class="hero-actions motion-hero-item">
           <a class="button button-primary" href="#projects">
             <span data-i18n="hero.viewWork">Découvrir mes projets</span>
             <span aria-hidden="true">↓</span>
@@ -74,15 +74,15 @@
 
         <dl class="proof-strip" aria-label="Indicateurs clés" data-i18n-aria="a11y.proof">
           <div>
-            <dt class="tabular-nums">02</dt>
+            <dt class="tabular-nums" data-count="2" data-count-pad="2">02</dt>
             <dd data-i18n="proof.products">produits fonctionnels</dd>
           </div>
           <div>
-            <dt class="tabular-nums">145+</dt>
+            <dt class="tabular-nums" data-count="145" data-count-suffix="+">145+</dt>
             <dd data-i18n="proof.tests">tests automatisés</dd>
           </div>
           <div>
-            <dt class="tabular-nums">100%</dt>
+            <dt class="tabular-nums" data-count="100" data-count-suffix="%">100%</dt>
             <dd data-i18n="proof.local">traitement local</dd>
           </div>
         </dl>
@@ -187,7 +187,7 @@
     </section>
 
     <section class="expertise section-shell" id="expertise" aria-labelledby="expertise-title">
-      <header class="section-intro">
+      <header class="section-intro motion-reveal">
         <p class="section-number">02 / <span data-i18n="expertise.kicker">Compétences démontrées</span></p>
         <div>
           <h2 id="expertise-title" class="text-balance" data-i18n="expertise.title">Trois compétences au cœur de mes projets.</h2>
@@ -198,19 +198,19 @@
       </header>
 
       <ol class="expertise-grid">
-        <li>
+        <li class="motion-reveal">
           <span class="item-index tabular-nums">01</span>
           <div class="item-icon" aria-hidden="true">⌁</div>
           <h3 data-i18n="expertise.diagnoseTitle">Analyse métier</h3>
           <p class="text-pretty" data-i18n="expertise.diagnoseText">Identifier les frictions, les données disponibles, les contraintes et la décision attendue.</p>
         </li>
-        <li>
+        <li class="motion-reveal">
           <span class="item-index tabular-nums">02</span>
           <div class="item-icon" aria-hidden="true">↯</div>
           <h3 data-i18n="expertise.automateTitle">Développement produit</h3>
           <p class="text-pretty" data-i18n="expertise.automateText">Transformer un besoin en workflow local, modulaire, contrôlable et testable.</p>
         </li>
-        <li>
+        <li class="motion-reveal">
           <span class="item-index tabular-nums">03</span>
           <div class="item-icon" aria-hidden="true">◫</div>
           <h3 data-i18n="expertise.explainTitle">Data storytelling</h3>
@@ -220,7 +220,7 @@
     </section>
 
     <section class="projects section-shell" id="projects" aria-labelledby="projects-title">
-      <header class="section-intro">
+      <header class="section-intro motion-reveal">
         <p class="section-number">03 / <span data-i18n="projects.kicker">Projets sélectionnés</span></p>
         <div>
           <h2 id="projects-title" class="text-balance" data-i18n="projects.title">Deux projets pour montrer ce que je sais construire.</h2>
@@ -229,7 +229,7 @@
       </header>
 
       <div class="project-list">
-        <article class="project-card">
+        <article class="project-card motion-reveal motion-project-card">
           <figure class="project-visual">
             <img src="assets/cs_analytics.png" alt="Aperçu de CS Analytics" data-i18n-alt="projects.csAlt">
             <figcaption>
@@ -275,7 +275,7 @@
           </div>
         </article>
 
-        <article class="project-card project-card-reverse">
+        <article class="project-card project-card-reverse motion-reveal motion-project-card">
           <figure class="project-visual">
             <img src="assets/money_tracker.png" alt="Aperçu de Money Tracker" data-i18n-alt="projects.moneyAlt">
             <figcaption>
@@ -325,33 +325,33 @@
 
     <section class="method section-shell" id="method" aria-labelledby="method-title">
       <div class="method-panel">
-        <header>
+        <header class="motion-reveal">
           <p class="section-number section-number-dark">04 / <span data-i18n="method.kicker">Ma manière de travailler</span></p>
           <h2 id="method-title" class="text-balance" data-i18n="method.title">Comprendre avant de construire. Prouver avant de promettre.</h2>
         </header>
         <ol class="method-steps">
-          <li>
+          <li class="motion-reveal">
             <span class="tabular-nums">01</span>
             <div>
               <h3 data-i18n="method.understandTitle">Comprendre le flux</h3>
               <p data-i18n="method.understandText">Données, contraintes, risques et décision attendue.</p>
             </div>
           </li>
-          <li>
+          <li class="motion-reveal">
             <span class="tabular-nums">02</span>
             <div>
               <h3 data-i18n="method.modelTitle">Modéliser le système</h3>
               <p data-i18n="method.modelText">Règles explicites, modules simples et états visibles.</p>
             </div>
           </li>
-          <li>
+          <li class="motion-reveal">
             <span class="tabular-nums">03</span>
             <div>
               <h3 data-i18n="method.buildTitle">Construire l’usage</h3>
               <p data-i18n="method.buildText">Une interface alignée sur le travail, pas sur la technologie.</p>
             </div>
           </li>
-          <li>
+          <li class="motion-reveal">
             <span class="tabular-nums">04</span>
             <div>
               <h3 data-i18n="method.proveTitle">Démontrer la fiabilité</h3>
@@ -363,8 +363,8 @@
     </section>
 
     <section class="contact section-shell" id="contact" aria-labelledby="contact-title">
-      <p class="section-number">05 / <span data-i18n="contact.kicker">Poursuivre l’échange</span></p>
-      <div class="contact-main">
+      <p class="section-number motion-reveal">05 / <span data-i18n="contact.kicker">Poursuivre l’échange</span></p>
+      <div class="contact-main motion-reveal">
         <div>
           <h2 id="contact-title" class="text-balance" data-i18n="contact.title">Ces projets donnent un aperçu. L’entretien permet d’aller plus loin.</h2>
           <p class="text-pretty" data-i18n="contact.text">Je peux détailler les arbitrages produit, les choix techniques et les enseignements tirés de chaque réalisation.</p>

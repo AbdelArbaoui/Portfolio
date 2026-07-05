@@ -376,3 +376,80 @@ const requestedProject = new URLSearchParams(window.location.search).get("projec
 if (requestedProject && projects[requestedProject]) {
   openProject(requestedProject);
 }
+
+const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+const motionHero = document.querySelector("[data-motion-hero]");
+const motionReveals = document.querySelectorAll(".motion-reveal");
+
+function formatCounter(counter, value) {
+  const padding = Number(counter.dataset.countPad || 0);
+  const suffix = counter.dataset.countSuffix || "";
+  return `${String(value).padStart(padding, "0")}${suffix}`;
+}
+
+function animateHeroCounters() {
+  const counters = motionHero?.querySelectorAll("[data-count]") || [];
+
+  counters.forEach((counter, index) => {
+    const target = Number(counter.dataset.count);
+
+    if (motionPreference.matches) {
+      counter.textContent = formatCounter(counter, target);
+      return;
+    }
+
+    counter.textContent = formatCounter(counter, 0);
+    const duration = 760;
+    const delay = 500 + index * 70;
+    let startTime;
+
+    function updateCounter(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+
+      if (elapsed < delay) {
+        window.requestAnimationFrame(updateCounter);
+        return;
+      }
+
+      const progress = Math.min((elapsed - delay) / duration, 1);
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+      counter.textContent = formatCounter(counter, Math.round(target * easedProgress));
+
+      if (progress < 1) window.requestAnimationFrame(updateCounter);
+    }
+
+    window.requestAnimationFrame(updateCounter);
+  });
+}
+
+function initializePortfolioMotion() {
+  document.documentElement.classList.add("motion-enabled");
+
+  if (motionHero) {
+    window.requestAnimationFrame(() => {
+      motionHero.classList.add("is-motion-ready");
+      animateHeroCounters();
+    });
+  }
+
+  if (motionPreference.matches || !("IntersectionObserver" in window)) {
+    motionReveals.forEach(element => element.classList.add("is-visible"));
+    return;
+  }
+
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-visible");
+      revealObserver.unobserve(entry.target);
+    });
+  }, {
+    threshold: 0.16,
+    rootMargin: "0px 0px -8% 0px"
+  });
+
+  motionReveals.forEach(element => revealObserver.observe(element));
+}
+
+initializePortfolioMotion();

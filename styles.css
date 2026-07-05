@@ -1501,3 +1501,165 @@ img {
     display: none;
   }
 }
+
+/* Motion direction — restrained narrative reveals for interview presentation. */
+.motion-enabled [data-motion-hero] .motion-hero-item,
+.motion-enabled [data-motion-hero] h1 > span,
+.motion-enabled [data-motion-hero] h1 > em,
+.motion-enabled [data-motion-hero] .proof-strip > div,
+.motion-enabled [data-motion-hero] .hero-system {
+  opacity: 0;
+}
+
+.motion-enabled [data-motion-hero] .motion-hero-item,
+.motion-enabled [data-motion-hero] h1 > span,
+.motion-enabled [data-motion-hero] h1 > em,
+.motion-enabled [data-motion-hero] .proof-strip > div {
+  transform: translateY(28px);
+}
+
+.motion-enabled [data-motion-hero] .hero-system {
+  transform: translateY(30px) scale(0.985);
+}
+
+.motion-enabled [data-motion-hero].is-motion-ready .role-label {
+  animation: portfolio-rise 480ms ease-out 40ms forwards;
+}
+
+.motion-enabled [data-motion-hero].is-motion-ready h1 > span {
+  animation: portfolio-rise 620ms ease-out 100ms forwards;
+}
+
+.motion-enabled [data-motion-hero].is-motion-ready h1 > em {
+  animation: portfolio-rise 620ms ease-out 210ms forwards;
+}
+
+.motion-enabled [data-motion-hero].is-motion-ready .hero-lead {
+  animation: portfolio-rise 520ms ease-out 320ms forwards;
+}
+
+.motion-enabled [data-motion-hero].is-motion-ready .hero-actions {
+  animation: portfolio-rise 520ms ease-out 400ms forwards;
+}
+
+.motion-enabled [data-motion-hero].is-motion-ready .proof-strip > div {
+  animation: portfolio-rise 480ms ease-out 500ms forwards;
+}
+
+.motion-enabled [data-motion-hero].is-motion-ready .proof-strip > div:nth-child(2) {
+  animation-delay: 570ms;
+}
+
+.motion-enabled [data-motion-hero].is-motion-ready .proof-strip > div:nth-child(3) {
+  animation-delay: 640ms;
+}
+
+.motion-enabled [data-motion-hero].is-motion-ready .hero-system {
+  animation: portfolio-system-settle 700ms ease-out 180ms forwards;
+}
+
+.motion-enabled .motion-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+.motion-enabled .motion-reveal.is-visible {
+  animation: portfolio-rise 560ms ease-out forwards;
+}
+
+.motion-enabled .expertise-grid li.motion-reveal:nth-child(2) {
+  animation-delay: 90ms;
+}
+
+.motion-enabled .expertise-grid li.motion-reveal:nth-child(3) {
+  animation-delay: 180ms;
+}
+
+.motion-enabled .method-steps li.motion-reveal {
+  transform: translateX(24px);
+}
+
+.motion-enabled .method-steps li.motion-reveal:nth-child(2) {
+  animation-delay: 90ms;
+}
+
+.motion-enabled .method-steps li.motion-reveal:nth-child(3) {
+  animation-delay: 180ms;
+}
+
+.motion-enabled .method-steps li.motion-reveal:nth-child(4) {
+  animation-delay: 270ms;
+}
+
+.project-list {
+  perspective: 1400px;
+}
+
+.motion-enabled .motion-project-card {
+  transform: translateY(38px) rotateX(2deg) scale(0.99);
+  transform-origin: center top;
+}
+
+.motion-enabled .motion-project-card.is-visible {
+  animation: portfolio-project-settle 650ms ease-out forwards;
+}
+
+.motion-enabled .motion-project-card .project-evidence > div {
+  opacity: 0;
+  transform: translateX(18px);
+}
+
+.motion-enabled .motion-project-card.is-visible .project-evidence > div {
+  animation: portfolio-evidence-reveal 420ms ease-out 260ms forwards;
+}
+
+.motion-enabled .motion-project-card.is-visible .project-evidence > div:nth-child(2) {
+  animation-delay: 340ms;
+}
+
+.motion-enabled .motion-project-card.is-visible .project-evidence > div:nth-child(3) {
+  animation-delay: 420ms;
+}
+
+@keyframes portfolio-rise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes portfolio-system-settle {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes portfolio-project-settle {
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateX(0) scale(1);
+  }
+}
+
+@keyframes portfolio-evidence-reveal {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-enabled [data-motion-hero] .motion-hero-item,
+  .motion-enabled [data-motion-hero] h1 > span,
+  .motion-enabled [data-motion-hero] h1 > em,
+  .motion-enabled [data-motion-hero] .proof-strip > div,
+  .motion-enabled [data-motion-hero] .hero-system,
+  .motion-enabled .motion-reveal,
+  .motion-enabled .motion-project-card,
+  .motion-enabled .motion-project-card .project-evidence > div {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
