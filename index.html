@@ -1,1339 +1,419 @@
-<!DOCTYPE html>
-<html lang="fr" class="h-full">
+<!doctype html>
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio Customer Success & Automation — Abdel Arbaoui</title>
-  <meta name="description" content="Portail de démonstration d'outils et d'automatisations Customer Success. Démonstrations de Money Tracker et CS Analytics.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <style>
-    :root {
-      --bg-dark: #030a16;
-      --bg-surface: rgba(10, 22, 41, 0.7);
-      --bg-sidebar: rgba(6, 15, 30, 0.9);
-      --border-color: rgba(76, 214, 251, 0.08);
-      --border-active: rgba(76, 214, 251, 0.25);
-      
-      --color-primary: #4cd6fb;
-      --color-primary-rgb: 76, 214, 251;
-      --color-secondary: #00F5D4;
-      --color-secondary-rgb: 0, 245, 212;
-      --color-violet: #8F00FF;
-      --color-text: #d6e3fe;
-      --color-text-muted: #8ca3c7;
-      
-      --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      --r-xl: 18px;
-      --r-lg: 14px;
-      --r-md: 10px;
-      --r-sm: 6px;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background-color: var(--bg-dark);
-      color: var(--color-text);
-      font-family: var(--font-family);
-      min-height: 100vh;
-      overflow: hidden;
-      display: flex;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* Ambient Background Glow */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(circle 600px at 15% 15%, rgba(var(--color-primary-rgb), 0.08) 0%, transparent 80%),
-        radial-gradient(circle 650px at 85% 85%, rgba(var(--color-secondary-rgb), 0.06) 0%, transparent 80%),
-        radial-gradient(circle 500px at 50% 50%, rgba(143, 0, 255, 0.03) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(76, 214, 251, 0.1);
-      border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(76, 214, 251, 0.25);
-    }
-
-    /* Layout structure */
-    .app-container {
-      position: relative;
-      z-index: 10;
-      display: flex;
-      width: 100%;
-      height: 100vh;
-    }
-
-    /* Sidebar Styling */
-    .sidebar {
-      width: 290px;
-      height: 100vh;
-      background: var(--bg-sidebar);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-right: 1px solid var(--border-color);
-      padding: 24px 18px;
-      display: flex;
-      flex-direction: flex-col;
-      flex-direction: column;
-      flex-shrink: 0;
-      z-index: 40;
-    }
-
-    .profile-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border-color);
-      border-radius: var(--r-lg);
-      padding: 16px;
-      margin-bottom: 24px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .profile-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
-    }
-
-    .avatar-wrapper {
-      position: relative;
-      width: 64px;
-      height: 64px;
-      margin: 0 auto 12px;
-    }
-
-    .avatar {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.15), rgba(var(--color-secondary-rgb), 0.15));
-      border: 2px solid rgba(76, 214, 251, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--color-primary);
-      text-shadow: 0 0 10px rgba(var(--color-primary-rgb), 0.5);
-    }
-
-    .profile-card h2 {
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-      color: #fff;
-    }
-
-    .profile-card p {
-      font-size: 11.5px;
-      color: var(--color-text-muted);
-      margin-top: 4px;
-      font-weight: 500;
-    }
-
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 12px;
-    }
-
-    .social-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      transition: all 0.2s ease;
-      color: var(--color-text-muted);
-    }
-
-    .social-icon:hover {
-      background: rgba(var(--color-primary-rgb), 0.1);
-      border-color: var(--color-primary);
-      color: var(--color-primary);
-      transform: translateY(-2px);
-    }
-
-    .nav-section {
-      flex: 1;
-      overflow-y: auto;
-      margin-bottom: 16px;
-    }
-
-    .nav-label {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: var(--color-text-muted);
-      margin: 16px 8px 8px;
-    }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      width: 100%;
-      border: none;
-      background: transparent;
-      color: var(--color-text-muted);
-      padding: 11px 14px;
-      border-radius: var(--r-md);
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 600;
-      font-family: inherit;
-      text-align: left;
-      transition: all 0.2s ease;
-      position: relative;
-    }
-
-    .nav-item svg {
-      width: 18px;
-      height: 18px;
-      color: inherit;
-      flex-shrink: 0;
-    }
-
-    .nav-item:hover {
-      background: rgba(255, 255, 255, 0.02);
-      color: #fff;
-    }
-
-    .nav-item.active {
-      background: rgba(var(--color-primary-rgb), 0.08);
-      color: var(--color-primary);
-      box-shadow: inset 3px 0 0 var(--color-primary);
-    }
-
-    .nav-item.active-cs {
-      background: rgba(var(--color-secondary-rgb), 0.08);
-      color: var(--color-secondary);
-      box-shadow: inset 3px 0 0 var(--color-secondary);
-    }
-
-    /* Cheat Sheet Widget */
-    .cheat-sheet-widget {
-      background: rgba(255, 255, 255, 0.01);
-      border: 1px solid var(--border-color);
-      border-radius: var(--r-md);
-      padding: 12px;
-      margin-top: auto;
-    }
-
-    .cheat-sheet-widget h4 {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--color-primary);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .cheat-sheet-widget p {
-      font-size: 11px;
-      color: var(--color-text-muted);
-      line-height: 1.4;
-    }
-
-    .cheat-sheet-widget ul {
-      margin-top: 6px;
-      list-style: none;
-      font-size: 10.5px;
-      color: var(--color-text-muted);
-    }
-
-    .cheat-sheet-widget li {
-      margin-bottom: 4px;
-      padding-left: 10px;
-      position: relative;
-    }
-
-    .cheat-sheet-widget li::before {
-      content: '⚡';
-      position: absolute;
-      left: 0;
-      top: 0;
-      font-size: 8px;
-    }
-
-    /* Main Area Styling */
-    .main-content {
-      flex: 1;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      background: transparent;
-      position: relative;
-    }
-
-    /* Top presentation banner */
-    .top-presentation-bar {
-      height: 54px;
-      background: rgba(6, 15, 30, 0.6);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 24px;
-      z-index: 30;
-    }
-
-    .bar-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .bar-badge {
-      font-size: 10px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 100px;
-      background: rgba(var(--color-primary-rgb), 0.1);
-      border: 1px solid rgba(var(--color-primary-rgb), 0.2);
-      color: var(--color-primary);
-    }
-
-    .bar-badge.cs-badge {
-      background: rgba(var(--color-secondary-rgb), 0.1);
-      border: 1px solid rgba(var(--color-secondary-rgb), 0.2);
-      color: var(--color-secondary);
-    }
-
-    .btn-external {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11.5px;
-      font-weight: 700;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-color);
-      color: var(--color-text-muted);
-      padding: 6px 12px;
-      border-radius: var(--r-sm);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .btn-external:hover {
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
-      border-color: rgba(255, 255, 255, 0.15);
-    }
-
-    .bar-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .language-toggle {
-      min-width: 42px;
-      justify-content: center;
-      color: var(--color-primary);
-      border-color: rgba(var(--color-primary-rgb), 0.25);
-    }
-
-    .language-toggle:hover {
-      color: #030a16;
-      background: var(--color-primary);
-      border-color: var(--color-primary);
-    }
-
-    /* Views container */
-    .views-wrapper {
-      flex: 1;
-      position: relative;
-      width: 100%;
-      height: calc(100vh - 54px);
-    }
-
-    .view-panel {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-      display: block;
-      overflow-y: auto;
-      padding: 32px clamp(16px, 4vw, 40px);
-    }
-
-    .view-panel.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .view-panel.iframe-panel {
-      padding: 0;
-      overflow: hidden;
-    }
-
-    /* Iframe viewports */
-    .app-iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      background: #061426; /* Pre-fill to prevent white flashes */
-    }
-
-    /* Dashboard UI Elements */
-    .hero-section {
-      background: rgba(255, 255, 255, 0.015);
-      border: 1px solid var(--border-color);
-      border-radius: 20px;
-      padding: 32px;
-      margin-bottom: 24px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-
-    .hero-section::before {
-      content: '';
-      position: absolute;
-      top: -100px;
-      right: -100px;
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(var(--color-primary-rgb), 0.1) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .hero-tag {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--color-primary);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 8px;
-    }
-
-    .hero-section h1 {
-      font-size: clamp(24px, 4vw, 34px);
-      font-weight: 900;
-      letter-spacing: -1px;
-      color: #fff;
-      line-height: 1.15;
-    }
-
-    .hero-section h1 span {
-      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .hero-section p {
-      font-size: 14.5px;
-      color: var(--color-text-muted);
-      line-height: 1.6;
-      max-width: 720px;
-      margin-top: 12px;
-    }
-
-    .project-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-      gap: 20px;
-      margin-bottom: 28px;
-    }
-
-    .project-card {
-      background: rgba(10, 22, 41, 0.45);
-      border: 1px solid var(--border-color);
-      border-radius: var(--r-xl);
-      padding: 24px;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-    }
-
-    .project-card:hover {
-      transform: translateY(-4px);
-      background: rgba(10, 22, 41, 0.7);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-    }
-
-    .project-card.money-card:hover {
-      border-color: rgba(var(--color-primary-rgb), 0.3);
-      box-shadow: 0 12px 30px rgba(var(--color-primary-rgb), 0.05);
-    }
-
-    .project-card.cs-card:hover {
-      border-color: rgba(var(--color-secondary-rgb), 0.3);
-      box-shadow: 0 12px 30px rgba(var(--color-secondary-rgb), 0.05);
-    }
-
-    .project-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 16px;
-    }
-
-    .project-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      font-size: 20px;
-      flex-shrink: 0;
-    }
-
-    .money-icon {
-      background: rgba(var(--color-primary-rgb), 0.1);
-      border: 1px solid rgba(var(--color-primary-rgb), 0.2);
-      color: var(--color-primary);
-    }
-
-    .cs-icon {
-      background: rgba(var(--color-secondary-rgb), 0.1);
-      border: 1px solid rgba(var(--color-secondary-rgb), 0.2);
-      color: var(--color-secondary);
-    }
-
-    .project-title {
-      font-size: 17px;
-      font-weight: 800;
-      color: #fff;
-    }
-
-    .project-subtitle {
-      font-size: 11px;
-      text-transform: uppercase;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      color: var(--color-text-muted);
-      margin-top: 1px;
-    }
-
-    .project-desc {
-      font-size: 13px;
-      color: var(--color-text-muted);
-      line-height: 1.5;
-      margin-bottom: 18px;
-      flex: 1;
-    }
-
-    .project-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 18px;
-    }
-
-    .project-tag {
-      font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 6px;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.05);
-      color: var(--color-text-muted);
-      font-weight: 600;
-    }
-
-    .project-card:hover .project-tag {
-      border-color: rgba(255,255,255,0.08);
-      color: var(--color-text);
-    }
-
-    .project-btn {
-      width: 100%;
-      padding: 10px;
-      border-radius: var(--r-md);
-      font-size: 12.5px;
-      font-weight: 700;
-      text-align: center;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .money-btn {
-      background: rgba(var(--color-primary-rgb), 0.1);
-      color: var(--color-primary);
-      border: 1px solid rgba(var(--color-primary-rgb), 0.15);
-    }
-
-    .money-btn:hover {
-      background: var(--color-primary);
-      color: #030a16;
-      box-shadow: 0 0 15px rgba(var(--color-primary-rgb), 0.3);
-    }
-
-    .cs-btn {
-      background: rgba(var(--color-secondary-rgb), 0.1);
-      color: var(--color-secondary);
-      border: 1px solid rgba(var(--color-secondary-rgb), 0.15);
-    }
-
-    .cs-btn:hover {
-      background: var(--color-secondary);
-      color: #030a16;
-      box-shadow: 0 0 15px rgba(var(--color-secondary-rgb), 0.3);
-    }
-
-    /* Section Headers */
-    .section-head {
-      margin-bottom: 16px;
-      margin-top: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .section-head h2 {
-      font-size: 16px;
-      font-weight: 800;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .section-head h2 > span:first-child {
-      width: 6px;
-      height: 14px;
-      background: linear-gradient(to bottom, var(--color-primary), var(--color-secondary));
-      border-radius: 10px;
-      display: inline-block;
-    }
-
-    /* Architecture / Detail cards */
-    .details-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-
-    .detail-card {
-      background: rgba(255, 255, 255, 0.015);
-      border: 1px solid var(--border-color);
-      border-radius: var(--r-xl);
-      padding: 20px;
-    }
-
-    .detail-card h3 {
-      font-size: 14px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .detail-card h3 svg {
-      width: 16px;
-      height: 16px;
-      color: var(--color-primary);
-    }
-
-    .detail-card p {
-      font-size: 12.5px;
-      color: var(--color-text-muted);
-      line-height: 1.5;
-    }
-
-    .detail-card ul {
-      margin-top: 10px;
-      list-style: none;
-      font-size: 12px;
-      color: var(--color-text-muted);
-    }
-
-    .detail-card li {
-      margin-bottom: 6px;
-      padding-left: 14px;
-      position: relative;
-    }
-
-    .detail-card li::before {
-      content: '✓';
-      color: var(--color-secondary);
-      position: absolute;
-      left: 0;
-      font-weight: bold;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 900px) {
-      .sidebar {
-        width: 72px;
-        padding: 20px 10px;
-        align-items: center;
-      }
-      .profile-card {
-        padding: 8px;
-      }
-      .profile-card h2, .profile-card p, .social-links, .nav-label, .nav-item span, .cheat-sheet-widget {
-        display: none;
-      }
-      .avatar-wrapper {
-        width: 44px;
-        height: 44px;
-        margin-bottom: 0;
-      }
-      .avatar {
-        font-size: 16px;
-      }
-      .nav-item {
-        justify-content: center;
-        padding: 12px;
-      }
-      .nav-item svg {
-        margin: 0;
-      }
-    }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0f0d">
+  <meta name="description" content="Portfolio d’Abdel Arbaoui — projets, compétences et méthode de travail en Product, Data et Customer Success Operations.">
+  <title>Abdel Arbaoui — Product &amp; Customer Success Systems</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content" data-i18n="a11y.skip">Aller au contenu</a>
 
-<div class="app-container">
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Abdel Arbaoui — Accueil" data-i18n-aria="a11y.home">
+      <span class="brand-mark" aria-hidden="true">AA</span>
+      <span>
+        <strong>Abdel Arbaoui</strong>
+        <small>Product · Data · CS Systems</small>
+      </span>
+    </a>
 
-  <!-- ==================== SIDEBAR ==================== -->
-  <aside class="sidebar">
-    
-    <!-- Profile Card -->
-    <div class="profile-card">
-      <div class="avatar-wrapper">
-        <div class="avatar">AA</div>
-      </div>
-      <h2>Abdel Arbaoui</h2>
-      <p>Customer Success Manager</p>
-      
-      <div class="social-links">
-        <a href="https://github.com/AbdelArbaoui" target="_blank" class="social-icon" title="GitHub">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-        </a>
-        <a href="https://www.linkedin.com/in/abdelkader-arbaoui-423852197/" target="_blank" class="social-icon" title="LinkedIn">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-        </a>
-        <a href="mailto:abdelarbb@gmail.com" class="social-icon" title="Contact">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-        </a>
-      </div>
-    </div>
-
-    <!-- Navigation Section -->
-    <nav class="nav-section">
-      <div class="nav-label" data-i18n="nav.presentation">Présentation</div>
-      <button class="nav-item active" onclick="switchView('home')" id="btn-home">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-        <span data-i18n="nav.overview">Vue d'ensemble</span>
-      </button>
-      <button class="nav-item" onclick="switchView('architecture')" id="btn-architecture">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-        <span data-i18n="nav.architecture">Architecture & Décisions</span>
-      </button>
-
-      <div class="nav-label" data-i18n="nav.demos">Démos Interactives</div>
-      <button class="nav-item" onclick="switchView('money-tracker')" id="btn-money-tracker">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect><line x1="12" y1="20" x2="12" y2="4"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
-        <span>Money Tracker</span>
-      </button>
-      <button class="nav-item" onclick="switchView('cs-analytics')" id="btn-cs-analytics">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line><line x1="2" y1="20" x2="22" y2="20"></line></svg>
-        <span>CS Analytics</span>
-      </button>
+    <nav class="desktop-nav" aria-label="Navigation principale" data-i18n-aria="a11y.navigation">
+      <a href="#expertise" data-i18n="nav.expertise">Expertise</a>
+      <a href="#projects" data-i18n="nav.projects">Projets</a>
+      <a href="#method" data-i18n="nav.method">Méthode</a>
+      <a href="cv.html" data-i18n="nav.cv">CV</a>
     </nav>
 
-    <!-- Talking Points / Cheat Sheet Widget -->
-    <div class="cheat-sheet-widget">
-      <h4 data-i18n="sidebar.talkingPoints">💡 Talking Points</h4>
-      <ul>
-        <li data-i18n-html="sidebar.offline"><b>100% Hors-ligne</b> : Conformité cybersécurité et confidentialité des données.</li>
-        <li data-i18n-html="sidebar.codeQuality"><b>Qualité Code</b> : 145+ tests unitaires intégrés sur le moteur Python.</li>
-        <li data-i18n-html="sidebar.dataProcessing"><b>Data Processing</b> : Modèles de prévision financière et agrégation de logs.</li>
-      </ul>
+    <div class="header-actions">
+      <span class="availability">
+        <i aria-hidden="true"></i>
+        <span data-i18n="nav.available">Portfolio · 2026</span>
+      </span>
+      <button class="language-button" type="button" data-language-toggle aria-label="Afficher le site en anglais">
+        EN
+      </button>
     </div>
+  </header>
 
-  </aside>
+  <nav class="mobile-nav" aria-label="Navigation mobile" data-i18n-aria="a11y.mobileNavigation">
+    <a href="cv.html" data-i18n="nav.cv">CV</a>
+    <a href="#projects" data-i18n="nav.projects">Projets</a>
+    <a href="#method" data-i18n="nav.method">Méthode</a>
+    <a href="#contact" data-i18n="nav.contact">Contact</a>
+  </nav>
 
-  <!-- ==================== MAIN CONTENT AREA ==================== -->
-  <main class="main-content">
-    
-    <!-- Top presenter strip -->
-    <header class="top-presentation-bar">
-      <div class="bar-title">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-        <span id="current-view-title">Vue d'ensemble du Portfolio</span>
-        <span class="bar-badge" id="current-view-badge">Accueil</span>
+  <main id="main-content">
+    <section class="hero section-shell" id="top" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="role-label">
+          <span aria-hidden="true">01</span>
+          <span data-i18n="hero.role">Customer Success Ops · Product · Data</span>
+        </p>
+        <h1 id="hero-title" class="text-balance">
+          <span data-i18n="hero.titleMain">Des besoins métier aux</span>
+          <em data-i18n="hero.titleAccent">produits fiables et démontrables.</em>
+        </h1>
+        <p class="hero-lead text-pretty" data-i18n="hero.lead">
+          Ce portfolio présente ma façon d’analyser un problème, de concevoir une solution et d’aller jusqu’à un produit fonctionnel, testable et clair.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button button-primary" href="#projects">
+            <span data-i18n="hero.viewWork">Découvrir mes projets</span>
+            <span aria-hidden="true">↓</span>
+          </a>
+          <a class="button button-secondary" href="cv.html">
+            <span data-i18n="hero.cv">Voir mon CV</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <dl class="proof-strip" aria-label="Indicateurs clés" data-i18n-aria="a11y.proof">
+          <div>
+            <dt class="tabular-nums">02</dt>
+            <dd data-i18n="proof.products">produits fonctionnels</dd>
+          </div>
+          <div>
+            <dt class="tabular-nums">145+</dt>
+            <dd data-i18n="proof.tests">tests automatisés</dd>
+          </div>
+          <div>
+            <dt class="tabular-nums">100%</dt>
+            <dd data-i18n="proof.local">traitement local</dd>
+          </div>
+        </dl>
       </div>
-      <div class="bar-actions">
-        <button class="btn-external language-toggle" id="language-toggle" type="button" onclick="toggleLanguage()" aria-label="Traduire le site en anglais" title="Traduire en anglais">
-          EN
-        </button>
-        <button class="btn-external" id="btn-open-external" style="display: none;" onclick="openProjectExternally()">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-          <span data-i18n="header.openTab">Ouvrir dans un nouvel onglet</span>
-        </button>
-      </div>
-    </header>
 
-    <div class="views-wrapper">
-      
-      <!-- VIEW: HOME / OVERVIEW -->
-      <section class="view-panel active" id="panel-home">
-        
-        <div class="hero-section">
-          <div class="hero-tag" data-i18n="home.heroTag">Démonstrations Techniques</div>
-          <h1 data-i18n-html="home.heroTitle">Outils et solutions d'automatisation <span>Customer Success &amp; Ops</span></h1>
-          <p data-i18n="home.heroDescription">
-            Bienvenue sur mon portail interactif. Ce tableau de bord regroupe deux applications concrètes conçues pour optimiser et automatiser nos opérations de Customer Success et la gestion financière personnelle.
+      <div class="hero-system" aria-label="Vue d’un système opérationnel local" data-i18n-aria="a11y.system">
+        <div class="system-window">
+          <header class="system-header">
+            <div>
+              <span class="window-dot"></span>
+              <span class="window-dot"></span>
+              <span class="window-dot"></span>
+            </div>
+            <span class="system-name">CS / OPERATING SYSTEM</span>
+            <span class="live-state"><i aria-hidden="true"></i> LIVE</span>
+          </header>
+
+          <div class="system-body">
+            <div class="system-sidebar" aria-hidden="true">
+              <span class="sidebar-brand">AA</span>
+              <span class="sidebar-item is-active">01</span>
+              <span class="sidebar-item">02</span>
+              <span class="sidebar-item">03</span>
+            </div>
+
+            <div class="system-canvas">
+              <div class="system-topline">
+                <div>
+                  <small data-i18n="system.flowLabel">Flux opérationnel</small>
+                  <strong data-i18n="system.flowTitle">De la donnée à la décision</strong>
+                </div>
+                <span class="local-badge" data-i18n="system.local">Local-first</span>
+              </div>
+
+              <div class="flow-stack">
+                <article class="flow-card flow-source">
+                  <span class="flow-index tabular-nums">01</span>
+                  <div>
+                    <small data-i18n="system.sourceLabel">Sources</small>
+                    <strong data-i18n="system.sourceTitle">Données brutes</strong>
+                    <p>CSV · Excel · APIs</p>
+                  </div>
+                  <span class="flow-state" aria-hidden="true">●</span>
+                </article>
+
+                <span class="flow-line" aria-hidden="true"></span>
+
+                <article class="flow-card flow-engine">
+                  <span class="flow-index tabular-nums">02</span>
+                  <div>
+                    <small data-i18n="system.engineLabel">Logique</small>
+                    <strong data-i18n="system.engineTitle">Moteur local</strong>
+                    <p>Python · JavaScript</p>
+                  </div>
+                  <span class="flow-state" aria-hidden="true">●</span>
+                </article>
+
+                <span class="flow-line" aria-hidden="true"></span>
+
+                <article class="flow-card flow-output">
+                  <span class="flow-index tabular-nums">03</span>
+                  <div>
+                    <small data-i18n="system.outputLabel">Sorties</small>
+                    <strong data-i18n="system.outputTitle">Décisions lisibles</strong>
+                    <p>KPIs · Forecast · PPTX</p>
+                  </div>
+                  <span class="flow-state" aria-hidden="true">●</span>
+                </article>
+              </div>
+
+              <div class="system-note">
+                <span data-i18n="system.note">Données sensibles conservées sur la machine</span>
+                <span class="tabular-nums">00:01.42</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="visual-caption">
+          <span>FIG. 01</span>
+          <span data-i18n="system.caption">Un système utile rend le flux visible, pas la complexité.</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="signal-strip" aria-label="Compétences principales" data-i18n-aria="a11y.skills">
+      <div class="signal-track">
+        <div class="signal-group">
+          <span>Customer Success Ops</span><i aria-hidden="true">✦</i>
+          <span>Local-first</span><i aria-hidden="true">✦</i>
+          <span>Data storytelling</span><i aria-hidden="true">✦</i>
+          <span>Workflow automation</span><i aria-hidden="true">✦</i>
+          <span>Python + JavaScript</span><i aria-hidden="true">✦</i>
+        </div>
+        <div class="signal-group" aria-hidden="true">
+          <span>Customer Success Ops</span><i>✦</i>
+          <span>Local-first</span><i>✦</i>
+          <span>Data storytelling</span><i>✦</i>
+          <span>Workflow automation</span><i>✦</i>
+          <span>Python + JavaScript</span><i>✦</i>
+        </div>
+      </div>
+    </section>
+
+    <section class="expertise section-shell" id="expertise" aria-labelledby="expertise-title">
+      <header class="section-intro">
+        <p class="section-number">02 / <span data-i18n="expertise.kicker">Compétences démontrées</span></p>
+        <div>
+          <h2 id="expertise-title" class="text-balance" data-i18n="expertise.title">Trois compétences au cœur de mes projets.</h2>
+          <p class="text-pretty" data-i18n="expertise.intro">
+            Ces réalisations montrent comment je relie compréhension métier, développement produit et présentation de la donnée.
           </p>
         </div>
+      </header>
 
-        <div class="section-head">
-          <h2><span></span><span data-i18n="home.featuredProjects">Projets à la Une</span></h2>
+      <ol class="expertise-grid">
+        <li>
+          <span class="item-index tabular-nums">01</span>
+          <div class="item-icon" aria-hidden="true">⌁</div>
+          <h3 data-i18n="expertise.diagnoseTitle">Analyse métier</h3>
+          <p class="text-pretty" data-i18n="expertise.diagnoseText">Identifier les frictions, les données disponibles, les contraintes et la décision attendue.</p>
+        </li>
+        <li>
+          <span class="item-index tabular-nums">02</span>
+          <div class="item-icon" aria-hidden="true">↯</div>
+          <h3 data-i18n="expertise.automateTitle">Développement produit</h3>
+          <p class="text-pretty" data-i18n="expertise.automateText">Transformer un besoin en workflow local, modulaire, contrôlable et testable.</p>
+        </li>
+        <li>
+          <span class="item-index tabular-nums">03</span>
+          <div class="item-icon" aria-hidden="true">◫</div>
+          <h3 data-i18n="expertise.explainTitle">Data storytelling</h3>
+          <p class="text-pretty" data-i18n="expertise.explainText">Hiérarchiser les métriques pour faire émerger une lecture et une prochaine action claires.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="projects section-shell" id="projects" aria-labelledby="projects-title">
+      <header class="section-intro">
+        <p class="section-number">03 / <span data-i18n="projects.kicker">Projets sélectionnés</span></p>
+        <div>
+          <h2 id="projects-title" class="text-balance" data-i18n="projects.title">Deux projets pour montrer ce que je sais construire.</h2>
+          <p class="text-pretty" data-i18n="projects.intro">Chaque démonstration rend mes choix de conception et mon niveau de finition directement observables.</p>
         </div>
+      </header>
 
-        <div class="project-grid">
-          
-          <!-- Project 1 Card: Money Tracker -->
-          <div class="project-card money-card" onclick="switchView('money-tracker')">
-            <div class="project-header">
-              <div class="project-icon money-icon">
-                💼
+      <div class="project-list">
+        <article class="project-card">
+          <figure class="project-visual">
+            <img src="assets/cs_analytics.png" alt="Aperçu de CS Analytics" data-i18n-alt="projects.csAlt">
+            <figcaption>
+              <span>CASE 01</span>
+              <span data-i18n="projects.demo">Démonstration interactive</span>
+            </figcaption>
+          </figure>
+          <div class="project-body">
+            <div class="project-heading">
+              <p data-i18n="projects.csType">Customer Success · Analytics · Reporting</p>
+              <h3>CS Analytics</h3>
+            </div>
+            <p class="project-summary text-pretty" data-i18n="projects.csSummary">
+              Une suite desktop qui transforme des exports dispersés en analyses exploitables, rapports PowerPoint et actions d’infrastructure sécurisées.
+            </p>
+            <dl class="project-evidence">
+              <div>
+                <dt data-i18n="projects.problem">Problème</dt>
+                <dd data-i18n="projects.csProblem">Reporting lent et données difficiles à comparer.</dd>
               </div>
               <div>
-                <div class="project-title">Money Tracker</div>
-                <div class="project-subtitle" data-i18n="projects.money.subtitle">Projet Personnel • Patrimoine &amp; Finance</div>
-              </div>
-            </div>
-            <p class="project-desc" data-i18n="projects.money.description">
-              Application de suivi financier personnel à 100% hors-ligne. Permet le suivi multi-comptes, le suivi d'actifs (actions, cryptos), la gestion des abonnements récurrents et les projections d'intérêts composés sur 30 ans.
-            </p>
-            <div class="project-tags">
-              <span class="project-tag">HTML/JS</span>
-              <span class="project-tag">TailwindCSS</span>
-              <span class="project-tag">Chart.js</span>
-              <span class="project-tag">LocalStorage</span>
-              <span class="project-tag">FastAPI Mock</span>
-            </div>
-            <button class="project-btn money-btn">
-              <span data-i18n="projects.launchDemo">Lancer la démo</span> ➔
-            </button>
-          </div>
-
-          <!-- Project 2 Card: CS Analytics -->
-          <div class="project-card cs-card" onclick="switchView('cs-analytics')">
-            <div class="project-header">
-              <div class="project-icon cs-icon">
-                📊
+                <dt data-i18n="projects.answer">Réponse</dt>
+                <dd data-i18n="projects.csAnswer">Un workflow local de l’import au livrable.</dd>
               </div>
               <div>
-                <div class="project-title">CS Analytics</div>
-                <div class="project-subtitle" data-i18n="projects.cs.subtitle">Customer Success & Automatisation</div>
+                <dt data-i18n="projects.proof">Preuve</dt>
+                <dd data-i18n="projects.csProof">Génération de rapports et scénarios testables.</dd>
               </div>
-            </div>
-            <p class="project-desc" data-i18n="projects.cs.description">
-              Outil d'analyse métier conçu pour transformer des données brutes (exports Excel/CSV) en rapports PowerPoint professionnels clé en main. Intègre une console API style Postman pour tester des requêtes mTLS.
-            </p>
-            <div class="project-tags">
-              <span class="project-tag">Pandas</span>
-              <span class="project-tag">python-pptx</span>
-              <span class="project-tag">Vanilla CSS</span>
-              <span class="project-tag">WebView API</span>
-              <span class="project-tag">mTLS / mTLS Client</span>
-            </div>
-            <button class="project-btn cs-btn">
-              <span data-i18n="projects.launchDemo">Lancer la démo</span> ➔
-            </button>
-          </div>
-
-        </div>
-
-        <div class="section-head">
-          <h2><span></span><span data-i18n="home.engineeringValues">Valeurs d'Ingénierie Clés</span></h2>
-        </div>
-
-        <div class="details-row">
-          
-          <div class="detail-card">
-            <h3 data-i18n="values.security.title">🛡️ Sécurité & Confidentialité</h3>
-            <p data-i18n="values.security.description">
-              Les deux projets respectent des contraintes de confidentialité fortes : tout le traitement de données, le stockage et les rendus graphiques sont effectués localement. Aucune donnée n'est envoyée vers des serveurs tiers cloud.
-            </p>
-          </div>
-
-          <div class="detail-card">
-            <h3 data-i18n="values.reliability.title">⚙️ Modularité & Fiabilité</h3>
-            <p data-i18n-html="values.reliability.description">
-              Utilisation de ponts de communication stables (ex: PyWebView <code>js_api</code>) pour coupler des interfaces modernes à des moteurs de calcul robustes en Python (pandas, python-pptx), avec une isolation complète par tests.
-            </p>
-          </div>
-
-          <div class="detail-card">
-            <h3 data-i18n="values.ux.title">💎 Expérience Utilisateur (UX)</h3>
-            <p data-i18n="values.ux.description">
-              Des interfaces épurées, hautement réactives, dotées d'ambient-glows, de glassmorphism et de visualisations interactives claires afin de rendre intelligibles des calculs complexes et des tableaux de données denses.
-            </p>
-          </div>
-
-        </div>
-
-      </section>
-
-      <!-- VIEW: ARCHITECTURE & DECISIONS -->
-      <section class="view-panel" id="panel-architecture">
-        
-        <div class="hero-section">
-          <div class="hero-tag" data-i18n="architecture.heroTag">Choix de Conception</div>
-          <h1 data-i18n="architecture.heroTitle">Architecture &amp; Décisions Techniques</h1>
-          <p data-i18n="architecture.heroDescription">
-            Analyse comparative et détails de conception mis en œuvre dans ces deux démonstrateurs techniques.
-          </p>
-        </div>
-
-        <div class="details-row" style="margin-bottom: 24px;">
-          
-          <div class="detail-card" style="grid-column: span 2;">
-            <h3 data-i18n="architecture.comparison">🧱 Comparaison Technique</h3>
-            <div style="overflow-x: auto; margin-top: 14px;">
-              <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left;">
-                <thead>
-                  <tr style="border-bottom: 2px solid rgba(255,255,255,0.1); color: #fff;">
-                    <th style="padding: 10px;" data-i18n="architecture.table.criterion">Critère</th>
-                    <th style="padding: 10px; color: var(--color-primary);">Money Tracker</th>
-                    <th style="padding: 10px; color: var(--color-secondary);">CS Analytics</th>
-                  </tr>
-                </thead>
-                <tbody style="color: var(--color-text-muted);">
-                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <td style="padding: 10px; font-weight: bold; color: #fff;" data-i18n="architecture.table.goal">Objectif principal</td>
-                    <td style="padding: 10px;" data-i18n="architecture.table.moneyGoal">Suivi de finances personnelles locales</td>
-                    <td style="padding: 10px;" data-i18n="architecture.table.csGoal">Automatisation de reporting & appels d'infrastructure</td>
-                  </tr>
-                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <td style="padding: 10px; font-weight: bold; color: #fff;" data-i18n="architecture.table.uiLayer">Couche UI</td>
-                    <td style="padding: 10px;" data-i18n="architecture.table.moneyUi">TailwindCSS & CDN Chart.js</td>
-                    <td style="padding: 10px;" data-i18n="architecture.table.csUi">Vanilla CSS & Moteur SVG natif sans bibliothèque</td>
-                  </tr>
-                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <td style="padding: 10px; font-weight: bold; color: #fff;" data-i18n="architecture.table.logicLayer">Couche logique locale</td>
-                    <td style="padding: 10px;" data-i18n="architecture.table.moneyLogic">Calculs JS (intérêts composés, timeline)</td>
-                    <td style="padding: 10px;" data-i18n="architecture.table.csLogic">Pont Python/JS natif (moteur pandas local)</td>
-                  </tr>
-                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <td style="padding: 10px; font-weight: bold; color: #fff;" data-i18n="architecture.table.state">Gestion d'état</td>
-                    <td style="padding: 10px;" data-i18n="architecture.table.moneyState">LocalStorage persistant avec synchronisation</td>
-                    <td style="padding: 10px;" data-i18n="architecture.table.csState">Fichiers locaux privés vs. partagés via timestamps</td>
-                  </tr>
-                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <td style="padding: 10px; font-weight: bold; color: #fff;" data-i18n="architecture.table.security">Sécurité / Réseau</td>
-                    <td style="padding: 10px;" data-i18n="architecture.table.moneySecurity">Simulation hors-ligne robuste</td>
-                    <td style="padding: 10px;" data-i18n="architecture.table.csSecurity">Appels mTLS sécurisés, secrets éphémères (PEM en mémoire)</td>
-                  </tr>
-                </tbody>
-              </table>
+            </dl>
+            <ul class="tech-list" aria-label="Technologies">
+              <li>Python</li>
+              <li>pandas</li>
+              <li>python-pptx</li>
+              <li>PyWebView</li>
+            </ul>
+            <div class="project-actions">
+              <button class="button button-dark" type="button" data-open-project="cs">
+                <span data-i18n="projects.open">Explorer le projet</span>
+                <span aria-hidden="true">↗</span>
+              </button>
+              <button class="icon-button" type="button" data-open-external="cs" aria-label="Ouvrir CS Analytics dans un nouvel onglet" data-i18n-aria="a11y.csExternal">↗</button>
             </div>
           </div>
+        </article>
 
-        </div>
-
-        <div class="details-row">
-          
-          <div class="detail-card">
-            <h3 data-i18n="architecture.reporting.title">⚙️ Le Moteur de Rapports (CS Analytics)</h3>
-            <p data-i18n="architecture.reporting.description">
-              Pour générer les diaporamas PowerPoint clients, l'application exécute un processus Python en arrière-plan. La structure de slide et le positionnement des formes/tableaux sont déterminés à partir de configurations JSON locales, évitant ainsi le couplage dur entre les scripts de traitement et le contenu final du livrable.
+        <article class="project-card project-card-reverse">
+          <figure class="project-visual">
+            <img src="assets/money_tracker.png" alt="Aperçu de Money Tracker" data-i18n-alt="projects.moneyAlt">
+            <figcaption>
+              <span>CASE 02</span>
+              <span data-i18n="projects.demo">Démonstration interactive</span>
+            </figcaption>
+          </figure>
+          <div class="project-body">
+            <div class="project-heading">
+              <p data-i18n="projects.moneyType">Finance personnelle · Local-first</p>
+              <h3>Money Tracker</h3>
+            </div>
+            <p class="project-summary text-pretty" data-i18n="projects.moneySummary">
+              Un cockpit financier hors-ligne pour suivre comptes, investissements, abonnements et scénarios d’intérêts composés sans exposer de données personnelles.
             </p>
+            <dl class="project-evidence">
+              <div>
+                <dt data-i18n="projects.problem">Problème</dt>
+                <dd data-i18n="projects.moneyProblem">Vision fragmentée des finances personnelles.</dd>
+              </div>
+              <div>
+                <dt data-i18n="projects.answer">Réponse</dt>
+                <dd data-i18n="projects.moneyAnswer">Un tableau de bord privé, cohérent et hors-ligne.</dd>
+              </div>
+              <div>
+                <dt data-i18n="projects.proof">Preuve</dt>
+                <dd data-i18n="projects.moneyProof">Données persistées localement et projections simulables.</dd>
+              </div>
+            </dl>
+            <ul class="tech-list" aria-label="Technologies">
+              <li>JavaScript</li>
+              <li>Chart.js</li>
+              <li>LocalStorage</li>
+              <li>FastAPI mock</li>
+            </ul>
+            <div class="project-actions">
+              <button class="button button-dark" type="button" data-open-project="money">
+                <span data-i18n="projects.open">Explorer le projet</span>
+                <span aria-hidden="true">↗</span>
+              </button>
+              <button class="icon-button" type="button" data-open-external="money" aria-label="Ouvrir Money Tracker dans un nouvel onglet" data-i18n-aria="a11y.moneyExternal">↗</button>
+            </div>
           </div>
+        </article>
+      </div>
+    </section>
 
-          <div class="detail-card">
-            <h3 data-i18n="architecture.forecast.title">📈 Algorithme de Forecast (Money Tracker)</h3>
-            <p data-i18n="architecture.forecast.description">
-              La section "Forecast" utilise des modèles de calcul d'intérêts composés mensuels avec des décalages d'intervalles optimistes/pessimistes de ±3%. Les résultats de performance et d'allocation sont injectés dynamiquement dans des canvas HTML5 gérés par Chart.js pour un rendu fluide et interactif.
-            </p>
-          </div>
+    <section class="method section-shell" id="method" aria-labelledby="method-title">
+      <div class="method-panel">
+        <header>
+          <p class="section-number section-number-dark">04 / <span data-i18n="method.kicker">Ma manière de travailler</span></p>
+          <h2 id="method-title" class="text-balance" data-i18n="method.title">Comprendre avant de construire. Prouver avant de promettre.</h2>
+        </header>
+        <ol class="method-steps">
+          <li>
+            <span class="tabular-nums">01</span>
+            <div>
+              <h3 data-i18n="method.understandTitle">Comprendre le flux</h3>
+              <p data-i18n="method.understandText">Données, contraintes, risques et décision attendue.</p>
+            </div>
+          </li>
+          <li>
+            <span class="tabular-nums">02</span>
+            <div>
+              <h3 data-i18n="method.modelTitle">Modéliser le système</h3>
+              <p data-i18n="method.modelText">Règles explicites, modules simples et états visibles.</p>
+            </div>
+          </li>
+          <li>
+            <span class="tabular-nums">03</span>
+            <div>
+              <h3 data-i18n="method.buildTitle">Construire l’usage</h3>
+              <p data-i18n="method.buildText">Une interface alignée sur le travail, pas sur la technologie.</p>
+            </div>
+          </li>
+          <li>
+            <span class="tabular-nums">04</span>
+            <div>
+              <h3 data-i18n="method.proveTitle">Démontrer la fiabilité</h3>
+              <p data-i18n="method.proveText">Tests, erreurs compréhensibles et démonstration concrète.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
 
+    <section class="contact section-shell" id="contact" aria-labelledby="contact-title">
+      <p class="section-number">05 / <span data-i18n="contact.kicker">Poursuivre l’échange</span></p>
+      <div class="contact-main">
+        <div>
+          <h2 id="contact-title" class="text-balance" data-i18n="contact.title">Ces projets donnent un aperçu. L’entretien permet d’aller plus loin.</h2>
+          <p class="text-pretty" data-i18n="contact.text">Je peux détailler les arbitrages produit, les choix techniques et les enseignements tirés de chaque réalisation.</p>
         </div>
+        <div class="contact-links">
+          <a class="button button-primary" href="mailto:abdelarbb@gmail.com">
+            <span data-i18n="contact.email">Me contacter</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+          <a href="https://www.linkedin.com/in/abdelkader-arbaoui-423852197/" target="_blank" rel="noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+          <a href="https://github.com/AbdelArbaoui" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
 
-      </section>
+  <footer class="site-footer">
+    <span>© <span data-current-year>2026</span> Abdel Arbaoui</span>
+    <span data-i18n="footer.note">Conçu et développé avec une approche local-first.</span>
+    <a href="#top" data-i18n="footer.back">Retour en haut ↑</a>
+  </footer>
 
-      <!-- VIEW: IFRAME CONTAINER (MONEY TRACKER / CS ANALYTICS) -->
-      <section class="view-panel iframe-panel" id="panel-iframe">
-        <iframe id="viewport-iframe" class="app-iframe" src="about:blank"></iframe>
-      </section>
-
+  <dialog class="demo-dialog" id="demo-dialog" aria-labelledby="demo-title">
+    <div class="demo-shell">
+      <header class="demo-header">
+        <button class="demo-close" type="button" data-close-project aria-label="Fermer la démonstration" data-i18n-aria="a11y.closeDemo">←</button>
+        <div class="demo-title">
+          <i aria-hidden="true"></i>
+          <div>
+            <strong id="demo-title">CS Analytics</strong>
+            <span data-i18n="demo.live">Démonstration active</span>
+          </div>
+        </div>
+        <div class="demo-actions">
+          <button class="language-button language-button-dark" type="button" data-language-toggle aria-label="Afficher le site en anglais">EN</button>
+          <button class="demo-external" type="button" data-demo-external>
+            <span data-i18n="demo.external">Nouvel onglet</span>
+            <span aria-hidden="true">↗</span>
+          </button>
+        </div>
+      </header>
+      <div class="demo-frame-wrap">
+        <div class="demo-loader" data-demo-loader aria-live="polite">
+          <span aria-hidden="true"></span>
+          <p data-i18n="demo.loading">Chargement de la démonstration…</p>
+        </div>
+        <iframe id="demo-frame" title="Démonstration interactive" data-i18n-title="a11y.demoFrame" src="about:blank"></iframe>
+      </div>
     </div>
-
-  </div>
-
-</div>
-
-<script>
-  const translations = {
-    fr: {
-      pageTitle: "Portfolio Customer Success & Automation — Abdel Arbaoui",
-      pageDescription: "Portail de démonstration d'outils et d'automatisations Customer Success. Démonstrations de Money Tracker et CS Analytics.",
-      "language.switch": "Traduire le site en anglais",
-      "nav.presentation": "Présentation",
-      "nav.overview": "Vue d'ensemble",
-      "nav.architecture": "Architecture & Décisions",
-      "nav.demos": "Démos Interactives",
-      "sidebar.talkingPoints": "💡 Points clés",
-      "sidebar.offline": "<b>100% Hors-ligne</b> : conformité cybersécurité et confidentialité des données.",
-      "sidebar.codeQuality": "<b>Qualité du code</b> : plus de 145 tests unitaires intégrés au moteur Python.",
-      "sidebar.dataProcessing": "<b>Traitement des données</b> : modèles de prévision financière et agrégation de logs.",
-      "header.openTab": "Ouvrir dans un nouvel onglet",
-      "home.heroTag": "Démonstrations Techniques",
-      "home.heroTitle": "Outils et solutions d'automatisation <span>Customer Success &amp; Ops</span>",
-      "home.heroDescription": "Bienvenue sur mon portail interactif. Ce tableau de bord regroupe deux applications concrètes conçues pour optimiser et automatiser nos opérations de Customer Success et la gestion financière personnelle.",
-      "home.featuredProjects": "Projets à la Une",
-      "projects.money.subtitle": "Projet Personnel • Patrimoine & Finance",
-      "projects.money.description": "Application de suivi financier personnel à 100% hors-ligne. Permet le suivi multi-comptes, le suivi d'actifs (actions, cryptos), la gestion des abonnements récurrents et les projections d'intérêts composés sur 30 ans.",
-      "projects.cs.subtitle": "Customer Success & Automatisation",
-      "projects.cs.description": "Outil d'analyse métier conçu pour transformer des données brutes (exports Excel/CSV) en rapports PowerPoint professionnels clé en main. Intègre une console API de type Postman pour tester des requêtes mTLS.",
-      "projects.launchDemo": "Lancer la démo",
-      "home.engineeringValues": "Valeurs d'Ingénierie Clés",
-      "values.security.title": "🛡️ Sécurité & Confidentialité",
-      "values.security.description": "Les deux projets respectent des contraintes de confidentialité fortes : tout le traitement des données, le stockage et les rendus graphiques sont effectués localement. Aucune donnée n'est envoyée vers des serveurs cloud tiers.",
-      "values.reliability.title": "⚙️ Modularité & Fiabilité",
-      "values.reliability.description": "Utilisation de ponts de communication stables (ex. : PyWebView <code>js_api</code>) pour coupler des interfaces modernes à des moteurs de calcul robustes en Python (pandas, python-pptx), avec une isolation complète par tests.",
-      "values.ux.title": "💎 Expérience Utilisateur (UX)",
-      "values.ux.description": "Des interfaces épurées, hautement réactives, dotées d'ambient glows, de glassmorphism et de visualisations interactives claires afin de rendre intelligibles des calculs complexes et des tableaux de données denses.",
-      "architecture.heroTag": "Choix de Conception",
-      "architecture.heroTitle": "Architecture & Décisions Techniques",
-      "architecture.heroDescription": "Analyse comparative et détails de conception mis en œuvre dans ces deux démonstrateurs techniques.",
-      "architecture.comparison": "🧱 Comparaison Technique",
-      "architecture.table.criterion": "Critère",
-      "architecture.table.goal": "Objectif principal",
-      "architecture.table.moneyGoal": "Suivi de finances personnelles locales",
-      "architecture.table.csGoal": "Automatisation du reporting et des appels d'infrastructure",
-      "architecture.table.uiLayer": "Couche UI",
-      "architecture.table.moneyUi": "TailwindCSS et CDN Chart.js",
-      "architecture.table.csUi": "Vanilla CSS et moteur SVG natif sans bibliothèque",
-      "architecture.table.logicLayer": "Couche logique locale",
-      "architecture.table.moneyLogic": "Calculs JS (intérêts composés, chronologie)",
-      "architecture.table.csLogic": "Pont Python/JS natif (moteur pandas local)",
-      "architecture.table.state": "Gestion d'état",
-      "architecture.table.moneyState": "LocalStorage persistant avec synchronisation",
-      "architecture.table.csState": "Fichiers locaux privés ou partagés via horodatage",
-      "architecture.table.security": "Sécurité / Réseau",
-      "architecture.table.moneySecurity": "Simulation hors-ligne robuste",
-      "architecture.table.csSecurity": "Appels mTLS sécurisés, secrets éphémères (PEM en mémoire)",
-      "architecture.reporting.title": "⚙️ Le Moteur de Rapports (CS Analytics)",
-      "architecture.reporting.description": "Pour générer les diaporamas PowerPoint clients, l'application exécute un processus Python en arrière-plan. La structure des diapositives et le positionnement des formes et tableaux sont déterminés à partir de configurations JSON locales, évitant ainsi le couplage fort entre les scripts de traitement et le contenu final du livrable.",
-      "architecture.forecast.title": "📈 Algorithme de Prévision (Money Tracker)",
-      "architecture.forecast.description": "La section « Forecast » utilise des modèles de calcul d'intérêts composés mensuels avec des intervalles optimistes et pessimistes de ±3 %. Les résultats de performance et d'allocation sont injectés dynamiquement dans des canvas HTML5 gérés par Chart.js pour un rendu fluide et interactif.",
-      "view.home.title": "Vue d'ensemble du Portfolio",
-      "view.home.badge": "Accueil",
-      "view.architecture.title": "Architecture & Choix Techniques",
-      "view.architecture.badge": "Architecture",
-      "view.money.title": "Application : Money Tracker",
-      "view.cs.title": "Application : CS Analytics"
-    },
-    en: {
-      pageTitle: "Customer Success & Automation Portfolio — Abdel Arbaoui",
-      pageDescription: "A showcase of Customer Success tools and automations, featuring Money Tracker and CS Analytics demos.",
-      "language.switch": "Switch the site to French",
-      "nav.presentation": "Presentation",
-      "nav.overview": "Overview",
-      "nav.architecture": "Architecture & Decisions",
-      "nav.demos": "Interactive Demos",
-      "sidebar.talkingPoints": "💡 Talking Points",
-      "sidebar.offline": "<b>100% Offline</b>: cybersecurity compliance and data privacy.",
-      "sidebar.codeQuality": "<b>Code Quality</b>: 145+ unit tests built into the Python engine.",
-      "sidebar.dataProcessing": "<b>Data Processing</b>: financial forecasting models and log aggregation.",
-      "header.openTab": "Open in a new tab",
-      "home.heroTag": "Technical Demonstrations",
-      "home.heroTitle": "Automation tools and solutions for <span>Customer Success &amp; Ops</span>",
-      "home.heroDescription": "Welcome to my interactive portfolio. This dashboard brings together two practical applications designed to optimize and automate Customer Success operations and personal financial management.",
-      "home.featuredProjects": "Featured Projects",
-      "projects.money.subtitle": "Personal Project • Wealth & Finance",
-      "projects.money.description": "A 100% offline personal finance tracker. It supports multiple accounts, asset tracking (stocks and crypto), recurring subscription management, and 30-year compound interest projections.",
-      "projects.cs.subtitle": "Customer Success & Automation",
-      "projects.cs.description": "A business analytics tool that turns raw Excel and CSV exports into polished, ready-to-use PowerPoint reports. It also includes a Postman-style API console for testing mTLS requests.",
-      "projects.launchDemo": "Launch demo",
-      "home.engineeringValues": "Core Engineering Principles",
-      "values.security.title": "🛡️ Security & Privacy",
-      "values.security.description": "Both projects meet strict privacy requirements: all data processing, storage, and chart rendering take place locally. No data is sent to third-party cloud servers.",
-      "values.reliability.title": "⚙️ Modularity & Reliability",
-      "values.reliability.description": "Stable communication bridges (such as PyWebView <code>js_api</code>) connect modern interfaces to robust Python processing engines (pandas and python-pptx), with comprehensive test isolation.",
-      "values.ux.title": "💎 User Experience (UX)",
-      "values.ux.description": "Clean, highly responsive interfaces use ambient glows, glassmorphism, and clear interactive visualizations to make complex calculations and dense datasets easy to understand.",
-      "architecture.heroTag": "Design Choices",
-      "architecture.heroTitle": "Architecture & Technical Decisions",
-      "architecture.heroDescription": "A comparison and detailed review of the design decisions behind these two technical demos.",
-      "architecture.comparison": "🧱 Technical Comparison",
-      "architecture.table.criterion": "Criterion",
-      "architecture.table.goal": "Primary goal",
-      "architecture.table.moneyGoal": "Local personal finance tracking",
-      "architecture.table.csGoal": "Report automation and infrastructure calls",
-      "architecture.table.uiLayer": "UI layer",
-      "architecture.table.moneyUi": "TailwindCSS and Chart.js CDN",
-      "architecture.table.csUi": "Vanilla CSS and a library-free native SVG engine",
-      "architecture.table.logicLayer": "Local logic layer",
-      "architecture.table.moneyLogic": "JavaScript calculations (compound interest and timeline)",
-      "architecture.table.csLogic": "Native Python/JS bridge (local pandas engine)",
-      "architecture.table.state": "State management",
-      "architecture.table.moneyState": "Persistent, synchronized LocalStorage",
-      "architecture.table.csState": "Private and shared local files synchronized with timestamps",
-      "architecture.table.security": "Security / Network",
-      "architecture.table.moneySecurity": "Robust offline simulation",
-      "architecture.table.csSecurity": "Secure mTLS calls with ephemeral secrets (in-memory PEM)",
-      "architecture.reporting.title": "⚙️ Reporting Engine (CS Analytics)",
-      "architecture.reporting.description": "To generate client PowerPoint decks, the application runs a Python process in the background. Slide structure and the placement of shapes and tables are driven by local JSON configurations, keeping the processing scripts loosely coupled from the final deliverable.",
-      "architecture.forecast.title": "📈 Forecasting Algorithm (Money Tracker)",
-      "architecture.forecast.description": "The Forecast section uses monthly compound-interest models with optimistic and pessimistic ranges of ±3%. Performance and allocation results are dynamically injected into HTML5 canvases rendered by Chart.js for a smooth, interactive experience.",
-      "view.home.title": "Portfolio Overview",
-      "view.home.badge": "Home",
-      "view.architecture.title": "Architecture & Technical Choices",
-      "view.architecture.badge": "Architecture",
-      "view.money.title": "Application: Money Tracker",
-      "view.cs.title": "Application: CS Analytics"
-    }
-  };
-
-  // Simple view router logic
-  let currentActiveView = 'home';
-  let currentIframeProject = '';
-  let currentLanguage = getSavedLanguage();
-
-  function getSavedLanguage() {
-    try {
-      return localStorage.getItem('portfolioLanguage') === 'en' ? 'en' : 'fr';
-    } catch (error) {
-      return 'fr';
-    }
-  }
-
-  function translate(key) {
-    return translations[currentLanguage][key] || key;
-  }
-
-  function applyLanguage(language) {
-    currentLanguage = language === 'en' ? 'en' : 'fr';
-    const languageToggle = document.getElementById('language-toggle');
-
-    document.documentElement.lang = currentLanguage;
-    document.title = translations[currentLanguage].pageTitle;
-    document.querySelector('meta[name="description"]').content = translations[currentLanguage].pageDescription;
-
-    document.querySelectorAll('[data-i18n]').forEach(element => {
-      element.textContent = translate(element.dataset.i18n);
-    });
-
-    document.querySelectorAll('[data-i18n-html]').forEach(element => {
-      element.innerHTML = translate(element.dataset.i18nHtml);
-    });
-
-    languageToggle.textContent = currentLanguage === 'fr' ? 'EN' : 'FR';
-    languageToggle.setAttribute('aria-label', translate('language.switch'));
-    languageToggle.title = translate('language.switch');
-
-    try {
-      localStorage.setItem('portfolioLanguage', currentLanguage);
-    } catch (error) {
-      // The translation still works when local storage is unavailable.
-    }
-
-    switchView(currentActiveView);
-  }
-
-  function toggleLanguage() {
-    applyLanguage(currentLanguage === 'fr' ? 'en' : 'fr');
-  }
-
-  function getLocalizedProjectUrl(projectPath) {
-    const url = new URL(projectPath, window.location.href);
-    url.searchParams.set('lang', currentLanguage);
-    return url;
-  }
-
-  function syncIframeLanguage() {
-    const iframe = document.getElementById('viewport-iframe');
-    if (iframe && iframe.contentWindow && currentIframeProject) {
-      iframe.contentWindow.postMessage({
-        type: 'portfolio-language',
-        language: currentLanguage
-      }, '*');
-    }
-  }
-
-  function switchView(viewName) {
-    // Select HTML elements
-    const panels = {
-      home: document.getElementById('panel-home'),
-      architecture: document.getElementById('panel-architecture'),
-      iframe: document.getElementById('panel-iframe')
-    };
-
-    const navButtons = {
-      home: document.getElementById('btn-home'),
-      architecture: document.getElementById('btn-architecture'),
-      moneyTracker: document.getElementById('btn-money-tracker'),
-      csAnalytics: document.getElementById('btn-cs-analytics')
-    };
-
-    const iframeEl = document.getElementById('viewport-iframe');
-    const headerTitle = document.getElementById('current-view-title');
-    const headerBadge = document.getElementById('current-view-badge');
-    const extBtn = document.getElementById('btn-open-external');
-
-    // Remove active states on nav items
-    Object.values(navButtons).forEach(btn => {
-      btn.classList.remove('active');
-      btn.classList.remove('active-cs');
-    });
-
-    // Hide all view panels
-    Object.values(panels).forEach(panel => panel.classList.remove('active'));
-
-    currentActiveView = viewName;
-
-    // Handle view routing logic
-    if (viewName === 'home') {
-      panels.home.classList.add('active');
-      navButtons.home.classList.add('active');
-      headerTitle.textContent = translate('view.home.title');
-      headerBadge.textContent = translate('view.home.badge');
-      headerBadge.className = "bar-badge";
-      extBtn.style.display = "none";
-    } 
-    else if (viewName === 'architecture') {
-      panels.architecture.classList.add('active');
-      navButtons.architecture.classList.add('active');
-      headerTitle.textContent = translate('view.architecture.title');
-      headerBadge.textContent = translate('view.architecture.badge');
-      headerBadge.className = "bar-badge";
-      extBtn.style.display = "none";
-    } 
-    else if (viewName === 'money-tracker') {
-      panels.iframe.classList.add('active');
-      navButtons.moneyTracker.classList.add('active');
-      headerTitle.textContent = translate('view.money.title');
-      headerBadge.textContent = "Money Tracker";
-      headerBadge.className = "bar-badge";
-      extBtn.style.display = "inline-flex";
-      const projectPath = 'money-tracker/index.html';
-      const isProjectChange = currentIframeProject !== projectPath;
-      currentIframeProject = projectPath;
-      
-      // Include the current language on first load without reloading the app on each toggle.
-      if (isProjectChange || !iframeEl.src || iframeEl.src === 'about:blank') {
-        iframeEl.src = getLocalizedProjectUrl(projectPath).href;
-      } else {
-        syncIframeLanguage();
-      }
-    } 
-    else if (viewName === 'cs-analytics') {
-      panels.iframe.classList.add('active');
-      navButtons.csAnalytics.classList.add('active-cs');
-      headerTitle.textContent = translate('view.cs.title');
-      headerBadge.textContent = "CS Analytics";
-      headerBadge.className = "bar-badge cs-badge";
-      extBtn.style.display = "inline-flex";
-      const projectPath = 'CS-Analytics/index.html';
-      const isProjectChange = currentIframeProject !== projectPath;
-      currentIframeProject = projectPath;
-
-      // Include the current language on first load without reloading the app on each toggle.
-      if (isProjectChange || !iframeEl.src || iframeEl.src === 'about:blank') {
-        iframeEl.src = getLocalizedProjectUrl(projectPath).href;
-      } else {
-        syncIframeLanguage();
-      }
-    }
-  }
-
-  function openProjectExternally() {
-    if (currentIframeProject) {
-      window.open(getLocalizedProjectUrl(currentIframeProject).href, '_blank');
-    }
-  }
-
-  document.getElementById('viewport-iframe').addEventListener('load', syncIframeLanguage);
-
-  window.addEventListener('message', event => {
-    const iframe = document.getElementById('viewport-iframe');
-    if (
-      event.source === iframe.contentWindow &&
-      event.data?.type === 'portfolio-language' &&
-      ['fr', 'en'].includes(event.data.language) &&
-      event.data.language !== currentLanguage
-    ) {
-      applyLanguage(event.data.language);
-    }
-  });
-
-  window.addEventListener('storage', event => {
-    if (
-      event.key === 'portfolioLanguage' &&
-      ['fr', 'en'].includes(event.newValue) &&
-      event.newValue !== currentLanguage
-    ) {
-      applyLanguage(event.newValue);
-    }
-  });
-
-  applyLanguage(currentLanguage);
-</script>
+  </dialog>
 </body>
 </html>
