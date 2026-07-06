@@ -265,11 +265,18 @@
       <div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-6"/></svg></div>
       <div><b>CS Analytics</b><small>Customer Success · Démo</small></div>
     </div>
+    <button class="btn ghost" id="sidebar-search-btn" style="width:100%;margin-bottom:10px;padding:8px 10px;font-size:11.5px;display:flex;align-items:center;justify-content:space-between;border-radius:var(--r-md);background:var(--bg-input);cursor:pointer">
+      <span style="opacity:0.7">🔍 Rechercher (Ctrl+K)</span>
+      <kbd style="font-size:9.5px;background:rgba(255,255,255,.08);padding:1px 4px;border-radius:3px;border:var(--border);color:var(--text3)">Ctrl K</kbd>
+    </button>
     <div class="nav-label">Suivi</div>
     <button class="nav-item active" data-view="overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg> Vue d'ensemble</button>
     <button class="nav-item" data-view="analytics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg> Analytics</button>
     <button class="nav-item" data-view="crm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg> Clients &amp; CRM</button>
     <button class="nav-item" data-view="presentation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="11" x2="22" y2="11"/><path d="M12 17v4"/><path d="M8 21h8"/></svg> Présentation</button>
+    <div class="nav-label">Collaboration</div>
+    <button class="nav-item" data-view="taches"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M15 3v18"/><path d="M3 9h18"/><path d="M3 15h18"/></svg> Tâches Kanban</button>
+    <button class="nav-item" data-view="team-calendrier"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Calendrier d'Équipe</button>
     <div class="nav-label">Automatisation</div>
     <button class="nav-item" data-view="console"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Console API</button>
     <div class="nav-label">Ingénierie</div>
@@ -292,7 +299,7 @@
           <span class="tag">Rapports <b>python-pptx</b></span>
           <span class="tag">Front <b>HTML/JS</b></span>
           <span class="tag" style="border-color:var(--accent-cyan);box-shadow:var(--glow)">🔒 <b>100 % Hors-ligne</b></span>
-          <span class="tag"><b>145</b> tests</span>
+          <span class="tag"><b>211</b> tests</span>
         </div>
       </div>
 
@@ -348,15 +355,113 @@
           <p class="muted" style="margin:6px 0 14px">Clients que <b>je</b> suis. Strictement local à ma machine — jamais partagé.</p>
           <div id="crm-portfolio"></div>
         </div>
-        <div class="card">
-          <h2><span class="dot"></span> 🤝 Fiches clients (CRM) <span class="pill shared" style="margin-left:auto">partagé · équipe</span></h2>
-          <p class="muted" style="margin:6px 0 14px">Contacts, licences, suivi — partagé et **fusionné** entre collègues (la version la plus récente l'emporte).</p>
-          <div style="overflow-x:auto"><table id="crm-table"></table></div>
+        <div class="card" style="display:flex;flex-direction:column">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+            <h2><span class="dot"></span> 🤝 Fiches clients (CRM) <span class="pill shared" style="margin-left:8px">partagé</span></h2>
+            <div class="seg" id="crm-view-mode">
+              <button data-v="table" class="on" style="padding:4px 10px;font-size:11.5px">Table</button>
+              <button data-v="gallery" style="padding:4px 10px;font-size:11.5px">Galerie</button>
+              <button data-v="fiche" style="padding:4px 10px;font-size:11.5px">Fiche</button>
+            </div>
+          </div>
+          <p class="muted" style="margin-bottom:14px">Contacts, licences, suivi — partagé et **fusionné** (la version la plus récente l'emporte).</p>
+          <div id="crm-view-container" style="flex:1">
+            <div style="overflow-x:auto"><table id="crm-table"></table></div>
+          </div>
         </div>
       </div>
       <div class="card">
         <h2><span class="dot"></span> Pourquoi ce découplage ?</h2>
         <p class="muted" style="margin-top:8px">À l'origine, un seul fichier gérait ces deux aspects → les collègues écrasaient mutuellement leurs favoris. Le découplage en **favoris (local)** et **fiches CRM (partagé)** a éliminé les conflits : chacun garde son portefeuille privé tout en partageant une base commune de fiches synchronisées par fusion de timestamps. Entièrement couvert par tests de non-régression.</p>
+      </div>
+    </section>
+
+    <!-- ════ KANBAN ════ -->
+    <section class="view" id="view-taches">
+      <div class="page-head">
+        <h1>Tâches Kanban Collaboratives</h1>
+        <p>Suivi et assignation d'actions entre CS. Données stockées unitairement sur disque avec écriture atomique anti-corruption.</p>
+      </div>
+      
+      <!-- Kanban Columns -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;align-items:start" id="kanban-board">
+        <!-- A Faire -->
+        <div class="card" style="padding:16px;background:rgba(28,38,62,.3);border-color:rgba(255,255,255,.04)">
+          <h2 style="font-size:14.5px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
+            <span>📋 À Faire</span>
+            <span class="pill" style="background:rgba(255,255,255,.05);color:var(--text2)">3</span>
+          </h2>
+          <div style="display:grid;gap:10px" id="col-todo">
+            <!-- Cards will be injected via JS -->
+          </div>
+        </div>
+
+        <!-- En Cours -->
+        <div class="card" style="padding:16px;background:rgba(28,38,62,.35);border-color:rgba(255,255,255,.04)">
+          <h2 style="font-size:14.5px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
+            <span>⚡ En Cours</span>
+            <span class="pill" style="background:rgba(0,119,255,.15);color:var(--accent-blue)">2</span>
+          </h2>
+          <div style="display:grid;gap:10px" id="col-progress">
+            <!-- Cards will be injected via JS -->
+          </div>
+        </div>
+
+        <!-- Fait -->
+        <div class="card" style="padding:16px;background:rgba(28,38,62,.4);border-color:rgba(255,255,255,.04)">
+          <h2 style="font-size:14.5px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
+            <span>✅ Terminé</span>
+            <span class="pill" style="background:rgba(0,245,212,.12);color:var(--accent-cyan)">4</span>
+          </h2>
+          <div style="display:grid;gap:10px" id="col-done">
+            <!-- Cards will be injected via JS -->
+          </div>
+        </div>
+      </div>
+      
+      <div class="card" style="margin-top:18px">
+        <h2><span class="dot"></span> Stockage unitaire &amp; Résilience réseau</h2>
+        <p class="muted" style="margin-top:8px">Chaque tâche est stockée dans son propre fichier JSON sous <code>CS_Partage/taches/&lt;uuid&gt;.json</code>. L'utilisation d'une écriture atomique (écriture temporaire puis déplacement système via <code>os.replace</code>) prévient toute corruption de fichier sur le partage réseau, tandis qu'un polling régulier rafraîchit l'interface pour tous les CS en temps réel.</p>
+      </div>
+    </section>
+
+    <!-- ════ TEAM CALENDAR ════ -->
+    <section class="view" id="view-team-calendrier">
+      <div class="page-head">
+        <h1>Calendrier d'Équipe Partagé</h1>
+        <p>Planning collaboratif des revues clients, jalons et interventions d'infrastructure.</p>
+      </div>
+      
+      <div class="two-col" style="grid-template-columns:1.3fr 0.7fr">
+        <!-- Monthly Grid -->
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+            <h2 style="font-size:15px"><span class="dot"></span> Juillet 2026</h2>
+            <div style="display:flex;gap:6px">
+              <button class="btn ghost" style="padding:5px 10px;font-size:12px">‹ Précédent</button>
+              <button class="btn ghost" style="padding:5px 10px;font-size:12px">Suivant ›</button>
+            </div>
+          </div>
+          
+          <!-- Calendar grid header -->
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-weight:700;font-size:11px;color:var(--text3);text-transform:uppercase;margin-bottom:8px">
+            <span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Dim</span>
+          </div>
+          
+          <!-- Calendar cells -->
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);grid-auto-rows:minmax(52px,auto);gap:4px" id="calendar-grid">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+        
+        <!-- Agenda Sidebar -->
+        <div class="card">
+          <h2><span class="dot"></span> Événements à venir</h2>
+          <p class="muted" style="margin-bottom:14px">Sélectionnez un jour pour filtrer ou ajouter un événement.</p>
+          <div style="display:grid;gap:10px" id="calendar-agenda">
+            <!-- Injected via JS -->
+          </div>
+        </div>
       </div>
     </section>
 
@@ -390,6 +495,10 @@
           <p class="muted">🔐 Dans l'application réelle : le mot de passe du certificat .p12 et le jeton ne sont **jamais** persistés ni écrits dans l'historique ; les clés PEM temporaires sont systématiquement supprimées après l'appel.</p>
         </div>
         <div class="tabpane" id="tab-body">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span class="muted" style="font-size:11.5px">Format JSON requis</span>
+            <button class="btn ghost" id="btn-templates" style="padding:4px 8px;font-size:11px;border-radius:4px;cursor:pointer">📋 Modèles</button>
+          </div>
           <textarea id="co-body" rows="12" spellcheck="false"></textarea>
         </div>
 
@@ -439,8 +548,8 @@
       <div class="page-head"><h1>Architecture &amp; Sécurité</h1><p>Les choix d'ingénierie derrière l'application.</p></div>
 
       <div class="stat-row" style="margin-bottom:20px">
-        <div class="stat"><div class="n">~6 400</div><div class="t">lignes de Python</div></div>
-        <div class="stat"><div class="n">145</div><div class="t">tests (pytest)</div></div>
+        <div class="stat"><div class="n">+16 000</div><div class="t">lignes de Python</div></div>
+        <div class="stat"><div class="n">211</div><div class="t">tests (pytest)</div></div>
         <div class="stat"><div class="n">2</div><div class="t">moteurs produits</div></div>
         <div class="stat"><div class="n">0</div><div class="t">serveur requis</div></div>
       </div>
@@ -536,6 +645,37 @@
   </main>
 </div>
 
+<!-- Modal Templates -->
+<div id="modal-templates" style="position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);z-index:105;display:none;place-items:center;padding:16px">
+  <div class="card" style="width:100%;max-width:520px;max-height:85vh;display:flex;flex-direction:column;gap:14px;overflow:hidden;background:#151C2C">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h2><span class="dot"></span> Modèles de Commentaires</h2>
+      <button onclick="closeTemplatesModal()" style="background:transparent;border:none;color:var(--text2);cursor:pointer;font-size:18px">✕</button>
+    </div>
+    <p class="muted" style="font-size:12.5px">Sélectionnez un modèle. Les placeholders (ex. <code>{pic_utilisateurs}</code>) seront remplacés automatiquement par les calculs de la page.</p>
+    <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:4px" id="template-categories">
+      <!-- Injected via JS -->
+    </div>
+    <div style="flex:1;overflow-y:auto;display:grid;gap:8px;padding-right:4px" id="template-list">
+      <!-- Injected via JS -->
+    </div>
+  </div>
+</div>
+
+<!-- Modal Palette -->
+<div id="modal-palette" style="position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);z-index:110;display:none;place-items:start;justify-content:center;padding-top:10vh;padding-left:16px;padding-right:16px">
+  <div class="card" style="width:100%;max-width:580px;background:#151C2C;padding:8px;border-radius:var(--r-xl);box-shadow:0 24px 70px rgba(0,0,0,.6);overflow:hidden;display:flex;flex-direction:column;gap:4px">
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05)">
+      <span style="font-size:16px">🔍</span>
+      <input type="text" id="palette-search" placeholder="Rechercher une action ou un client (ex. 'Analytics', 'Acme')..." style="flex:1;background:transparent;border:none;color:#fff;outline:none;font-size:14.5px;padding:0" autocomplete="off">
+      <kbd style="font-size:9.5px;background:rgba(255,255,255,.08);padding:1px 4px;border-radius:3px;border:var(--border);color:var(--text3)">ESC</kbd>
+    </div>
+    <div style="max-height:340px;overflow-y:auto;padding:6px;display:grid;gap:2px" id="palette-results">
+      <!-- Injected via JS -->
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"><b id="toast-t"></b><p id="toast-p"></p></div>
 
 <script>
@@ -551,6 +691,23 @@ const CS_EN = {
   "Automatisation": "Automation",
   "Ingénierie": "Engineering",
   "Architecture & Sécurité": "Architecture & Security",
+  "Collaboration": "Collaboration",
+  "Tâches Kanban": "Kanban Tasks",
+  "Calendrier d'Équipe": "Team Calendar",
+  "Tâches Kanban Collaboratives": "Collaborative Kanban Tasks",
+  "Suivi et assignation d'actions entre CS. Données stockées unitairement sur disque avec écriture atomique anti-corruption.": "Follow-up and action assignments between CS members. Atomically written single JSON files.",
+  "Stockage unitaire & résilience réseau": "Single JSON storage & network resilience",
+  "Planning collaboratif des revues clients, jalons et interventions d'infrastructure.": "Collaborative planning for client reviews, milestones, and infrastructure tasks.",
+  "Événements à venir": "Upcoming Events",
+  "Sélectionnez un jour pour filtrer ou ajouter un événement.": "Select a day to filter or add an event.",
+  "Modèles de Commentaires": "Comment Templates",
+  "Sélectionnez un modèle. Les placeholders (ex. {pic_utilisateurs}) seront remplacés automatiquement par les calculs de la page.": "Select a template. Placeholders (e.g. {pic_utilisateurs}) will be replaced on the fly.",
+  "Format JSON requis": "JSON Format Required",
+  "Modèles": "Templates",
+  "Table": "Table",
+  "Galerie": "Gallery",
+  "Fiche": "Record",
+  "🔍 Rechercher (Ctrl+K)": "🔍 Search (Ctrl+K)",
   "Démo statique, hors-ligne.": "Static offline demo.",
   "Calcul 100 % local — aucun transfert cloud pour conformité cybersécurité.": "100% local processing — no cloud transfers, ensuring cybersecurity compliance.",
   "Une suite d'": "A suite of ",
@@ -919,6 +1076,8 @@ document.querySelectorAll('.nav-item').forEach(b=>b.onclick=()=>{
   closeMenu();
   if(v==='analytics')renderAnalytics();
   if(v==='presentation')showPres(presIdx);
+  if(v==='taches')renderKanban();
+  if(v==='team-calendrier')renderTeamCalendar();
 });
 
 /* ════════════════ OVERVIEW (bento) ════════════════ */
@@ -928,9 +1087,9 @@ const FEATURES=[
   ["⭐","Portefeuille & CRM","Favoris privés + fiches clients partagées fusionnés dynamiquement entre collègues, sans conflit.","crm"],
   ["⚙️","Console API Infrastructure","Composez, prévisualisez et envoyez des requêtes mTLS vers vos cibles d'infrastructure.","console"],
   ["🎥","Présentation Client","Diaporama plein écran (avec support double écran, édition live et mode dessin) pour les revues clients.","presentation"],
-  ["🗓️","CSM Calendar","Suivi des déploiements, visites et incidents avec import/export .ics."],
+  ["🗓️","Calendrier d'Équipe","Planning collaboratif des revues clients, visites et jalons CSM avec synchronisation.","team-calendrier"],
+  ["📋","Tâches Kanban","Suivi et assignation d'actions entre collaborateurs CS sur le réseau partagé.","taches"],
   ["🧮","Calculateur de KPI","Indicateurs sur-mesure calculés via des formules Pandas sécurisées, réutilisables dans les rapports."],
-  ["🧩","Consolidation de Données","Fusionnez plusieurs exports Excel/CSV en un seul fichier dédoublonné."],
   ["🛡️","Sécurité & On-Premise","Calcul 100 % hors-ligne. Tous les calculs, parsing de logs et rendus PPTX sont locaux pour conformité cybersécurité.","archi"],
 ];
 document.getElementById('bento').innerHTML=FEATURES.map(f=>`
@@ -1014,14 +1173,84 @@ document.getElementById('crm-portfolio').innerHTML=portfolio.map(o=>{
     <div style="flex:1"><b>${o.c}</b><div class="muted" style="font-size:12px">${o.p} · ${max(s.utilisateurs)} utilisateurs actifs</div></div>
     <div style="width:120px;opacity:.9">${spark}</div></div>`;
 }).join("");
-document.getElementById('crm-table').innerHTML=`
-  <thead><tr><th>Client</th><th>Contact Clé</th><th>Licences</th><th>Mis à jour</th></tr></thead>
-  <tbody>${CLIENTS.slice(0,6).map((c,i)=>{
-    const rnd=mulberry32(hashStr(c));
-    const lic=[25,50,100,250,500,1200][Math.floor(rnd()*6)];
-    const days=Math.floor(rnd()*20);
-    return `<tr><td><b>${c}</b></td><td>${CONTACTS[i]}</td><td>${fmt(lic)}</td><td class="muted">${days}j</td></tr>`;
-  }).join("")}</tbody>`;
+
+const crmClients = CLIENTS.slice(0,6).map((c,i)=>{
+  const rnd=mulberry32(hashStr(c));
+  const lic=[25,50,100,250,500,1200][Math.floor(rnd()*6)];
+  const days=Math.floor(rnd()*20);
+  const status=["sain","surveiller","critique"][Math.floor(rnd()*3)];
+  const referent=["Julien","Livia","Abdelkader"][Math.floor(rnd()*3)];
+  const secteur=["Énergie", "Défense", "Aéronautique", "Banque", "Télécoms", "Santé"][Math.floor(rnd()*6)];
+  return {c, contact: CONTACTS[i], lic, days, status, referent, secteur};
+});
+
+let currentCRMMode = "table";
+function renderCRMView(mode) {
+  currentCRMMode = mode;
+  document.querySelectorAll('#crm-view-mode button').forEach(b => {
+    b.classList.toggle('on', b.dataset.v === mode);
+  });
+  
+  const container = document.getElementById('crm-view-container');
+  if (!container) return;
+  
+  if (mode === "table") {
+    container.innerHTML = `<div style="overflow-x:auto"><table id="crm-table">
+      <thead><tr><th>Client</th><th>Contact Clé</th><th>Secteur</th><th>Licences</th><th>Mis à jour</th></tr></thead>
+      <tbody>${crmClients.map(o => `
+        <tr><td><b>${o.c}</b></td><td>${o.contact}</td><td>${o.secteur}</td><td>${fmt(o.lic)}</td><td class="muted">${o.days}j</td></tr>
+      `).join("")}</tbody></table></div>`;
+  } 
+  else if (mode === "gallery") {
+    container.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:4px">${crmClients.map(o => {
+      const sh = o.status === "sain" ? "background:rgba(63,185,80,.15);color:#3FB950" : o.status === "surveiller" ? "background:rgba(255,140,0,.15);color:#FF8C00" : "background:rgba(255,107,107,.15);color:#FF6B6B";
+      const lbl = o.status === "sain" ? "sain" : o.status === "surveiller" ? "surveiller" : "critique";
+      return `<div class="card" style="padding:14px;background:var(--bg-input);border-radius:var(--r-md);border-color:rgba(255,255,255,.05);display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <b style="font-size:13.5px">${o.c}</b>
+          <span class="pill" style="font-size:9.5px;padding:1px 6px;text-transform:uppercase;font-weight:800;${sh}">${lbl}</span>
+        </div>
+        <div style="font-size:11.5px;color:var(--text2)">👤 ${o.contact}</div>
+        <div style="font-size:11.5px;color:var(--text2)">💼 ${o.secteur}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;border-top:1px solid rgba(255,255,255,.03);padding-top:6px;display:flex;justify-content:space-between">
+          <span>Licences: <b>${fmt(o.lic)}</b></span>
+          <span>CSM: <b>${o.referent}</b></span>
+        </div>
+      </div>`;
+    }).join("")}</div>`;
+  }
+  else if (mode === "fiche") {
+    const sel = `<select id="crm-fiche-select" style="width:100%;margin-bottom:12px">${crmClients.map(o => `<option>${o.c}</option>`).join("")}</select>`;
+    container.innerHTML = `<div style="max-width:480px;margin:0 auto">${sel}<div id="crm-fiche-content"></div></div>`;
+    
+    const showFiche = (name) => {
+      const o = crmClients.find(x => x.c === name);
+      const sh = o.status === "sain" ? "background:rgba(63,185,80,.15);color:#3FB950" : o.status === "surveiller" ? "background:rgba(255,140,0,.15);color:#FF8C00" : "background:rgba(255,107,107,.15);color:#FF6B6B";
+      const lbl = o.status === "sain" ? "sain" : o.status === "surveiller" ? "surveiller" : "critique";
+      document.getElementById('crm-fiche-content').innerHTML = `
+        <div class="card" style="padding:18px;background:var(--bg-input);border-radius:var(--r-lg);border-color:rgba(255,255,255,.05);display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.05);padding-bottom:10px">
+            <h3 style="font-size:16px">${o.c}</h3>
+            <span class="pill" style="font-size:10px;padding:2px 8px;text-transform:uppercase;font-weight:800;${sh}">${lbl}</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">
+            <div><span class="muted" style="font-size:11px;display:block;text-transform:uppercase;color:var(--text3)">Contact Principal</span><b>${o.contact}</b></div>
+            <div><span class="muted" style="font-size:11px;display:block;text-transform:uppercase;color:var(--text3)">Secteur</span><b>${o.secteur}</b></div>
+            <div><span class="muted" style="font-size:11px;display:block;text-transform:uppercase;color:var(--text3)">Licences</span><b>${fmt(o.lic)}</b></div>
+            <div><span class="muted" style="font-size:11px;display:block;text-transform:uppercase;color:var(--text3)">CSM Référent</span><b>${o.referent}</b></div>
+          </div>
+          <div style="font-size:11px;color:var(--text3);border-top:1px solid rgba(255,255,255,.05);padding-top:10px;text-align:right">Dernière activité : il y a ${o.days} jours</div>
+        </div>
+      `;
+    };
+    
+    const select = document.getElementById('crm-fiche-select');
+    select.onchange = (e) => showFiche(e.target.value);
+    showFiche(select.value);
+  }
+}
+renderCRMView("table");
+document.querySelectorAll('#crm-view-mode button').forEach(b => b.onclick = () => renderCRMView(b.dataset.v));
 
 /* ════════════════ CONSOLE API ════════════════ */
 const LOTS=[
@@ -1127,6 +1356,424 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowLeft')showPres(presIdx-1);
   else if(e.key==='ArrowRight')showPres(presIdx+1);
 });
+
+/* ════════════════ KANBAN (Tâches) ════════════════ */
+let kanbanTasks = [
+  {id: 1, title: "Optimiser les requêtes mTLS", desc: "Éviter les allocations inutiles de clés PEM temporaires lors des appels de lots.", assign: "Julien", priority: "Haute", status: "todo"},
+  {id: 2, title: "Mise en conformité SecNumCloud", desc: "Vérifier la journalisation des accès de l'infrastructure Citadel.", assign: "Abdelkader", priority: "Moyenne", status: "progress"},
+  {id: 3, title: "Modèles de commentaires Notion", desc: "Intégrer les templates de commentaires avec substitution dans index.html.", assign: "Livia", priority: "Basse", status: "done"},
+  {id: 4, title: "Refonte Bento Grid", desc: "Appliquer les styles néon et cartes glassmorphic à la page d'accueil.", assign: "Abdelkader", priority: "Haute", status: "done"},
+  {id: 5, title: "Correction décalage index PPTX", desc: "Résoudre le décalage dynamique lors de la suppression descendante des slides.", assign: "Julien", priority: "Haute", status: "todo"},
+  {id: 6, title: "Tests unitaires de non-régression", desc: "Ajouter des assertions pour la fusion concurrente des fiches CRM.", assign: "Livia", priority: "Moyenne", status: "progress"},
+  {id: 7, title: "Documentation mTLS infra", desc: "Rédiger la fiche de transmission (handoff) pour les certificats .p12.", assign: "Abdelkader", priority: "Basse", status: "todo"},
+  {id: 8, title: "Calendrier d'Équipe partagé", desc: "Câbler le polling asynchrone sur la détection d'empreinte.", assign: "Julien", priority: "Moyenne", status: "done"},
+  {id: 9, title: "Palette de commandes globale", desc: "Assurer la navigation au clavier (flèches + Entrée) sur Ctrl+K.", assign: "Livia", priority: "Haute", status: "done"}
+];
+
+function renderKanban() {
+  const todo = document.getElementById('col-todo');
+  const progress = document.getElementById('col-progress');
+  const done = document.getElementById('col-done');
+  
+  if (!todo || !progress || !done) return;
+  
+  todo.innerHTML = "";
+  progress.innerHTML = "";
+  done.innerHTML = "";
+  
+  let cTodo=0, cProgress=0, cDone=0;
+  
+  kanbanTasks.forEach(t => {
+    const card = document.createElement('div');
+    card.className = "card";
+    card.style.cssText = "padding:12px;background:var(--bg-input);cursor:pointer;border-radius:var(--r-md);border-color:rgba(255,255,255,.05);transition:.15s;margin-bottom:8px";
+    card.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+        <b style="font-size:13px">${t.title}</b>
+        <span class="pill" style="font-size:10px;padding:1px 6px;background:${t.priority==='Haute'?'rgba(255,107,107,.15)':t.priority==='Moyenne'?'rgba(255,140,0,.15)':'rgba(255,255,255,.05)'};color:${t.priority==='Haute'?'#FF6B6B':t.priority==='Moyenne'?'#FF8C00':'var(--text2)'}">${t.priority}</span>
+      </div>
+      <p class="muted" style="font-size:11.5px;margin:6px 0 10px;line-height:1.35">${t.desc}</p>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--text3)">
+        <span>👤 <b>${t.assign}</b></span>
+        <span style="opacity: 0.6">👉 Clic pour déplacer</span>
+      </div>
+    `;
+    
+    card.onmouseover = () => { card.style.borderColor = "var(--accent-cyan)"; card.style.transform = "translateY(-1px)"; };
+    card.onmouseout = () => { card.style.borderColor = "rgba(255,255,255,.05)"; card.style.transform = "none"; };
+    
+    card.onclick = () => {
+      if (t.status === "todo") t.status = "progress";
+      else if (t.status === "progress") t.status = "done";
+      else t.status = "todo";
+      renderKanban();
+      toast("Tâche mise à jour (démo)", `"${t.title}" déplacée.`);
+    };
+    
+    if (t.status === "todo") { todo.appendChild(card); cTodo++; }
+    else if (t.status === "progress") { progress.appendChild(card); cProgress++; }
+    else { done.appendChild(card); cDone++; }
+  });
+  
+  todo.previousElementSibling.lastElementChild.textContent = cTodo;
+  progress.previousElementSibling.lastElementChild.textContent = cProgress;
+  done.previousElementSibling.lastElementChild.textContent = cDone;
+}
+
+/* ════════════════ TEAM CALENDAR (Calendrier) ════════════════ */
+const calendarEvents = [
+  {day: 3, title: "Revue Citadel", client: "Acme Corp", host: "Julien"},
+  {day: 7, title: "Intervention Certificat PEM", client: "Infrastructures", host: "Abdelkader"},
+  {day: 12, title: "Audit de Renouvellement", client: "Umbrella", host: "Livia"},
+  {day: 15, title: "Déploiement Vues CRM", client: "Suite Reports", host: "Abdelkader"},
+  {day: 20, title: "Bilan Trimestriel Cryptobox", client: "Hooli", host: "Julien"},
+  {day: 24, title: "Sync d'équipe CSM", client: "Interne", host: "Livia"},
+  {day: 28, title: "Revue Cryptobox", client: "Globex", host: "Julien"}
+];
+
+function renderTeamCalendar() {
+  const grid = document.getElementById('calendar-grid');
+  if (!grid) return;
+  grid.innerHTML = "";
+  
+  for(let i=0; i<2; i++) {
+    const blank = document.createElement('div');
+    blank.style.cssText = "background:rgba(255,255,255,.01);border-radius:var(--r-sm);border:var(--border);opacity:.3";
+    grid.appendChild(blank);
+  }
+  
+  for(let day=1; day<=31; day++) {
+    const cell = document.createElement('div');
+    cell.style.cssText = "background:var(--bg-input);border:var(--border);border-radius:var(--r-sm);padding:5px;position:relative;cursor:pointer;transition:.15s";
+    cell.innerHTML = `<span style="font-size:11px;font-weight:700;color:var(--text3);position:absolute;top:4px;left:6px">${day}</span>`;
+    
+    const dayEvts = calendarEvents.filter(e => e.day === day);
+    if(dayEvts.length > 0) {
+      cell.style.borderColor = "rgba(0,245,212,.3)";
+      cell.style.background = "rgba(0,245,212,.03)";
+      const tags = document.createElement('div');
+      tags.style.cssText = "margin-top:14px;display:flex;flex-direction:column;gap:2px";
+      dayEvts.forEach(e => {
+        tags.innerHTML += `<span style="background:var(--grad);color:#04121f;font-size:8px;font-weight:800;padding:1px 3px;border-radius:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${e.title} (${e.client})">${e.title}</span>`;
+      });
+      cell.appendChild(tags);
+    }
+    
+    cell.onmouseover = () => { cell.style.borderColor = "var(--accent-cyan)"; cell.style.transform = "scale(1.02)"; cell.style.zIndex = "10"; };
+    cell.onmouseout = () => { cell.style.borderColor = dayEvts.length ? "rgba(0,245,212,.3)" : "rgba(255,255,255,.06)"; cell.style.transform = "none"; cell.style.zIndex = "auto"; };
+    
+    cell.onclick = () => {
+      renderCalendarAgenda(day);
+    };
+    
+    grid.appendChild(cell);
+  }
+  
+  renderCalendarAgenda(null);
+}
+
+function renderCalendarAgenda(filterDay) {
+  const agenda = document.getElementById('calendar-agenda');
+  if (!agenda) return;
+  agenda.innerHTML = "";
+  
+  const filtered = filterDay ? calendarEvents.filter(e => e.day === filterDay) : calendarEvents;
+  
+  if (filterDay) {
+    agenda.innerHTML = `<div style="font-size:12.5px;font-weight:700;margin-bottom:8px;color:var(--accent-cyan)">📅 Jour : ${filterDay} Juillet 2026</div>`;
+  }
+  
+  if(filtered.length === 0) {
+    agenda.innerHTML += `<p class="muted" style="text-align:center;padding:20px 0">Aucun événement.</p>`;
+    return;
+  }
+  
+  filtered.forEach(e => {
+    const card = document.createElement('div');
+    card.style.cssText = "background:var(--bg-input);border:var(--border);border-left:3px solid var(--accent-cyan);padding:10px 12px;border-radius:var(--r-sm);margin-bottom:8px";
+    card.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--text3)">
+        <span>📅 <b>${e.day} Juillet</b></span>
+        <span>👤 <b>${e.host}</b></span>
+      </div>
+      <b style="font-size:13px;display:block;margin-top:4px">${e.title}</b>
+      <span class="muted" style="font-size:12px">Client: ${e.client}</span>
+    `;
+    agenda.appendChild(card);
+  });
+}
+
+/* ════════════════ MODÈLES DE COMMENTAIRES (Templates) ════════════════ */
+const templatesData = [
+  {
+    cat: "securedrive",
+    nom: "Alerte Espace de Stockage",
+    text: "Le client Acme Corp approche de la saturation de son espace SecureDrive. Volume actuel : {stockage} Go sur un contrat de {contrat_stockage} Go. Une augmentation de quota est recommandée."
+  },
+  {
+    cat: "securedrive",
+    nom: "Rapport d'Adoption",
+    text: "Adoption SecureDrive satisfaisante pour Acme Corp. Nous enregistrons {pic_utilisateurs} utilisateurs actifs cette semaine pour {workspace} workspaces partagés."
+  },
+  {
+    cat: "teamchat",
+    nom: "Indicateurs de Chiffrement E2E",
+    text: "Surveillance de sécurité TeamChat pour Acme Corp : le taux de chiffrement de bout en bout est de {e2e_rate} ({messages_e2e} messages chiffrés sur {total_messages} messages au total)."
+  },
+  {
+    cat: "teamchat",
+    nom: "Statistiques Salons & Salons Chiffrés",
+    text: "Activité des salons TeamChat pour Acme Corp : {salons} salons ouverts, dont {salons_chiff} salons chiffrés. Taux d'adoption global : {pic_utilisateurs} utilisateurs actifs."
+  },
+  {
+    cat: "infrastructure",
+    nom: "Maintenance Planifiée",
+    text: "{\"chunk\":[{\"id\":null,\"from_ts\":1781589600,\"until_ts\":1783836000,\"msg\":{\"fr\":{\"title\":\"Maintenance planifiée\",\"content\":\"Une opération de maintenance aura lieu prochainement sur votre infrastructure.\"},\"en\":{\"title\":\"Scheduled maintenance\",\"content\":\"A scheduled maintenance operation will take place soon.\"}},\"severity\":\"info\",\"tenants\":[\"Tenant 1\"]}]}"
+  }
+];
+
+let selectedCategory = "securedrive";
+
+function openTemplatesModal() {
+  const modal = document.getElementById('modal-templates');
+  if (!modal) return;
+  modal.style.display = "grid";
+  
+  const cats = document.getElementById('template-categories');
+  if (cats) {
+    const uniqueCats = ["securedrive", "teamchat", "infrastructure"];
+    cats.innerHTML = uniqueCats.map(c => `
+      <button class="btn ghost ${c===selectedCategory?'on':''}" style="padding:5px 12px;font-size:11.5px;border-radius:20px;text-transform:capitalize;cursor:pointer" onclick="selectTemplateCategory('${c}')">${c}</button>
+    `).join("");
+  }
+  
+  renderTemplateList();
+}
+
+function closeTemplatesModal() {
+  const modal = document.getElementById('modal-templates');
+  if (modal) modal.style.display = "none";
+}
+
+function selectTemplateCategory(cat) {
+  selectedCategory = cat;
+  openTemplatesModal();
+}
+
+function renderTemplateList() {
+  const list = document.getElementById('template-list');
+  if (!list) return;
+  
+  const filtered = templatesData.filter(t => t.cat === selectedCategory);
+  list.innerHTML = filtered.map((t, idx) => `
+    <div class="card" style="padding:12px;background:var(--bg-input);border-color:rgba(255,255,255,.05);cursor:pointer;transition:.15s" onclick="insertTemplate(${idx})">
+      <b style="font-size:13px;display:block;margin-bottom:4px;color:var(--accent-cyan)">${t.nom}</b>
+      <p class="muted" style="font-size:11.5px;line-height:1.45;word-break:break-word">${t.text.length > 120 ? t.text.slice(0, 120) + '...' : t.text}</p>
+    </div>
+  `).join("");
+}
+
+function insertTemplate(filteredIdx) {
+  const filtered = templatesData.filter(t => t.cat === selectedCategory);
+  const t = filtered[filteredIdx];
+  if (!t) return;
+  
+  let result = t.text;
+  const clientName = document.getElementById('an-client').value || "Acme Corp";
+  const sDrive = series(clientName, "securedrive", 12);
+  const sChat = series(clientName, "teamchat", 12);
+  
+  result = result.replace(/{client}/g, clientName);
+  result = result.replace(/{stockage}/g, sDrive.stockage[sDrive.stockage.length-1]);
+  result = result.replace(/{contrat_stockage}/g, Math.round(sDrive.stockage[sDrive.stockage.length-1] * 1.6));
+  result = result.replace(/{workspace}/g, sDrive.workspace[sDrive.workspace.length-1]);
+  result = result.replace(/{pic_utilisateurs}/g, max(sChat.utilisateurs));
+  
+  const totalMsgs = sum(sChat.messages);
+  const e2eMsgs = sum(sChat.messages_e2e);
+  const e2eRate = totalMsgs ? Math.round(e2eMsgs / totalMsgs * 100) + " %" : "0 %";
+  
+  result = result.replace(/{total_messages}/g, fmt(totalMsgs));
+  result = result.replace(/{messages_e2e}/g, fmt(e2eMsgs));
+  result = result.replace(/{e2e_rate}/g, e2eRate);
+  result = result.replace(/{salons}/g, sum(sChat.salons));
+  result = result.replace(/{salons_chiff}/g, sum(sChat.salons_chiff));
+  
+  const textarea = document.getElementById('co-body');
+  if (textarea) {
+    textarea.value = result;
+    textarea.dispatchEvent(new Event('input'));
+  }
+  
+  closeTemplatesModal();
+  toast("Modèle inséré", `"${t.nom}" a été appliqué.`);
+}
+
+setTimeout(() => {
+  const btn = document.getElementById('btn-templates');
+  if (btn) btn.onclick = openTemplatesModal;
+}, 200);
+
+/* ════════════════ PALETTE DE COMMANDES (Ctrl+K) ════════════════ */
+let selectedPaletteIndex = 0;
+let currentPaletteItems = [];
+
+const staticPaletteItems = [
+  {type: "action", name: "Aller à : Vue d'ensemble", desc: "Naviguer vers l'accueil du CSM", run: () => document.querySelector('[data-view="overview"]').click()},
+  {type: "action", name: "Aller à : Analytics", desc: "Tableaux de bord clients et exports PPTX", run: () => document.querySelector('[data-view="analytics"]').click()},
+  {type: "action", name: "Aller à : Clients & CRM", desc: "Favoris et fiches d'équipe synchronisées", run: () => document.querySelector('[data-view="crm"]').click()},
+  {type: "action", name: "Aller à : Tâches Kanban", desc: "Collaboration et actions partagées", run: () => document.querySelector('[data-view="taches"]').click()},
+  {type: "action", name: "Aller à : Calendrier d'Équipe", desc: "Planning partagé et jalons CSM", run: () => document.querySelector('[data-view="team-calendrier"]').click()},
+  {type: "action", name: "Aller à : Présentation", desc: "Mode diaporama double écran interactif", run: () => document.querySelector('[data-view="presentation"]').click()},
+  {type: "action", name: "Aller à : Console API", desc: "Requêtes d'infrastructure et simulation de bandeaux", run: () => document.querySelector('[data-view="console"]').click()},
+  {type: "action", name: "Aller à : Architecture & Sécurité", desc: "Choix techniques et métriques de fiabilité", run: () => document.querySelector('[data-view="archi"]').click()},
+  {type: "action", name: "Générer le rapport PowerPoint", desc: "Générer le PPTX pour le client sélectionné", run: () => document.getElementById('an-gen').click()},
+  {type: "action", name: "Changer la langue (FR / EN)", desc: "Basculer la langue de l'application", run: () => toggleGlobalLanguage()},
+  {type: "action", name: "Sélectionner le produit : SecureDrive", desc: "Activer SecureDrive dans l'onglet Analytics", run: () => { document.querySelector('[data-p="securedrive"]').click(); document.querySelector('[data-view="analytics"]').click(); }},
+  {type: "action", name: "Sélectionner le produit : TeamChat", desc: "Activer TeamChat dans l'onglet Analytics", run: () => { document.querySelector('[data-p="teamchat"]').click(); document.querySelector('[data-view="analytics"]').click(); }}
+];
+
+function getPaletteItems(query) {
+  const q = query.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  let items = [...staticPaletteItems];
+  
+  CLIENTS.forEach(c => {
+    items.push({
+      type: "client",
+      name: `Client : ${c} (Analytics)`,
+      desc: `Visualiser les tendances et l'adoption de ${c}`,
+      run: () => {
+        document.getElementById('an-client').value = c;
+        renderAnalytics();
+        document.querySelector('[data-view="analytics"]').click();
+      }
+    });
+    items.push({
+      type: "client",
+      name: `CRM : Fiche de ${c}`,
+      desc: `Détails de contact, licences et statut de ${c}`,
+      run: () => {
+        document.querySelector('[data-view="crm"]').click();
+        renderCRMView("fiche");
+        const select = document.getElementById('crm-fiche-select');
+        if (select) {
+          select.value = c;
+          select.dispatchEvent(new Event('change'));
+        }
+      }
+    });
+  });
+  
+  if (!q) return items.slice(0, 8);
+  
+  return items.filter(item => {
+    const n = item.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const d = item.desc.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    return n.includes(q) || d.includes(q);
+  }).slice(0, 8);
+}
+
+function openPalette() {
+  const modal = document.getElementById('modal-palette');
+  const input = document.getElementById('palette-search');
+  if (!modal || !input) return;
+  
+  modal.style.display = "grid";
+  input.value = "";
+  selectedPaletteIndex = 0;
+  
+  updatePaletteResults();
+  
+  setTimeout(() => input.focus(), 50);
+}
+
+function closePalette() {
+  const modal = document.getElementById('modal-palette');
+  if (modal) modal.style.display = "none";
+}
+
+function updatePaletteResults() {
+  const input = document.getElementById('palette-search');
+  const results = document.getElementById('palette-results');
+  if (!results) return;
+  
+  currentPaletteItems = getPaletteItems(input.value);
+  
+  if (currentPaletteItems.length === 0) {
+    results.innerHTML = `<div class="muted" style="text-align:center;padding:24px 0">Aucun résultat trouvé.</div>`;
+    return;
+  }
+  
+  results.innerHTML = currentPaletteItems.map((item, idx) => {
+    const isSelected = idx === selectedPaletteIndex;
+    const bg = isSelected ? "background:rgba(0,245,212,.1);border-color:rgba(0,245,212,.2);color:#fff" : "background:transparent;border-color:transparent;color:var(--text2)";
+    const typeLabel = item.type === "client" ? "🏢" : "⚙️";
+    return `
+      <div class="card" style="padding:10px 14px;border-radius:var(--r-md);cursor:pointer;display:flex;align-items:center;gap:12px;transition:.15s;${bg}" onclick="executePaletteItem(${idx})">
+        <span style="font-size:16px">${typeLabel}</span>
+        <div style="flex:1">
+          <b style="font-size:13px;display:block">${item.name}</b>
+          <span style="font-size:11px;opacity:0.8">${item.desc}</span>
+        </div>
+        ${isSelected ? `<span style="font-size:10px;color:var(--accent-cyan);font-weight:bold">Entrée ↵</span>` : ""}
+      </div>
+    `;
+  }).join("");
+}
+
+function executePaletteItem(idx) {
+  const item = currentPaletteItems[idx];
+  if (item) {
+    item.run();
+    closePalette();
+    toast("Commande exécutée", item.name);
+  }
+}
+
+document.addEventListener('keydown', e => {
+  const modal = document.getElementById('modal-palette');
+  const isOpened = modal && modal.style.display === "grid";
+  
+  if ((e.ctrlKey && e.key === 'k') || (e.ctrlKey && e.key === 'p') || (e.ctrlKey && e.key === ' ')) {
+    e.preventDefault();
+    if (isOpened) closePalette();
+    else openPalette();
+  }
+  
+  if (!isOpened) return;
+  
+  if (e.key === 'Escape') {
+    e.preventDefault();
+    closePalette();
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    selectedPaletteIndex = (selectedPaletteIndex + 1) % currentPaletteItems.length;
+    updatePaletteResults();
+    const results = document.getElementById('palette-results');
+    const selectedEl = results.children[selectedPaletteIndex];
+    if (selectedEl) selectedEl.scrollIntoView({ block: 'nearest' });
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    selectedPaletteIndex = (selectedPaletteIndex - 1 + currentPaletteItems.length) % currentPaletteItems.length;
+    updatePaletteResults();
+    const results = document.getElementById('palette-results');
+    const selectedEl = results.children[selectedPaletteIndex];
+    if (selectedEl) selectedEl.scrollIntoView({ block: 'nearest' });
+  } else if (e.key === 'Enter') {
+    e.preventDefault();
+    executePaletteItem(selectedPaletteIndex);
+  }
+});
+
+setTimeout(() => {
+  const input = document.getElementById('palette-search');
+  if (input) input.addEventListener('input', () => {
+    selectedPaletteIndex = 0;
+    updatePaletteResults();
+  });
+  const btn = document.getElementById('sidebar-search-btn');
+  if (btn) btn.onclick = openPalette;
+}, 200);
 
 /* ════════════════ TOAST ════════════════ */
 let _tt;
