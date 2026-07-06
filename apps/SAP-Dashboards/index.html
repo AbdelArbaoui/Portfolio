@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071329">
+  <meta name="description" content="Étude de cas interactive SAP Dashboards — automatisation Excel et VBA du reporting financier.">
+  <title>SAP Dashboards — Étude de cas interactive</title>
+  <style>
+    :root {
+      --navy: #071329; --blue: #242a75; --cyan: #00bbdd; --paper: #f4f7fb;
+      --card: #fff; --ink: #16233f; --muted: #6e7f99; --line: #dce4ef;
+      --green: #168153; --red: #c44747; --amber: #b66b0e; --radius: 16px;
+      --shadow: 0 18px 48px rgba(5,21,48,.12); --font: "Segoe UI", Inter, system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; overflow-x: hidden; background: var(--paper); color: var(--ink); font-family: var(--font); }
+    button, a { font: inherit; }
+    button { cursor: pointer; }
+    .demo-strip {
+      position: sticky; top: 0; z-index: 20; min-height: 38px; display: flex; align-items: center;
+      justify-content: center; gap: 8px; padding: 8px 76px 8px 16px; background: var(--cyan);
+      color: #03253b; font-size: 12px; font-weight: 700; text-align: center;
+    }
+    .language-toggle {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      min-width: 42px; border: 1px solid rgba(3,37,59,.3); border-radius: 7px;
+      background: rgba(255,255,255,.25); color: #03253b; padding: 4px 9px; font-weight: 800;
+    }
+    .language-toggle:hover, .language-toggle:focus-visible { background: var(--navy); color: #fff; }
+    .app { min-height: calc(100vh - 38px); display: grid; grid-template-columns: 245px minmax(0,1fr); }
+    .sidebar {
+      position: sticky; top: 38px; height: calc(100vh - 38px); padding: 26px 16px;
+      background: var(--navy); color: #fff; overflow: auto;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; padding: 0 8px 26px; }
+    .brand-mark {
+      width: 40px; height: 40px; display: grid; place-items: center; border-radius: 10px;
+      background: var(--cyan); color: var(--navy); font-weight: 900;
+    }
+    .brand strong { display: block; font-size: 14px; letter-spacing: .04em; }
+    .brand small { color: #91a6c7; font-size: 10px; text-transform: uppercase; letter-spacing: .12em; }
+    .nav-label { margin: 10px 10px 8px; color: #7286a6; font-size: 10px; text-transform: uppercase; letter-spacing: .13em; }
+    .nav-button {
+      width: 100%; display: flex; align-items: center; gap: 11px; border: 0; border-radius: 9px;
+      padding: 11px 12px; background: transparent; color: #aab8ce; text-align: left; transition: .16s ease;
+    }
+    .nav-button:hover { background: rgba(255,255,255,.06); color: #fff; }
+    .nav-button.active { background: rgba(0,187,221,.13); color: #fff; box-shadow: inset 3px 0 var(--cyan); }
+    .nav-icon { width: 22px; color: var(--cyan); font-weight: 800; }
+    .back-link {
+      display: block; margin: 28px 10px 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.1);
+      color: #91a6c7; font-size: 12px; text-decoration: none;
+    }
+    .back-link:hover { color: var(--cyan); }
+    main { min-width: 0; padding: clamp(24px,4vw,52px); }
+    .view { display: none; animation: reveal .3s ease both; }
+    .view.active { display: block; }
+    @keyframes reveal { from { opacity: 0; transform: translateY(8px); } }
+    .eyebrow { margin: 0 0 12px; color: var(--blue); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .14em; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 830px; margin-bottom: 18px; font-size: clamp(2.2rem,5vw,4.8rem); line-height: .98; letter-spacing: -.055em; }
+    h2 { font-size: clamp(1.8rem,3.5vw,3rem); letter-spacing: -.035em; }
+    .lead { max-width: 760px; color: var(--muted); font-size: clamp(15px,2vw,18px); line-height: 1.65; }
+    .hero {
+      position: relative; overflow: hidden; min-height: 310px; padding: clamp(28px,5vw,58px);
+      border-radius: 24px; background: var(--navy); color: #fff; box-shadow: var(--shadow);
+    }
+    .hero::after {
+      content: ""; position: absolute; width: 380px; height: 380px; right: -120px; top: -170px;
+      border-radius: 50%; background: rgba(0,187,221,.14); pointer-events: none;
+    }
+    .hero .eyebrow { color: var(--cyan); }
+    .hero .lead { color: #b3c1d7; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+    .tag { padding: 7px 11px; border: 1px solid rgba(255,255,255,.14); border-radius: 999px; color: #ced9e9; font-size: 11px; }
+    .metric-grid, .bento, .steps { display: grid; gap: 15px; }
+    .metric-grid { grid-template-columns: repeat(4,minmax(0,1fr)); margin: 22px 0; }
+    .metric, .panel, .step, .mapping-card {
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); box-shadow: 0 8px 25px rgba(5,21,48,.05);
+    }
+    .metric { position: relative; overflow: hidden; padding: 20px; }
+    .metric::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 5px; background: var(--cyan); }
+    .metric:nth-child(2)::before { background: #4361ee; }
+    .metric:nth-child(3)::before { background: #22a76f; }
+    .metric:nth-child(4)::before { background: #f0a13a; }
+    .metric small { display: block; color: var(--muted); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .09em; }
+    .metric strong { display: block; margin: 10px 0 8px; color: #002060; font-size: clamp(20px,3vw,30px); }
+    .trend { color: var(--green); font-size: 11px; font-weight: 700; }
+    .trend.warn { color: var(--amber); }
+    .panel { overflow: hidden; }
+    .panel-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 17px 20px; border-bottom: 1px solid var(--line); background: #f9fbfd;
+    }
+    .panel-head h3 { margin: 0; font-size: 14px; }
+    .periods { display: flex; gap: 6px; }
+    .period { padding: 5px 8px; border-radius: 6px; background: #eaf0f8; color: #49617f; font-size: 10px; font-weight: 700; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; min-width: 680px; border-collapse: collapse; font-size: 12px; }
+    th, td { padding: 13px 18px; border-bottom: 1px solid #edf1f6; text-align: right; }
+    th:first-child, td:first-child { text-align: left; }
+    th { background: #eef3f9; color: #60718b; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; }
+    tr.total td { background: #edf4ff; color: #002060; font-weight: 800; }
+    .positive { color: var(--green); font-weight: 700; }
+    .negative { color: var(--red); font-weight: 700; }
+    .section-head { max-width: 760px; margin-bottom: 28px; }
+    .bento { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    .feature { min-height: 180px; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+    .feature-index { color: var(--cyan); font-size: 11px; font-weight: 900; letter-spacing: .1em; }
+    .feature h3 { margin: 22px 0 8px; font-size: 18px; }
+    .feature p { color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .steps { grid-template-columns: repeat(4,minmax(0,1fr)); counter-reset: steps; }
+    .step { padding: 22px; }
+    .step::before { counter-increment: steps; content: "0" counter(steps); display: block; margin-bottom: 36px; color: var(--cyan); font-size: 12px; font-weight: 900; }
+    .step h3 { font-size: 15px; }
+    .step p { color: var(--muted); font-size: 12px; line-height: 1.55; }
+    .mapping-layout { display: grid; grid-template-columns: .85fr 1.15fr; gap: 18px; }
+    .mapping-card { padding: 22px; }
+    .account-list { display: grid; gap: 8px; margin-top: 18px; }
+    .account { display: flex; justify-content: space-between; gap: 12px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 8px; color: #40516d; font-size: 12px; }
+    .account.selected { border-color: var(--cyan); background: #eefcff; color: #053a54; }
+    .tree { margin: 18px 0 0; padding: 0; list-style: none; font-size: 12px; }
+    .tree li { padding: 9px 12px; border-left: 1px solid #b9c8dc; }
+    .tree li:nth-child(n+2) { margin-left: 22px; }
+    .tree .target { border: 1px solid var(--cyan); border-radius: 8px; background: #eefcff; color: #06435d; font-weight: 700; }
+    .quality-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; }
+    .check-list { display: grid; gap: 11px; padding: 0; list-style: none; }
+    .check-list li { display: flex; gap: 11px; align-items: flex-start; padding: 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+    .check { color: var(--green); font-weight: 900; }
+    .privacy { padding: 28px; border-radius: var(--radius); background: var(--navy); color: #fff; }
+    .privacy p { color: #b3c1d7; font-size: 13px; line-height: 1.65; }
+    .privacy strong { color: var(--cyan); }
+    @media (max-width: 980px) {
+      .metric-grid, .steps { grid-template-columns: repeat(2,minmax(0,1fr)); }
+      .mapping-layout, .quality-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .app { display: block; }
+      .sidebar { position: static; width: 100%; max-width: 100vw; height: auto; overflow: hidden; padding: 14px; }
+      .brand { padding-bottom: 12px; }
+      .nav-label, .back-link { display: none; }
+      .sidebar nav { display: flex; width: 100%; max-width: 100%; gap: 6px; overflow-x: auto; }
+      .nav-button { width: auto; min-width: max-content; padding: 9px 11px; }
+      .nav-button.active { box-shadow: inset 0 -3px var(--cyan); }
+      main { width: 100%; max-width: 100vw; overflow: hidden; padding: 20px 14px 40px; }
+      .bento, .metric-grid, .steps { grid-template-columns: 1fr; }
+      .hero { border-radius: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .view { animation: none; } }
+  </style>
+</head>
+<body>
+  <header class="demo-strip">
+    <span aria-hidden="true">●</span>
+    <span data-fr="Étude de cas — données financières entièrement fictives" data-en="Case study — all financial figures are fictional">Étude de cas — données financières entièrement fictives</span>
+    <button class="language-toggle" id="language-toggle" type="button" aria-label="Afficher en anglais">EN</button>
+  </header>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">SD</span><span><strong>SAP Dashboards</strong><small>Finance automation</small></span></div>
+      <p class="nav-label" data-fr="Explorer le projet" data-en="Explore the project">Explorer le projet</p>
+      <nav aria-label="Sections">
+        <button class="nav-button active" type="button" data-view="overview"><span class="nav-icon">01</span><span data-fr="Vue d’ensemble" data-en="Overview">Vue d’ensemble</span></button>
+        <button class="nav-button" type="button" data-view="workflow"><span class="nav-icon">02</span><span data-fr="Workflow" data-en="Workflow">Workflow</span></button>
+        <button class="nav-button" type="button" data-view="mapping"><span class="nav-icon">03</span><span data-fr="Mapping" data-en="Mapping">Mapping</span></button>
+        <button class="nav-button" type="button" data-view="quality"><span class="nav-icon">04</span><span data-fr="Fiabilité" data-en="Reliability">Fiabilité</span></button>
+      </nav>
+      <a class="back-link" href="../../index.html" data-fr="← Retour au portfolio" data-en="← Back to portfolio">← Retour au portfolio</a>
+    </aside>
+
+    <main>
+      <section class="view active" id="view-overview">
+        <div class="hero">
+          <p class="eyebrow" data-fr="Excel autonome · VBA · Reporting financier" data-en="Standalone Excel · VBA · Financial reporting">Excel autonome · VBA · Reporting financier</p>
+          <h1 data-fr="De la balance SAP au bilan lisible." data-en="From SAP trial balance to a readable financial statement.">De la balance SAP au bilan lisible.</h1>
+          <p class="lead" data-fr="Un classeur métier qui importe plusieurs périodes côte à côte, applique un mapping Magnitude hiérarchique et transforme les écarts en décisions vérifiables." data-en="A business workbook that imports several periods side by side, applies hierarchical Magnitude mapping, and turns variances into auditable decisions.">Un classeur métier qui importe plusieurs périodes côte à côte, applique un mapping Magnitude hiérarchique et transforme les écarts en décisions vérifiables.</p>
+          <div class="tags"><span class="tag">Excel .xlsm</span><span class="tag">VBA</span><span class="tag">Local-first</span><span class="tag" data-fr="Zéro installation" data-en="Zero installation">Zéro installation</span></div>
+        </div>
+        <div class="metric-grid" aria-label="Indicateurs fictifs">
+          <article class="metric"><small data-fr="Total actif" data-en="Total assets">Total actif</small><strong>12,48 M€</strong><span class="trend">↗ +4,8 %</span></article>
+          <article class="metric"><small data-fr="Total passif" data-en="Total liabilities">Total passif</small><strong>12,48 M€</strong><span class="trend">↗ +4,8 %</span></article>
+          <article class="metric"><small data-fr="Équilibre" data-en="Balance control">Équilibre</small><strong>0 €</strong><span class="trend" data-fr="✓ Bilan équilibré" data-en="✓ Balanced statement">✓ Bilan équilibré</span></article>
+          <article class="metric"><small data-fr="Non mappés" data-en="Unmapped accounts">Non mappés</small><strong>3</strong><span class="trend warn" data-fr="À contrôler" data-en="Needs review">À contrôler</span></article>
+        </div>
+        <article class="panel">
+          <header class="panel-head"><h3 data-fr="Bilan comparatif" data-en="Comparative balance sheet">Bilan comparatif</h3><div class="periods"><span class="period">DEC. 2025</span><span class="period">JAN. 2026</span></div></header>
+          <div class="table-wrap"><table>
+            <thead><tr><th data-fr="Poste Magnitude" data-en="Magnitude line item">Poste Magnitude</th><th>DEC. 2025</th><th>JAN. 2026</th><th data-fr="Variation" data-en="Variance">Variation</th></tr></thead>
+            <tbody>
+              <tr><td data-fr="Actif immobilisé" data-en="Non-current assets">Actif immobilisé</td><td>4 220 000 €</td><td>4 486 000 €</td><td class="positive">↗ 6,3 %</td></tr>
+              <tr><td data-fr="Créances clients" data-en="Trade receivables">Créances clients</td><td>2 180 000 €</td><td>2 094 000 €</td><td class="negative">↘ −3,9 %</td></tr>
+              <tr><td data-fr="Disponibilités" data-en="Cash and equivalents">Disponibilités</td><td>3 040 000 €</td><td>3 428 000 €</td><td class="positive">↗ 12,8 %</td></tr>
+              <tr class="total"><td data-fr="TOTAL ACTIF" data-en="TOTAL ASSETS">TOTAL ACTIF</td><td>11 910 000 €</td><td>12 480 000 €</td><td class="positive">↗ 4,8 %</td></tr>
+            </tbody>
+          </table></div>
+        </article>
+      </section>
+
+      <section class="view" id="view-workflow">
+        <header class="section-head"><p class="eyebrow">Workflow</p><h2 data-fr="Un chemin court, contrôlé et reproductible." data-en="A short, controlled, repeatable path.">Un chemin court, contrôlé et reproductible.</h2><p class="lead" data-fr="L’utilisateur reste dans Excel. Chaque étape rend son état visible et conserve les périodes déjà importées." data-en="The user stays in Excel. Every step exposes its status and preserves previously imported periods.">L’utilisateur reste dans Excel. Chaque étape rend son état visible et conserve les périodes déjà importées.</p></header>
+        <div class="steps">
+          <article class="step"><h3 data-fr="Importer" data-en="Import">Importer</h3><p data-fr="Charger une nouvelle balance SAP et détecter sa période." data-en="Load a new SAP trial balance and detect its period.">Charger une nouvelle balance SAP et détecter sa période.</p></article>
+          <article class="step"><h3 data-fr="Mapper" data-en="Map">Mapper</h3><p data-fr="Associer les comptes aux postes Magnitude via une arborescence native." data-en="Link accounts to Magnitude line items through a native hierarchy.">Associer les comptes aux postes Magnitude via une arborescence native.</p></article>
+          <article class="step"><h3 data-fr="Comparer" data-en="Compare">Comparer</h3><p data-fr="Calculer automatiquement montants, écarts absolus et variations." data-en="Automatically calculate balances, absolute differences, and variances.">Calculer automatiquement montants, écarts absolus et variations.</p></article>
+          <article class="step"><h3 data-fr="Diffuser" data-en="Deliver">Diffuser</h3><p data-fr="Contrôler l’équilibre puis produire un PDF prêt à partager." data-en="Check that the statement balances, then generate a share-ready PDF.">Contrôler l’équilibre puis produire un PDF prêt à partager.</p></article>
+        </div>
+        <div class="bento" style="margin-top:18px">
+          <article class="feature"><span class="feature-index">01 / PERIODS</span><h3 data-fr="Les périodes s’ajoutent côte à côte" data-en="Periods are added side by side">Les périodes s’ajoutent côte à côte</h3><p data-fr="L’historique reste lisible horizontalement au lieu d’allonger indéfiniment la feuille." data-en="History remains readable horizontally instead of endlessly extending the worksheet.">L’historique reste lisible horizontalement au lieu d’allonger indéfiniment la feuille.</p></article>
+          <article class="feature"><span class="feature-index">02 / CONTROL</span><h3 data-fr="Les actions restent au-dessus des données" data-en="Actions stay above the data">Les actions restent au-dessus des données</h3><p data-fr="Import, gestion des périodes, recalcul, remise à zéro et export sont regroupés sans chevauchement." data-en="Import, period management, recalculation, reset, and export are grouped without overlap.">Import, gestion des périodes, recalcul, remise à zéro et export sont regroupés sans chevauchement.</p></article>
+        </div>
+      </section>
+
+      <section class="view" id="view-mapping">
+        <header class="section-head"><p class="eyebrow">Mapping</p><h2 data-fr="Une nomenclature financière rendue navigable." data-en="A financial taxonomy made navigable.">Une nomenclature financière rendue navigable.</h2><p class="lead" data-fr="Le TreeView 100 % VBA évite tout composant OCX ou add-in externe : le classeur reste portable." data-en="The 100% VBA TreeView avoids external OCX components and add-ins, keeping the workbook portable.">Le TreeView 100 % VBA évite tout composant OCX ou add-in externe : le classeur reste portable.</p></header>
+        <div class="mapping-layout">
+          <article class="mapping-card"><h3 data-fr="Comptes SAP à traiter" data-en="SAP accounts to process">Comptes SAP à traiter</h3><div class="account-list"><div class="account"><span>205100</span><strong>182 400 €</strong></div><div class="account selected"><span>218300</span><strong>96 250 €</strong></div><div class="account"><span>411100</span><strong>1 248 000 €</strong></div><div class="account"><span>512000</span><strong>3 428 000 €</strong></div></div></article>
+          <article class="mapping-card"><h3 data-fr="Arborescence Magnitude" data-en="Magnitude hierarchy">Arborescence Magnitude</h3><ul class="tree"><li data-fr="▾ ACTIF" data-en="▾ ASSETS">▾ ACTIF</li><li data-fr="▾ Actif immobilisé" data-en="▾ Non-current assets">▾ Actif immobilisé</li><li class="target" data-fr="Immobilisations corporelles → sélectionner" data-en="Property, plant and equipment → select">Immobilisations corporelles → sélectionner</li><li data-fr="Actif circulant" data-en="Current assets">Actif circulant</li></ul></article>
+        </div>
+      </section>
+
+      <section class="view" id="view-quality">
+        <header class="section-head"><p class="eyebrow" data-fr="Fiabilité & confidentialité" data-en="Reliability & privacy">Fiabilité & confidentialité</p><h2 data-fr="Un outil financier doit expliquer ce qu’il contrôle." data-en="A financial tool must explain what it controls.">Un outil financier doit expliquer ce qu’il contrôle.</h2></header>
+        <div class="quality-grid">
+          <ul class="check-list">
+            <li><span class="check">✓</span><span data-fr="Compilation VBA et validations automatisées du classeur." data-en="VBA compilation and automated workbook validation.">Compilation VBA et validations automatisées du classeur.</span></li>
+            <li><span class="check">✓</span><span data-fr="Contrôle visible de l’équilibre actif / passif." data-en="Visible assets / liabilities balance control.">Contrôle visible de l’équilibre actif / passif.</span></li>
+            <li><span class="check">✓</span><span data-fr="Liste explicite des comptes encore non mappés." data-en="Explicit list of accounts that remain unmapped.">Liste explicite des comptes encore non mappés.</span></li>
+            <li><span class="check">✓</span><span data-fr="Gestion des périodes : renommage, suppression et date d’import." data-en="Period management: rename, delete, and import date.">Gestion des périodes : renommage, suppression et date d’import.</span></li>
+          </ul>
+          <aside class="privacy"><h3 data-fr="Données locales par conception" data-en="Local data by design">Données locales par conception</h3><p data-fr="Aucune API SAP, aucun serveur et aucune dépendance Python ne sont nécessaires côté utilisateur. Le fichier .xlsm embarque ses modules VBA." data-en="No SAP API, server, or Python dependency is required for the end user. The .xlsm file embeds its VBA modules.">Aucune API SAP, aucun serveur et aucune dépendance Python ne sont nécessaires côté utilisateur. Le fichier .xlsm embarque ses modules VBA.</p><p><strong data-fr="Portfolio public :" data-en="Public portfolio:">Portfolio public :</strong> <span data-fr="cette démonstration n’utilise que des chiffres fictifs et ne distribue pas le classeur opérationnel." data-en="this demo uses fictional figures only and does not distribute the operational workbook.">cette démonstration n’utilise que des chiffres fictifs et ne distribue pas le classeur opérationnel.</span></p></aside>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const languageButton = document.getElementById("language-toggle");
+    const views = document.querySelectorAll(".view");
+    const navButtons = document.querySelectorAll("[data-view]");
+    let currentLanguage = getInitialLanguage();
+
+    function getInitialLanguage() {
+      const query = new URLSearchParams(location.search).get("lang");
+      if (query === "fr" || query === "en") return query;
+      try { return localStorage.getItem("portfolioLanguage") === "en" ? "en" : "fr"; }
+      catch { return "fr"; }
+    }
+    function setLanguage(language, notifyParent = false) {
+      currentLanguage = language === "en" ? "en" : "fr";
+      document.documentElement.lang = currentLanguage;
+      document.title = currentLanguage === "fr" ? "SAP Dashboards — Étude de cas interactive" : "SAP Dashboards — Interactive case study";
+      document.querySelectorAll("[data-fr][data-en]").forEach(element => { element.textContent = element.dataset[currentLanguage]; });
+      languageButton.textContent = currentLanguage === "fr" ? "EN" : "FR";
+      languageButton.setAttribute("aria-label", currentLanguage === "fr" ? "Afficher en anglais" : "Show in French");
+      try { localStorage.setItem("portfolioLanguage", currentLanguage); } catch {}
+      if (notifyParent && window.parent !== window) window.parent.postMessage({ type: "portfolio-language", language: currentLanguage }, "*");
+    }
+    function showView(viewName) {
+      views.forEach(view => view.classList.toggle("active", view.id === `view-${viewName}`));
+      navButtons.forEach(button => button.classList.toggle("active", button.dataset.view === viewName));
+      document.querySelector("main").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    languageButton.addEventListener("click", () => setLanguage(currentLanguage === "fr" ? "en" : "fr", true));
+    navButtons.forEach(button => button.addEventListener("click", () => showView(button.dataset.view)));
+    window.addEventListener("message", event => {
+      if (event.data?.type === "portfolio-language" && ["fr","en"].includes(event.data.language)) setLanguage(event.data.language);
+    });
+    window.addEventListener("storage", event => {
+      if (event.key === "portfolioLanguage" && ["fr","en"].includes(event.newValue)) setLanguage(event.newValue);
+    });
+    setLanguage(currentLanguage);
+  </script>
+</body>
+</html>

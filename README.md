@@ -26,10 +26,13 @@ portfolio-portal/
 ├── index.html               # Main navigation portal using iframes
 ├── README.md                # Project documentation
 ├── assets/                  # Screenshots and demo media
-├── money-tracker/
-│   └── index.html           # Money Tracker interactive application
-└── CS-Analytics/
-    └── index.html           # CS Analytics interactive application
+└── apps/
+    ├── money-tracker/
+    │   └── index.html       # Money Tracker interactive application
+    ├── CS-Analytics/
+    │   └── index.html       # CS Analytics interactive application
+    └── SAP-Dashboards/
+        └── index.html       # SAP Dashboards interactive case study
 ```
 
 ---
@@ -38,8 +41,8 @@ portfolio-portal/
 
 1. Open the `portfolio-portal` directory.
 2. Open or double-click [index.html](index.html).
-3. Use the left sidebar to switch between the two projects.
-4. Use the `FR/EN` button to change the language across the portal and both applications.
+3. Explore the three project experiences from the main portal.
+4. Use the `FR/EN` button to change the language across the portal and all project pages.
 
 ---
 
@@ -58,6 +61,14 @@ A business analytics dashboard that consolidates log exports and transforms them
 
 - **Core features:** SecureDrive and TeamChat usage analytics, a Postman-style request console with secure mTLS authentication, a dual-screen presentation mode, a collaborative Kanban task board, a shared team calendar, Notion-style CRM views, and a global command palette (`Ctrl+K`).
 - **Technologies:** pandas, python-pptx, WebView2 through PyWebView, vanilla CSS, and decentralized JSON synchronization.
+
+### 3. SAP Dashboards — Financial Reporting Automation
+
+A standalone Excel workbook that turns SAP General Ledger exports into a structured, multi-period Magnitude balance sheet.
+
+- **Core features:** Side-by-side period imports, hierarchical account mapping, absolute and percentage variance analysis, balance controls, period management, and one-click PDF export.
+- **Technologies:** Excel, VBA, native workbook modules, and a dependency-free TreeView.
+- **Privacy:** The public portfolio uses fictional figures only. The operational workbook and financial data are not included in this repository.
 
 ---
 

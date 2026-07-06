@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 900" role="img" aria-labelledby="title desc">
+  <title id="title">SAP Dashboards preview</title>
+  <desc id="desc">Stylized financial dashboard with KPI cards, a balance sheet and period comparison.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071329"/>
+      <stop offset="1" stop-color="#123b75"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#00bbdd"/>
+      <stop offset="1" stop-color="#66e0f1"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#000" flood-opacity=".25"/>
+    </filter>
+  </defs>
+  <rect width="1280" height="900" fill="url(#bg)"/>
+  <circle cx="1110" cy="80" r="260" fill="#00bbdd" opacity=".08"/>
+  <circle cx="160" cy="850" r="300" fill="#4361ee" opacity=".12"/>
+  <g transform="translate(70 65)" filter="url(#shadow)">
+    <rect width="1140" height="770" rx="22" fill="#f5f7fb"/>
+    <rect width="1140" height="72" rx="22" fill="#fff"/>
+    <rect y="50" width="1140" height="22" fill="#fff"/>
+    <rect x="28" y="22" width="34" height="34" rx="8" fill="#242a75"/>
+    <path d="M38 47V31h10c7 0 10 3 10 8s-3 8-10 8h-4v5h-6zm6-6h4c3 0 4-1 4-3 0-1-1-2-4-2h-4z" fill="#fff"/>
+    <text x="78" y="39" font-family="Segoe UI,Arial" font-size="18" font-weight="700" fill="#16233f">SAP DASHBOARDS</text>
+    <text x="78" y="57" font-family="Segoe UI,Arial" font-size="10" letter-spacing="2" fill="#7a90b0">FINANCIAL CONTROL CENTER</text>
+    <rect x="913" y="20" width="195" height="34" rx="17" fill="#eef2f8"/>
+    <circle cx="935" cy="37" r="5" fill="#23b26d"/>
+    <text x="950" y="41" font-family="Segoe UI,Arial" font-size="11" fill="#42526d">WORKBOOK · LOCAL</text>
+    <g transform="translate(28 98)">
+      <text x="0" y="20" font-family="Segoe UI,Arial" font-size="24" font-weight="700" fill="#16233f">Vue financière</text>
+      <text x="0" y="42" font-family="Segoe UI,Arial" font-size="12" fill="#7a90b0">Périodes comparées · données fictives</text>
+      <rect x="842" y="0" width="122" height="38" rx="8" fill="#242a75"/>
+      <text x="903" y="24" text-anchor="middle" font-family="Segoe UI,Arial" font-size="11" font-weight="700" fill="#fff">GÉRER</text>
+      <rect x="974" y="0" width="138" height="38" rx="8" fill="url(#cyan)"/>
+      <text x="1043" y="24" text-anchor="middle" font-family="Segoe UI,Arial" font-size="11" font-weight="700" fill="#06233a">EXPORTER PDF</text>
+      <g transform="translate(0 72)">
+        <g>
+          <rect width="258" height="112" rx="14" fill="#fff" stroke="#dce3ee"/>
+          <rect width="6" height="112" rx="3" fill="#00bbdd"/>
+          <text x="24" y="31" font-family="Segoe UI,Arial" font-size="11" fill="#7a90b0">TOTAL ACTIF</text>
+          <text x="24" y="68" font-family="Segoe UI,Arial" font-size="26" font-weight="700" fill="#002060">12,48 M€</text>
+          <text x="24" y="94" font-family="Segoe UI,Arial" font-size="11" fill="#23a36d">↗ +4,8 % vs N-1</text>
+        </g>
+        <g transform="translate(276)">
+          <rect width="258" height="112" rx="14" fill="#fff" stroke="#dce3ee"/>
+          <rect width="6" height="112" rx="3" fill="#4361ee"/>
+          <text x="24" y="31" font-family="Segoe UI,Arial" font-size="11" fill="#7a90b0">TOTAL PASSIF</text>
+          <text x="24" y="68" font-family="Segoe UI,Arial" font-size="26" font-weight="700" fill="#002060">12,48 M€</text>
+          <text x="24" y="94" font-family="Segoe UI,Arial" font-size="11" fill="#23a36d">↗ +4,8 % vs N-1</text>
+        </g>
+        <g transform="translate(552)">
+          <rect width="258" height="112" rx="14" fill="#fff" stroke="#dce3ee"/>
+          <rect width="6" height="112" rx="3" fill="#23b26d"/>
+          <text x="24" y="31" font-family="Segoe UI,Arial" font-size="11" fill="#7a90b0">ÉQUILIBRE DU BILAN</text>
+          <text x="24" y="68" font-family="Segoe UI,Arial" font-size="26" font-weight="700" fill="#168153">0 €</text>
+          <text x="24" y="94" font-family="Segoe UI,Arial" font-size="11" fill="#23a36d">✓ Bilan équilibré</text>
+        </g>
+        <g transform="translate(828)">
+          <rect width="284" height="112" rx="14" fill="#fff" stroke="#dce3ee"/>
+          <rect width="6" height="112" rx="3" fill="#f2a23a"/>
+          <text x="24" y="31" font-family="Segoe UI,Arial" font-size="11" fill="#7a90b0">COMPTES NON MAPPÉS</text>
+          <text x="24" y="68" font-family="Segoe UI,Arial" font-size="26" font-weight="700" fill="#002060">3</text>
+          <text x="24" y="94" font-family="Segoe UI,Arial" font-size="11" fill="#b36b10">À vérifier avant export</text>
+        </g>
+      </g>
+      <g transform="translate(0 212)">
+        <rect width="1112" height="380" rx="14" fill="#fff" stroke="#dce3ee"/>
+        <rect width="1112" height="52" rx="14" fill="#edf2f8"/>
+        <rect y="38" width="1112" height="14" fill="#edf2f8"/>
+        <text x="24" y="32" font-family="Segoe UI,Arial" font-size="12" font-weight="700" fill="#42526d">POSTE MAGNITUDE</text>
+        <text x="610" y="32" font-family="Segoe UI,Arial" font-size="12" font-weight="700" fill="#42526d">DÉC. 2025</text>
+        <text x="775" y="32" font-family="Segoe UI,Arial" font-size="12" font-weight="700" fill="#42526d">JAN. 2026</text>
+        <text x="930" y="32" font-family="Segoe UI,Arial" font-size="12" font-weight="700" fill="#42526d">VARIATION</text>
+        <g font-family="Segoe UI,Arial" font-size="12" fill="#24324b">
+          <rect y="52" width="1112" height="44" fill="#f9fbfd"/>
+          <text x="24" y="79" font-weight="700">▾ ACTIF IMMOBILISÉ</text><text x="610" y="79">4 220 000 €</text><text x="775" y="79">4 486 000 €</text><text x="930" y="79" fill="#168153">↗ 6,3 %</text>
+          <text x="48" y="123">Immobilisations incorporelles</text><text x="610" y="123">860 000 €</text><text x="775" y="123">904 000 €</text><text x="930" y="123" fill="#168153">↗ 5,1 %</text>
+          <rect y="140" width="1112" height="44" fill="#f9fbfd"/>
+          <text x="48" y="167">Immobilisations corporelles</text><text x="610" y="167">3 360 000 €</text><text x="775" y="167">3 582 000 €</text><text x="930" y="167" fill="#168153">↗ 6,6 %</text>
+          <text x="24" y="211" font-weight="700">▾ ACTIF CIRCULANT</text><text x="610" y="211">7 690 000 €</text><text x="775" y="211">7 994 000 €</text><text x="930" y="211" fill="#168153">↗ 4,0 %</text>
+          <rect y="228" width="1112" height="44" fill="#f9fbfd"/>
+          <text x="48" y="255">Créances clients</text><text x="610" y="255">2 180 000 €</text><text x="775" y="255">2 094 000 €</text><text x="930" y="255" fill="#d45252">↘ −3,9 %</text>
+          <text x="48" y="299">Disponibilités</text><text x="610" y="299">3 040 000 €</text><text x="775" y="299">3 428 000 €</text><text x="930" y="299" fill="#168153">↗ 12,8 %</text>
+          <rect y="316" width="1112" height="64" fill="#eef4ff"/>
+          <text x="24" y="354" font-size="14" font-weight="700" fill="#002060">TOTAL ACTIF</text><text x="610" y="354" font-size="14" font-weight="700" fill="#002060">11 910 000 €</text><text x="775" y="354" font-size="14" font-weight="700" fill="#002060">12 480 000 €</text><text x="930" y="354" font-size="14" font-weight="700" fill="#168153">↗ 4,8 %</text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
