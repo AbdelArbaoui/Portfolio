@@ -56,16 +56,16 @@ A personal finance and investment portfolio tracker designed to run entirely off
 
 A business analytics dashboard that consolidates log exports and transforms them into client activity reports in PowerPoint format.
 
-- **Core features:** SecureDrive and TeamChat usage analytics, a Postman-style request console with secure mTLS authentication through temporary PEM certificates, and a dual-screen presentation mode.
-- **Technologies:** pandas, python-pptx, WebView2 through PyWebView, and vanilla CSS.
+- **Core features:** SecureDrive and TeamChat usage analytics, a Postman-style request console with secure mTLS authentication, a dual-screen presentation mode, a collaborative Kanban task board, a shared team calendar, Notion-style CRM views, and a global command palette (`Ctrl+K`).
+- **Technologies:** pandas, python-pptx, WebView2 through PyWebView, vanilla CSS, and decentralized JSON synchronization.
 
 ---
 
 ## 🛡️ Engineering Principles
 
 - **100% client-side and offline:** All analytics and financial data remain local. No data is transmitted to third-party public cloud services.
-- **Quality and reliability:** More than 145 Python unit tests cover calculation algorithms, data merging, and concurrent timestamp resolution.
-- **Modern user experience:** A consistent dark theme, micro-interactions, responsive interfaces, and seamless iframe integration for presentations.
+- **Quality and reliability:** More than 210 Python unit tests cover calculation algorithms, data merging, decentralized syncing, and concurrent timestamp resolution.
+- **Modern user experience:** A consistent dark theme, micro-interactions, responsive interfaces, global search shortcuts, and seamless iframe integration for presentations.
 
 ---
 
