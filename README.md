@@ -31,17 +31,26 @@ portfolio-portal/
     │   └── index.html       # Money Tracker interactive application
     ├── CS-Analytics/
     │   └── index.html       # CS Analytics interactive application
-    └── SAP-Dashboards/
-        └── index.html       # SAP Dashboards interactive case study
+    ├── SAP-Dashboards/
+    │   └── index.html       # SAP Dashboards interactive case study
+    └── Help-Center-Migration/
+        ├── index.html       # SecureDrive + TeamChat product hub
+        ├── styles.css       # Shared anonymized documentation UI
+        ├── app.js           # Language toggle and guide search
+        └── products/
+            ├── securedrive.html
+            └── teamchat.html
 ```
 
 ---
+
+The fourth project lives at `apps/Help-Center-Migration/` and contains the product hub plus the SecureDrive and TeamChat documentation paths.
 
 ## 🚀 Running the Portfolio
 
 1. Open the `portfolio-portal` directory.
 2. Open or double-click [index.html](index.html).
-3. Explore the three project experiences from the main portal.
+3. Explore the four project experiences from the main portal.
 4. Use the `FR/EN` button to change the language across the portal and all project pages.
 
 ---
@@ -71,6 +80,16 @@ A standalone Excel workbook that turns SAP General Ledger exports into a structu
 - **Privacy:** The public portfolio uses fictional figures only. The operational workbook and financial data are not included in this repository.
 
 ---
+
+### 4. SecureDrive & TeamChat Help Center Migration — Documentation & Product Discovery
+
+An anonymized documentation migration case study built around a MkDocs-like Help Center. The landing page routes visitors to two separate product paths — SecureDrive and TeamChat — while keeping search, navigation and reusable documentation components consistent.
+
+- **Migration goal:** move from a hosted interactive FAQ editor toward static, searchable and versioned documentation reviewed through Git.
+- **Interfaces shown:** product hub, product-specific navigation, reusable notes/details/tabs patterns, decision guides and security guidance.
+- **Business outcome:** a rounded scoping estimate of approximately **4K€ in recurring annual savings**, excluding supplier contracts, pricing assumptions and operational data.
+- **Technologies:** MkDocs Material, Markdown, Mermaid, Git-based review and static hosting patterns.
+- **Privacy:** this case study contains no customer data, exports, internal URLs, credentials, operational screenshots or proprietary branding. SecureDrive and TeamChat are generic product names.
 
 ## 🛡️ Engineering Principles
 

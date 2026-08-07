@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Help Center anonymisé pour SecureDrive et TeamChat — migration documentaire statique.">
+  <title>Help Center · SecureDrive &amp; TeamChat</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-fr="Aller au contenu" data-en="Skip to content">Aller au contenu</a>
+
+  <header class="topbar shell">
+    <a class="brand" href="index.html" data-lang-link="index.html" aria-label="Help Center">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 4.5 25.5 10v12L16 27.5 6.5 22V10L16 4.5Z" stroke="currentColor" stroke-width="2"/>
+          <path d="m10.5 13 5.5 3 5.5-3M16 16v6" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </span>
+      <span class="brand-copy">
+        <strong>Help Center</strong>
+        <span>SecureDrive + TeamChat</span>
+      </span>
+    </a>
+
+    <nav class="topnav" aria-label="Navigation principale">
+      <a href="#products" data-fr="Produits" data-en="Products">Produits</a>
+      <a href="#principles" data-fr="Principes" data-en="Principles">Principes</a>
+      <a href="#migration" data-fr="Migration" data-en="Migration">Migration</a>
+      <button class="language-toggle" type="button" data-language-toggle>EN</button>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero shell" aria-labelledby="page-title">
+      <p class="eyebrow" data-fr="Hub documentaire · POC anonymisé" data-en="Documentation hub · anonymized POC">Hub documentaire · POC anonymisé</p>
+      <h1 id="page-title" data-fr="Choisissez votre produit" data-en="Choose your product">Choisissez votre produit</h1>
+      <p class="hero-lead" data-fr="Retrouvez les guides de démarrage, d’administration et de sécurité dans une documentation unifiée, versionnée et facile à rechercher." data-en="Find setup, administration and security guides in one unified, versioned and searchable documentation space.">Retrouvez les guides de démarrage, d’administration et de sécurité dans une documentation unifiée, versionnée et facile à rechercher.</p>
+
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="2"/><path d="m16 16 5 5" stroke="currentColor" stroke-width="2"/></svg>
+        <label class="is-hidden" for="guide-search" data-fr="Rechercher dans les guides" data-en="Search the guides">Rechercher dans les guides</label>
+        <input id="guide-search" class="search-input" type="search" data-guide-search data-fr-placeholder="Rechercher dans SecureDrive et TeamChat…" data-en-placeholder="Search across SecureDrive and TeamChat…" placeholder="Rechercher dans SecureDrive et TeamChat…">
+      </div>
+    </section>
+
+    <section id="products" class="shell" aria-labelledby="products-title">
+      <div class="section-heading">
+        <p class="eyebrow" data-fr="Deux parcours · une même fondation" data-en="Two paths · one foundation">Deux parcours · une même fondation</p>
+        <h2 id="products-title" data-fr="Commencez par le produit concerné." data-en="Start with the product you need.">Commencez par le produit concerné.</h2>
+        <p data-fr="Chaque espace conserve ses propres guides tout en partageant les mêmes composants, la même recherche et les mêmes règles de revue." data-en="Each space keeps its own guides while sharing the same components, search and review rules.">Chaque espace conserve ses propres guides tout en partageant les mêmes composants, la même recherche et les mêmes règles de revue.</p>
+      </div>
+
+      <div class="product-grid">
+        <article class="product-card" data-searchable="SecureDrive files storage sharing getting started administration security">
+          <div class="product-card-head">
+            <span class="product-icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M32 7 51 18v24L32 53 13 42V18L32 7Z" stroke="currentColor" stroke-width="3"/>
+                <path d="m20 23 12 7 12-7M32 30v15" stroke="currentColor" stroke-width="3"/>
+              </svg>
+            </span>
+            <div>
+              <p class="eyebrow" data-fr="Produit 01" data-en="Product 01">Produit 01</p>
+              <h2>SecureDrive</h2>
+            </div>
+          </div>
+          <p class="product-description" data-fr="Fichiers, stockage et partage" data-en="Files, storage and sharing">Fichiers, stockage et partage</p>
+          <p data-fr="Démarrez rapidement, administrez les espaces de travail et consultez les repères de sécurité." data-en="Get started quickly, manage workspaces and consult security guidance.">Démarrez rapidement, administrez les espaces de travail et consultez les repères de sécurité.</p>
+          <div class="mini-links" aria-label="Guides SecureDrive">
+            <span data-fr="Démarrage" data-en="Getting started">Démarrage</span>
+            <span data-fr="Administration" data-en="Administration">Administration</span>
+            <span data-fr="Sécurité" data-en="Security">Sécurité</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-meta" data-fr="12 GUIDES · VERSIONNÉ" data-en="12 GUIDES · VERSIONED">12 GUIDES · VERSIONNÉ</span>
+            <a class="primary-button" href="products/securedrive.html" data-lang-link="products/securedrive.html"><span data-fr="Ouvrir" data-en="Open">Ouvrir</span> <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+
+        <article class="product-card teamchat" data-searchable="TeamChat messaging collaboration channels getting started security">
+          <div class="product-card-head">
+            <span class="product-icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17 16h30a9 9 0 0 1 9 9v14a9 9 0 0 1-9 9H34l-10 9v-9h-7a9 9 0 0 1-9-9V25a9 9 0 0 1 9-9Z" stroke="currentColor" stroke-width="3"/>
+                <path d="M20 30h24M20 38h16" stroke="currentColor" stroke-width="3"/>
+              </svg>
+            </span>
+            <div>
+              <p class="eyebrow violet" data-fr="Produit 02" data-en="Product 02">Produit 02</p>
+              <h2>TeamChat</h2>
+            </div>
+          </div>
+          <p class="product-description" data-fr="Messagerie et collaboration" data-en="Messaging and collaboration">Messagerie et collaboration</p>
+          <p data-fr="Explorez les canaux, les usages collaboratifs et les repères de sécurité destinés aux équipes." data-en="Explore channels, collaboration patterns and security guidance for teams.">Explorez les canaux, les usages collaboratifs et les repères de sécurité destinés aux équipes.</p>
+          <div class="mini-links" aria-label="Guides TeamChat">
+            <span data-fr="Démarrage" data-en="Getting started">Démarrage</span>
+            <span data-fr="Canaux" data-en="Channels">Canaux</span>
+            <span data-fr="Sécurité" data-en="Security">Sécurité</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-meta" data-fr="09 GUIDES · VERSIONNÉ" data-en="09 GUIDES · VERSIONED">09 GUIDES · VERSIONNÉ</span>
+            <a class="primary-button" href="products/teamchat.html" data-lang-link="products/teamchat.html"><span data-fr="Ouvrir" data-en="Open">Ouvrir</span> <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      </div>
+      <p class="no-results is-hidden" data-no-results data-fr="Aucun guide ne correspond à votre recherche." data-en="No guide matches your search.">Aucun guide ne correspond à votre recherche.</p>
+    </section>
+
+    <section id="principles" class="section shell" aria-labelledby="principles-title">
+      <div class="section-heading">
+        <p class="eyebrow" data-fr="Pourquoi cette structure" data-en="Why this structure">Pourquoi cette structure</p>
+        <h2 id="principles-title" data-fr="Une expérience familière, plus simple à maintenir." data-en="A familiar experience, easier to maintain.">Une expérience familière, plus simple à maintenir.</h2>
+      </div>
+      <div class="benefit-grid">
+        <article class="info-card">
+          <span class="number">01</span>
+          <strong data-fr="Entrée unique" data-en="Single entry point">Entrée unique</strong>
+          <p data-fr="Un point de départ clair avant de choisir le produit et le parcours adapté." data-en="A clear starting point before choosing the right product and path.">Un point de départ clair avant de choisir le produit et le parcours adapté.</p>
+        </article>
+        <article class="info-card">
+          <span class="number">02</span>
+          <strong data-fr="Composants partagés" data-en="Shared components">Composants partagés</strong>
+          <p data-fr="Notes, détails, onglets et schémas suivent les mêmes conventions visuelles." data-en="Notes, details, tabs and diagrams follow the same visual conventions.">Notes, détails, onglets et schémas suivent les mêmes conventions visuelles.</p>
+        </article>
+        <article class="info-card">
+          <span class="number">03</span>
+          <strong data-fr="Revue versionnée" data-en="Versioned review">Revue versionnée</strong>
+          <p data-fr="Les changements sont lisibles, discutables et publiables avec un workflow Git." data-en="Changes are readable, reviewable and publishable through a Git workflow.">Les changements sont lisibles, discutables et publiables avec un workflow Git.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="migration" class="section shell" aria-labelledby="migration-title">
+      <div class="callout">
+        <div>
+          <p class="eyebrow green" data-fr="Contexte de migration" data-en="Migration context">Contexte de migration</p>
+          <h2 id="migration-title" data-fr="Passer d’un éditeur hébergé à une base documentaire statique et versionnée." data-en="Move from a hosted editor to a static, versioned documentation foundation.">Passer d’un éditeur hébergé à une base documentaire statique et versionnée.</h2>
+          <p data-fr="Le POC privilégie la recherche, la relecture et la maintenabilité, tout en supprimant une dépendance de licence récurrente." data-en="The POC prioritizes search, review and maintainability while removing a recurring licence dependency.">Le POC privilégie la recherche, la relecture et la maintenabilité, tout en supprimant une dépendance de licence récurrente.</p>
+        </div>
+        <div class="callout-value">
+          <strong>≈ 4K€ / an</strong>
+          <span data-fr="estimation de cadrage" data-en="scoping estimate">estimation de cadrage</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer shell">
+    <div class="footer-inner">
+      <span data-fr="POC anonymisé · SecureDrive et TeamChat sont des noms génériques." data-en="Anonymized POC · SecureDrive and TeamChat are generic names.">POC anonymisé · SecureDrive et TeamChat sont des noms génériques.</span>
+      <a href="#main" data-fr="Retour en haut ↑" data-en="Back to top ↑">Retour en haut ↑</a>
+    </div>
+  </footer>
+</body>
+</html>

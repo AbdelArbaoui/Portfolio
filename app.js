@@ -12,6 +12,7 @@ const translations = {
     "a11y.csExternal": "Ouvrir CS Analytics dans un nouvel onglet",
     "a11y.moneyExternal": "Ouvrir Money Tracker dans un nouvel onglet",
     "a11y.sapExternal": "Ouvrir SAP Dashboards dans un nouvel onglet",
+    "a11y.helpExternal": "Ouvrir le Help Center dans un nouvel onglet",
     "a11y.closeDemo": "Fermer la démonstration",
     "a11y.demoFrame": "Démonstration interactive",
     "nav.expertise": "Expertise",
@@ -50,7 +51,7 @@ const translations = {
     "expertise.explainTitle": "Data storytelling",
     "expertise.explainText": "Hiérarchiser les métriques pour faire émerger une lecture et une prochaine action claires.",
     "projects.kicker": "Projets sélectionnés",
-    "projects.title": "Trois projets pour montrer ce que je sais construire.",
+    "projects.title": "Quatre projets pour montrer ce que je sais construire.",
     "projects.intro": "Chaque démonstration rend mes choix de conception et mon niveau de finition directement observables.",
     "projects.demo": "Démonstration interactive",
     "projects.csAlt": "Aperçu de CS Analytics",
@@ -75,6 +76,12 @@ const translations = {
     "projects.sapProblem": "Consolidation manuelle lente et difficile à fiabiliser.",
     "projects.sapAnswer": "Un workflow Excel guidé, local et sans installation.",
     "projects.sapProof": "Comparaisons, écarts, contrôles d’équilibre et PDF.",
+    "projects.helpAlt": "Aperçu du Help Center SecureDrive et TeamChat",
+    "projects.helpType": "Documentation · Migration · Product Discovery",
+    "projects.helpSummary": "Un POC anonymisé qui organise deux parcours documentaires dans un Help Center statique, versionné et facilement consultable.",
+    "projects.helpProblem": "Documentation difficile à versionner et dépendance à un éditeur hébergé.",
+    "projects.helpAnswer": "Un hub MkDocs-like avec des espaces SecureDrive et TeamChat séparés.",
+    "projects.helpProof": "Interfaces reconstituées, composants interactifs, arbitrages et estimation d’environ 4K€ par an.",
     "projects.open": "Explorer le projet",
     "method.kicker": "Ma manière de travailler",
     "method.title": "Comprendre avant de construire. Prouver avant de promettre.",
@@ -109,6 +116,7 @@ const translations = {
     "a11y.csExternal": "Open CS Analytics in a new tab",
     "a11y.moneyExternal": "Open Money Tracker in a new tab",
     "a11y.sapExternal": "Open SAP Dashboards in a new tab",
+    "a11y.helpExternal": "Open the Help Center in a new tab",
     "a11y.closeDemo": "Close demonstration",
     "a11y.demoFrame": "Interactive demonstration",
     "nav.expertise": "Expertise",
@@ -147,7 +155,7 @@ const translations = {
     "expertise.explainTitle": "Data storytelling",
     "expertise.explainText": "Prioritize metrics to surface a clear reading and next action.",
     "projects.kicker": "Selected projects",
-    "projects.title": "Three projects that show what I can build.",
+    "projects.title": "Four projects that show what I can build.",
     "projects.intro": "Each demonstration makes my design decisions and level of finish directly observable.",
     "projects.demo": "Interactive demonstration",
     "projects.csAlt": "CS Analytics preview",
@@ -172,6 +180,12 @@ const translations = {
     "projects.sapProblem": "Slow manual consolidation that is difficult to audit.",
     "projects.sapAnswer": "A guided, local Excel workflow with no installation.",
     "projects.sapProof": "Comparisons, variances, balance controls, and PDF output.",
+    "projects.helpAlt": "SecureDrive and TeamChat Help Center preview",
+    "projects.helpType": "Documentation · Migration · Product Discovery",
+    "projects.helpSummary": "An anonymized POC organizing two documentation paths in a static, versioned and searchable Help Center.",
+    "projects.helpProblem": "Documentation that is hard to version and dependency on a hosted editor.",
+    "projects.helpAnswer": "A MkDocs-like hub with separate SecureDrive and TeamChat spaces.",
+    "projects.helpProof": "Reconstructed interfaces, interactive components, trade-offs and an estimated 4K€ annual saving.",
     "projects.open": "Explore the project",
     "method.kicker": "How I work",
     "method.title": "Understand before building. Prove before promising.",
@@ -207,6 +221,10 @@ const projects = {
   sap: {
     title: "SAP Dashboards",
     path: "apps/SAP-Dashboards/index.html"
+  },
+  help: {
+    title: "SecureDrive & TeamChat Help Center",
+    path: "apps/Help-Center-Migration/index.html"
   }
 };
 
