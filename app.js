@@ -13,6 +13,9 @@ const translations = {
     "a11y.moneyExternal": "Ouvrir Money Tracker dans un nouvel onglet",
     "a11y.sapExternal": "Ouvrir SAP Dashboards dans un nouvel onglet",
     "a11y.helpExternal": "Ouvrir le Help Center dans un nouvel onglet",
+    "a11y.btpExternal": "Ouvrir Copilote AO dans un nouvel onglet",
+    "a11y.candidateExternal": "Ouvrir Candidate dans un nouvel onglet",
+    "projects.openCase": "Explorer l’étude de cas",
     "a11y.closeDemo": "Fermer la démonstration",
     "a11y.demoFrame": "Démonstration interactive",
     "nav.expertise": "Expertise",
@@ -133,6 +136,9 @@ const translations = {
     "a11y.moneyExternal": "Open Money Tracker in a new tab",
     "a11y.sapExternal": "Open SAP Dashboards in a new tab",
     "a11y.helpExternal": "Open the Help Center in a new tab",
+    "a11y.btpExternal": "Open Copilote AO in a new tab",
+    "a11y.candidateExternal": "Open Candidate in a new tab",
+    "projects.openCase": "Explore the case study",
     "a11y.closeDemo": "Close demonstration",
     "a11y.demoFrame": "Interactive demonstration",
     "nav.expertise": "Expertise",
@@ -257,6 +263,14 @@ const projects = {
   help: {
     title: "SecureDrive & TeamChat Help Center",
     path: "apps/Help-Center-Migration/index.html"
+  },
+  btp: {
+    title: "Copilote AO",
+    path: "apps/copilote-ao/index.html"
+  },
+  candidate: {
+    title: "Candidate",
+    path: "apps/candidate/index.html"
   }
 };
 

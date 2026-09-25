@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d151b">
+  <meta name="description" content="Candidate — démonstration guidée et bilingue d'un tableau de bord local de candidatures, avec données fictives.">
+  <title>Candidate — démonstration guidée</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#content" id="skip-link">Aller au contenu</a>
+  <div class="demo-bar" role="note">
+    <span class="demo-bar__mark" aria-hidden="true">◇</span>
+    <span id="demo-notice">Démonstration guidée avec données fictives · Aucune connexion au vault local</span>
+  </div>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navigation Candidate" id="sidebar">
+      <div class="brand">
+        <span class="brand__symbol" aria-hidden="true">C<span>.</span></span>
+        <span class="brand__copy"><strong>Candidate</strong><small id="brand-tagline">Tableau de bord local</small></span>
+      </div>
+      <p class="nav-caption" id="nav-caption">EXPLORER</p>
+      <nav class="side-nav" id="nav" aria-label="Sections de la démonstration"></nav>
+      <div class="sidebar-note">
+        <span class="sidebar-note__icon" aria-hidden="true">⌂</span>
+        <div><strong id="sidebar-note-title">Application réelle : sur le Mac</strong><p id="sidebar-note-text">Cette page publique illustre ses parcours. Vos dossiers ne sont pas chargés ici.</p></div>
+      </div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar">
+        <div class="topbar__heading"><span class="eyebrow" id="top-kicker">PARCOURS INTERACTIF</span><h1 id="top-title">Vue d'ensemble</h1></div>
+        <div class="topbar__tools"><span class="topbar__privacy"><span class="privacy-dot" aria-hidden="true"></span><span id="privacy-label">Données fictives</span></span><button class="lang-toggle" type="button" id="lang-toggle" aria-label="Afficher en anglais">EN</button></div>
+      </header>
+      <main id="content" tabindex="-1"><div id="view-root"></div></main>
+      <footer class="app-footer"><span id="footer-left">Candidate · aperçu public autonome</span><span id="footer-right">Aucun envoi, email ou run ATS/CV depuis cette démo</span></footer>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

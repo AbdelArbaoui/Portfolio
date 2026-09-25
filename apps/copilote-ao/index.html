@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101c2c">
+  <title>Copilote AO · Étude de cas interactive</title>
+  <meta name="description" content="Démonstration guidée de Copilote AO avec données fictives : veille, qualification et preuves.">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand" aria-label="Copilote AO">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="brand-name">Copilote <strong>AO</strong></span>
+      </div>
+      <div class="topbar-actions">
+        <span class="topbar-caption" data-i18n="topCaption">Étude de cas interactive</span>
+        <button class="language-button" id="language-button" type="button" aria-label="Afficher en anglais">EN</button>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <aside class="sidebar" aria-label="Parcours de démonstration">
+        <div class="sidebar-intro">
+          <span class="eyebrow" data-i18n="sidebarKicker">PARCOURS GUIDÉ</span>
+          <h2 data-i18n="sidebarTitle">D'un avis à une décision éclairée.</h2>
+          <p data-i18n="sidebarLead">Explorez trois étapes d'un appel d'offres, sans compte ni connexion.</p>
+        </div>
+        <nav class="stage-nav" aria-label="Étapes">
+          <button class="stage-link is-active" type="button" data-stage="watch" aria-controls="stage-watch" aria-pressed="true">
+            <span class="stage-number">01</span>
+            <span><strong data-i18n="navWatch">Veille</strong><small data-i18n="navWatchSub">Repérer une opportunité</small></span>
+            <span class="stage-arrow" aria-hidden="true">↗</span>
+          </button>
+          <button class="stage-link" type="button" data-stage="qualify" aria-controls="stage-qualify" aria-pressed="false">
+            <span class="stage-number">02</span>
+            <span><strong data-i18n="navQualify">Qualification</strong><small data-i18n="navQualifySub">Tester les critères</small></span>
+            <span class="stage-arrow" aria-hidden="true">↗</span>
+          </button>
+          <button class="stage-link" type="button" data-stage="evidence" aria-controls="stage-evidence" aria-pressed="false">
+            <span class="stage-number">03</span>
+            <span><strong data-i18n="navEvidence">Preuves & décision</strong><small data-i18n="navEvidenceSub">Vérifier avant d'agir</small></span>
+            <span class="stage-arrow" aria-hidden="true">↗</span>
+          </button>
+        </nav>
+        <div class="sidebar-footnote">
+          <span class="footnote-icon" aria-hidden="true">i</span>
+          <p data-i18n="sidebarFootnote">Les avis et entreprises de cette démonstration sont fictifs. Aucune action n'est enregistrée ni transmise.</p>
+        </div>
+      </aside>
+
+      <main class="main">
+        <section class="hero" aria-labelledby="page-title">
+          <div class="hero-copy">
+            <p class="hero-eyebrow" data-i18n="heroEyebrow">COPILOTE AO / APPELS D'OFFRES BTP</p>
+            <h1 id="page-title" data-i18n="heroTitle">Démonstration guidée avec données fictives.</h1>
+            <p data-i18n="heroLead">Sélectionnez un avis, ajustez les critères et examinez les preuves avant toute décision humaine.</p>
+          </div>
+          <div class="hero-status" role="note">
+            <span class="status-light" aria-hidden="true"></span>
+            <div>
+              <strong data-i18n="statusTitle">P0 vérifié en local et sur le projet test</strong>
+              <span data-i18n="statusText">Publication publique bloquée · aucune soumission automatique</span>
+            </div>
+          </div>
+        </section>
+
+        <div class="process-strip" aria-label="Vue d'ensemble">
+          <div><span class="process-icon" aria-hidden="true">↗</span><strong data-i18n="process1">Sources</strong><span data-i18n="process1Sub">BOAMP et TED en lecture</span></div>
+          <div><span class="process-icon" aria-hidden="true">◇</span><strong data-i18n="process2">5 critères</strong><span data-i18n="process2Sub">avec raison explicite</span></div>
+          <div><span class="process-icon" aria-hidden="true">✓</span><strong data-i18n="process3">Humain</strong><span data-i18n="process3Sub">validation obligatoire</span></div>
+        </div>
+
+        <section class="panel" id="stage-watch" data-panel="watch" aria-labelledby="watch-title">
+          <div class="panel-heading">
+            <div><span class="step-label" data-i18n="watchStep">ÉTAPE 01 / VEILLE</span><h2 id="watch-title" data-i18n="watchTitle">Repérer les opportunités</h2><p data-i18n="watchLead">Choisissez un avis fictif pour voir les informations affichées et les inconnues conservées.</p></div>
+            <span class="demo-badge" data-i18n="fakeBadge">DONNÉES FICTIVES</span>
+          </div>
+          <div class="watch-grid">
+            <div class="notice-list" id="notice-list" aria-label="Avis de démonstration"></div>
+            <article class="notice-detail" aria-live="polite">
+              <div class="detail-head"><span class="detail-kicker" data-i18n="noticePreview">APERÇU DE L'AVIS</span><span class="detail-id" id="notice-id"></span></div>
+              <h3 id="notice-title"></h3>
+              <p class="detail-description" id="notice-description"></p>
+              <dl class="detail-facts">
+                <div><dt data-i18n="factSource">Source</dt><dd id="notice-source"></dd></div>
+                <div><dt data-i18n="factArea">Zone</dt><dd id="notice-area"></dd></div>
+                <div><dt data-i18n="factAmount">Montant</dt><dd id="notice-amount"></dd></div>
+                <div><dt data-i18n="factDeadline">Délai</dt><dd id="notice-deadline"></dd></div>
+              </dl>
+              <div class="detail-callout"><span aria-hidden="true">?</span><p data-i18n="watchUnknown">Un champ non publié reste « inconnu » : le système ne le transforme jamais en fait.</p></div>
+              <button class="next-button" type="button" data-next="qualify"><span data-i18n="goQualify">Tester la qualification</span><span aria-hidden="true">→</span></button>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel" id="stage-qualify" data-panel="qualify" aria-labelledby="qualify-title" hidden>
+          <div class="panel-heading">
+            <div><span class="step-label" data-i18n="qualifyStep">ÉTAPE 02 / QUALIFICATION</span><h2 id="qualify-title" data-i18n="qualifyTitle">Tester les règles métier</h2><p data-i18n="qualifyLead">Modifiez les cinq critères. Chaque résultat indique satisfait, non satisfait ou inconnu, avec sa raison.</p></div>
+            <span class="demo-badge" data-i18n="simulationBadge">SIMULATION ILLUSTRATIVE</span>
+          </div>
+          <div class="selected-notice-line"><span data-i18n="selectedNotice">AVIS SÉLECTIONNÉ</span><strong id="qualify-notice-title"></strong><button type="button" data-next="watch" data-i18n="changeNotice">Changer d'avis</button></div>
+          <div class="qualify-grid">
+            <form class="criteria-form" id="criteria-form">
+              <div class="form-head"><span class="form-icon" aria-hidden="true">◇</span><div><h3 data-i18n="criteriaTitle">Critères de l'entreprise</h3><p data-i18n="criteriaText">Les réglages agissent seulement sur cette démonstration.</p></div></div>
+              <div class="form-fields">
+                <label for="min-amount"><span data-i18n="minAmount">Montant minimum</span><select id="min-amount" name="minAmount"><option value="0" data-i18n="zero">0 €</option><option value="500000" selected data-i18n="fiveHundred">500 000 €</option><option value="1000000" data-i18n="oneMillion">1 000 000 €</option></select></label>
+                <label for="max-amount"><span data-i18n="maxAmount">Montant maximum</span><select id="max-amount" name="maxAmount"><option value="1000000" data-i18n="oneMillion">1 000 000 €</option><option value="1500000" selected data-i18n="oneHalfMillion">1 500 000 €</option><option value="2500000" data-i18n="twoHalfMillion">2 500 000 €</option></select></label>
+                <label for="area"><span data-i18n="area">Zone recherchée</span><select id="area" name="area"><option value="any" selected data-i18n="anyArea">Toutes les zones</option><option value="occitanie">Occitanie</option><option value="idf" data-i18n="ileDeFrance">Île-de-France</option><option value="aura" data-i18n="aura">Auvergne-Rhône-Alpes</option></select></label>
+                <label for="min-days"><span data-i18n="minDays">Délai minimum</span><select id="min-days" name="minDays"><option value="7" data-i18n="sevenDays">7 jours</option><option value="15" selected data-i18n="fifteenDays">15 jours</option><option value="30" data-i18n="thirtyDays">30 jours</option></select></label>
+                <label for="excluded-lot" class="field-wide"><span data-i18n="excludedLot">Lot exclu</span><select id="excluded-lot" name="excludedLot"><option value="none" selected data-i18n="noExcludedLot">Aucun</option><option value="second" data-i18n="lotSecond">Second œuvre</option><option value="structure" data-i18n="lotStructure">Gros œuvre</option><option value="electric" data-i18n="lotElectric">Électricité</option></select></label>
+              </div>
+            </form>
+            <div class="qualification-result" aria-live="polite">
+              <div class="result-top"><span data-i18n="provisionalVerdict">LECTURE PROVISOIRE</span><span class="result-counter" id="result-counter"></span></div>
+              <div class="verdict" id="verdict"></div>
+              <p class="result-explanation" data-i18n="verdictNote">Ce classement illustratif n'est ni une recommandation définitive ni une candidature.</p>
+              <div class="criteria-results" id="criteria-results"></div>
+              <button class="next-button" type="button" data-next="evidence"><span data-i18n="goEvidence">Examiner les preuves</span><span aria-hidden="true">→</span></button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="stage-evidence" data-panel="evidence" aria-labelledby="evidence-title" hidden>
+          <div class="panel-heading">
+            <div><span class="step-label" data-i18n="evidenceStep">ÉTAPE 03 / PREUVES ET DÉCISION</span><h2 id="evidence-title" data-i18n="evidenceTitle">Vérifier avant de décider</h2><p data-i18n="evidenceLead">Ouvrez les lignes de provenance, repérez les inconnues et voyez les contrôles humains requis.</p></div>
+            <span class="demo-badge" data-i18n="fakeBadge">DONNÉES FICTIVES</span>
+          </div>
+          <div class="selected-notice-line"><span data-i18n="selectedNotice">AVIS SÉLECTIONNÉ</span><strong id="evidence-notice-title"></strong><button type="button" data-next="watch" data-i18n="changeNotice">Changer d'avis</button></div>
+          <div class="evidence-grid">
+            <div class="evidence-card">
+              <div class="evidence-card-head"><span class="proof-icon" aria-hidden="true">“</span><div><h3 data-i18n="proofTitle">Provenance visible</h3><p data-i18n="proofSubtitle">Une donnée connue doit pointer vers un passage de l'avis.</p></div></div>
+              <div id="evidence-list" class="evidence-list"></div>
+              <p class="proof-caption" data-i18n="proofCaption">Extraits inventés pour la démonstration. Aucun avis réel ni DCE client n'est chargé ici.</p>
+            </div>
+            <div class="decision-card">
+              <span class="decision-kicker" data-i18n="decisionKicker">PORTE DE DÉCISION</span>
+              <h3 data-i18n="decisionTitle">L'humain garde la main.</h3>
+              <ol class="decision-steps">
+                <li><span>01</span><div><strong data-i18n="decisionOneTitle">Vérifier la source</strong><p data-i18n="decisionOneText">Les champs inconnus et les extraits candidats demandent une lecture humaine.</p></div></li>
+                <li><span>02</span><div><strong data-i18n="decisionTwoTitle">Décider go / no-go</strong><p data-i18n="decisionTwoText">Une décision motivée est attribuée à une personne.</p></div></li>
+                <li><span>03</span><div><strong data-i18n="decisionThreeTitle">Faire approuver</strong><p data-i18n="decisionThreeText">L'approbateur doit être différent du décideur avant un export autorisé.</p></div></li>
+              </ol>
+              <div class="decision-warning"><span aria-hidden="true">!</span><p data-i18n="decisionWarning">Aucun dépôt, envoi, signature ou paiement automatique. La release publique du produit reste bloquée.</p></div>
+            </div>
+          </div>
+          <div class="technical-note"><strong data-i18n="limitsTitle">État réel du produit</strong><p data-i18n="limitsText">Le P0 est vérifié en local et sur un projet test. La recherche DCE textuelle renvoie des passages candidats ; le mode hybride et l'ingestion des documents ne sont pas disponibles. Aucune validation production ni release publique.</p></div>
+        </section>
+
+        <footer class="main-footer"><span data-i18n="footerLeft">Copilote AO · exploration de portfolio</span><span data-i18n="footerRight">Scénario pédagogique · aucune donnée réelle</span></footer>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
