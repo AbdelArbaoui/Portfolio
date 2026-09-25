@@ -685,3 +685,8 @@
     break-after: avoid;
   }
 }
+
+.cv-pdf-section { display: block; padding-block: 36px 56px; }
+.cv-pdf-section[hidden] { display: none; }
+.cv-pdf-section h2 { margin: 0 0 18px; }
+.cv-pdf-section object { display: block; width: 100%; height: min(1100px, 125vw); min-height: 600px; border: 1px solid currentColor; background: white; }
