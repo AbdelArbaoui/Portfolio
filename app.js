@@ -66,14 +66,14 @@ const translations = {
     "projects.sapSummary": "Un classeur Excel autonome qui transforme des balances SAP en bilan Magnitude multi-périodes, avec mapping hiérarchique, contrôles et export PDF.",
     "projects.inDevelopment": "En développement",
     "projects.localApp": "Application locale",
-    "projects.btpAlt": "Schéma du Copilote AO",
+    "projects.btpAlt": "Maquette du tableau de bord Copilote AO",
     "projects.btpType": "BTP · Appels d’offres · IA encadrée",
     "projects.btpSummary": "Un copilote pour suivre les appels d’offres, qualifier les opportunités et analyser les dossiers avec des preuves traçables.",
     "projects.btpProblem": "Les avis et dossiers dispersés rendent la qualification lente.",
     "projects.btpAnswer": "Veille BOAMP/TED/DECP, go/no-go humain et analyse DCE sourcée.",
     "projects.btpProof": "Parcours validé en local et sur projet test ; publication publique bloquée.",
     "projects.btpStatus": "Aucune soumission automatique",
-    "projects.candidateAlt": "Schéma du cockpit Candidate",
+    "projects.candidateAlt": "Maquette du cockpit Candidate",
     "projects.candidateType": "Candidatures · Cockpit local",
     "projects.candidateSummary": "Une application locale pour suivre les offres, les candidatures et les documents sans perdre leur provenance.",
     "projects.candidateProblem": "Offres, CV et analyses sont répartis dans de nombreux dossiers.",
@@ -186,14 +186,14 @@ const translations = {
     "projects.sapSummary": "A standalone Excel workbook that turns SAP trial balances into a multi-period Magnitude balance sheet with hierarchical mapping, controls, and PDF export.",
     "projects.inDevelopment": "In development",
     "projects.localApp": "Local application",
-    "projects.btpAlt": "Copilote AO diagram",
+    "projects.btpAlt": "Copilote AO dashboard mockup",
     "projects.btpType": "Construction · Tenders · Human-reviewed AI",
     "projects.btpSummary": "A copilot for monitoring tenders, qualifying opportunities and analysing documents with traceable evidence.",
     "projects.btpProblem": "Scattered notices and documents slow qualification.",
     "projects.btpAnswer": "BOAMP/TED/DECP monitoring, human go/no-go and sourced tender analysis.",
     "projects.btpProof": "Workflow validated locally and in a test project; public release blocked.",
     "projects.btpStatus": "No automatic submission",
-    "projects.candidateAlt": "Candidate cockpit diagram",
+    "projects.candidateAlt": "Candidate cockpit mockup",
     "projects.candidateType": "Job applications · Local cockpit",
     "projects.candidateSummary": "A local app for tracking job offers, applications and documents while preserving their provenance.",
     "projects.candidateProblem": "Offers, résumés and analyses are scattered across folders.",
@@ -298,6 +298,10 @@ function setLanguage(language) {
 
   document.querySelectorAll("[data-i18n-aria]").forEach(element => {
     element.setAttribute("aria-label", translate(element.dataset.i18nAria));
+  });
+
+  document.querySelectorAll("[data-image-fr][data-image-en]").forEach(element => {
+    element.src = currentLanguage === "en" ? element.dataset.imageEn : element.dataset.imageFr;
   });
 
   document.querySelectorAll("[data-i18n-alt]").forEach(element => {
