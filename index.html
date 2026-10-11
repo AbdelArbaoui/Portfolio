@@ -1,553 +1,907 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" data-theme="light">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b0f0d">
-  <meta name="description" content="Portfolio d’Abdel Arbaoui — projets, compétences et méthode de travail en Product, Data et Customer Success Operations.">
-  <title>Abdel Arbaoui — Product &amp; Customer Success Systems</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="app.js" defer></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Abdel Arbaoui — Customer Success Manager</title>
+<meta name="description" content="Customer Success Manager en cybersécurité B2B. Parcours chez Thales et Inetum, projets JobLeaf, CS Analytics, SAP Dashboards.">
+<link rel="canonical" href="https://abdelarbaoui.github.io/Portfolio/">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/abdel-arbaoui.jpg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://abdelarbaoui.github.io/Portfolio/">
+<meta property="og:title" content="Abdel Arbaoui — Customer Success Manager">
+<meta property="og:description" content="Customer Success en cybersécurité B2B, et les outils que je construis : JobLeaf, CS Analytics, SAP Dashboards.">
+<meta property="og:image" content="https://abdelarbaoui.github.io/Portfolio/assets/abdel-arbaoui.jpg">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="640">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="en_GB">
+<meta name="twitter:card" content="summary">
+<script>
+  (function () {
+    var t, l, q;
+    try { t = localStorage.getItem('theme'); l = localStorage.getItem('lang'); } catch (e) {}
+    q = new URLSearchParams(location.search).get('lang');
+    if (q === 'fr' || q === 'en') l = q;
+    if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if (l !== 'fr' && l !== 'en') l = (navigator.language || 'fr').toLowerCase().indexOf('fr') === 0 ? 'fr' : 'en';
+    document.documentElement.dataset.theme = t;
+    document.documentElement.dataset.lang = l;
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Geist:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* OD-LAYOUT-PRIMITIVES v1 — structure only: display, flex/grid, overflow, wrapping, ratio.
+   Put this @layer first; product CSS outside the layer always wins. */
+@layer od-layout {
+  :where(.od-stack,.od-row,.od-row-top,.od-cluster,.od-grid,.od-field,.od-stat,.od-cell,.od-tile) > :where(*) { min-width: 0; }
+
+  /* containers */
+  .od-stack   { display: flex; flex-direction: column; gap: var(--od-gap, 8px); }
+  .od-row     { display: flex; align-items: center; gap: var(--od-gap, 8px); }
+  .od-row-top { display: flex; align-items: flex-start; gap: var(--od-gap, 8px); }
+  .od-cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--od-gap, 8px); }
+  .od-fill    { flex: 1 1 0; min-width: 0; }
+  .od-fixed   { flex: none; }
+  .od-grid    { display: grid; gap: var(--od-gap, 12px); grid-template-columns: repeat(var(--od-cols, 3), minmax(0, 1fr)); }
+
+  /* stacked information: each piece is its own line — never sibling inline spans */
+  .od-stat, .od-field, .od-cell { display: grid; gap: var(--od-gap, 2px); }
+  :where(.od-stat,.od-field,.od-cell) > :where(*) { display: block; }
+  .od-tile { display: grid; grid-template-rows: auto 1fr; }
+  :where(.od-tile) > :where(*) { display: block; }
+
+  /* media keeps its intrinsic ratio by default; never a distorted or cropped
+     cover by accident. height:auto lets the ratio win over an <img height="…">
+     attribute. Cropping to a uniform box is an explicit opt-in: set --od-ratio
+     AND add .od-media-cover together (per the core rule, only where a crop is
+     deliberate — tile thumbs, decorative fills — never on full-frame content). */
+  .od-media { display: block; width: 100%; height: auto; aspect-ratio: var(--od-ratio, auto); }
+  .od-media-cover { object-fit: cover; }
+
+  /* data text only — authored copy is rewritten to its budget instead */
+  .od-truncate { display: block; max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .od-clamp-2, .od-clamp-3 { display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+  .od-clamp-2 { -webkit-line-clamp: 2; }
+  .od-clamp-3 { -webkit-line-clamp: 3; }
+  .od-lines-2 { min-height: calc(2 * 1.4em); }   /* block-level reservation for a shared baseline */
+  .od-nowrap  { white-space: nowrap; }           /* 数字+单位 · 价格+起 · 日期+星期 */
+  .od-keep    { word-break: keep-all; overflow-wrap: anywhere; } /* CJK labels break at spaces / <wbr> first */
+
+  /* screen skeleton (optional): bars take their own space, the middle scrolls — no padding guessed for chrome */
+  .od-screen { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; height: 100%; }
+  .od-scroll { overflow-y: auto; overscroll-behavior: contain; min-height: 0; }
+
+  /* horizontal rail: the next item peeks at the edge; trailing room survives overflow */
+  .od-rail { display: flex; gap: var(--od-gap, 8px); overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none;
+             padding-inline: var(--od-rail-pad, 16px); scroll-padding-inline: var(--od-rail-pad, 16px); }
+  .od-rail::-webkit-scrollbar { display: none; }
+  :where(.od-rail) > :where(*) { flex: none; scroll-snap-align: start; }
+  :where(.od-rail) > :where(:last-child) { margin-inline-end: var(--od-rail-pad, 16px); }
+
+  .od-spacer { flex: none; visibility: hidden; pointer-events: none; }
+  .od-touch  { min-width: 44px; min-height: 44px; }
+}
+/* /OD-LAYOUT-PRIMITIVES v1 */
+
+:root {
+  /* couleurs — clair */
+  --canvas: #EEF0F3;
+  --grid: #E2E5EA;
+  --panel: #FFFFFF;
+  --panel-2: #F5F6F8;
+  --ink: #16181D;
+  --ink-soft: #5B616E;
+  --line: #E4E7EC;
+  --accent: #3B4CF5;
+  --accent-hover: #2B3BDB;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #ECEEFF;
+  --logo-filter: none;
+  --shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 12px 32px rgba(16, 24, 40, .06);
+
+  /* typographie */
+  --font-sans: "Geist", "Helvetica Neue", Helvetica, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-hand: "Caveat", "Bradley Hand", cursive;
+  --fs-xs: 13px;
+  --fs-s: 15px;
+  --fs-base: 17px;
+  --fs-l: 20px;
+  --fs-xl: 24px;
+  --fs-h2: clamp(30px, 3.4vw, 44px);
+  --fs-h1: clamp(40px, 5.6vw, 76px);
+
+  /* espacements */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px;
+  --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px;
+
+  /* formes */
+  --r-panel: 24px;
+  --r-card: 16px;
+  --r-btn: 14px;
+  --r-sm: 10px;
+
+  /* mouvement */
+  --dur-in: 200ms;
+  --dur-out: 140ms;
+  --dur-hover: 150ms;
+  --ease-out: cubic-bezier(0, 0, .2, 1);
+  --ease-in: cubic-bezier(.4, 0, 1, 1);
+
+  --sidebar-w: 320px;
+  --shell-pad: 24px;
+  color-scheme: light;
+}
+html[data-theme="dark"] {
+  --canvas: #0E1014;
+  --grid: #171A20;
+  --panel: #16191F;
+  --panel-2: #1D2129;
+  --ink: #ECEEF2;
+  --ink-soft: #A3A9B6;
+  --line: #2A2F38;
+  --accent: #8B96FF;
+  --accent-hover: #A7AFFF;
+  --accent-ink: #0E1014;
+  --accent-soft: #232847;
+  --logo-filter: invert(1);
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: var(--s-5); -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: 1.6;
+  color: var(--ink);
+  background-color: var(--canvas);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+img { max-width: 100%; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+@media (hover: hover) { a:hover { color: var(--accent-hover); } }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skip { position: absolute; left: var(--s-4); top: var(--s-4); z-index: 60; padding: var(--s-2) var(--s-4); background: var(--ink); color: var(--panel); border-radius: var(--r-sm); transform: translateY(-200%); }
+.skip:focus { transform: none; }
+
+.i { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.serif { font-family: var(--font-serif); font-style: italic; font-weight: 400; color: var(--accent); letter-spacing: -.01em; }
+.hand { font-family: var(--font-hand); font-weight: 600; }
+
+/* ---------- coque ---------- */
+.shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  gap: var(--s-5);
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: var(--shell-pad);
+  align-items: start;
+}
+
+/* ---------- barre latérale ---------- */
+.sidebar {
+  position: sticky; top: var(--shell-pad);
+  height: calc(100vh - 2 * var(--shell-pad));
+  display: flex; flex-direction: column; gap: var(--s-5);
+  overflow-y: auto; scrollbar-width: none;
+}
+.sidebar::-webkit-scrollbar { display: none; }
+.card {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: var(--r-panel); box-shadow: var(--shadow);
+}
+.profile { padding: var(--s-5); }
+.profile-head { --od-gap: var(--s-4); }
+.avatar { display: block; width: 72px; height: 72px; border-radius: 18px; border: 1px solid var(--line); }
+.p-name { font-size: var(--fs-l); font-weight: 600; letter-spacing: -.02em; line-height: 1.25; }
+.p-role { font-size: var(--fs-s); color: var(--ink-soft); line-height: 1.4; }
+.menu-btn { display: none; }
+.profile-more { margin-top: var(--s-5); }
+.bio { font-size: var(--fs-s); color: var(--ink-soft); line-height: 1.6; }
+.signature { margin-top: var(--s-3); font-size: 34px; line-height: 1; color: var(--ink); transform: rotate(-3deg); transform-origin: left center; }
+.facts { margin-top: var(--s-5); padding-top: var(--s-5); border-top: 1px solid var(--line); display: grid; gap: var(--s-3); }
+.facts li { display: flex; align-items: center; gap: var(--s-3); font-size: var(--fs-s); line-height: 1.4; }
+.facts .i { color: var(--ink-soft); }
+.facts .avail { font-weight: 600; }
+.facts .avail .i { color: var(--accent); }
+
+.drawer { display: flex; flex-direction: column; gap: var(--s-5); flex: 1 1 auto; }
+.nav { display: grid; gap: var(--s-1); }
+.nav a {
+  display: flex; align-items: center; gap: var(--s-3);
+  min-height: 48px; padding: 0 var(--s-4);
+  border-radius: var(--r-btn); border: 1px solid transparent;
+  color: var(--ink-soft); font-size: var(--fs-base); font-weight: 500; text-decoration: none;
+  transition: background-color var(--dur-hover) var(--ease-out), color var(--dur-hover) var(--ease-out);
+}
+@media (hover: hover) { .nav a:hover { color: var(--ink); background: var(--panel); } }
+.nav a[aria-current="location"] { color: var(--ink); background: var(--panel); border-color: var(--line); box-shadow: var(--shadow); }
+
+.side-foot { margin-top: auto; display: grid; gap: var(--s-3); }
+.side-row { --od-gap: var(--s-2); }
+.icon-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 48px; height: 48px; flex: none;
+  background: var(--panel); color: var(--ink);
+  border: 1px solid var(--line); border-radius: var(--r-btn);
+  cursor: pointer; text-decoration: none;
+  transition: border-color var(--dur-hover) var(--ease-out), color var(--dur-hover) var(--ease-out);
+}
+@media (hover: hover) { .icon-btn:hover { border-color: var(--accent); color: var(--accent); } }
+.seg {
+  display: inline-flex; gap: 2px; padding: 2px; flex: none;
+  background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--r-btn);
+}
+.seg button {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border: 0; border-radius: 11px;
+  background: transparent; color: var(--ink-soft); cursor: pointer;
+  font: 600 var(--fs-s)/1 var(--font-sans); letter-spacing: .02em;
+}
+.seg button[aria-pressed="true"] { background: var(--panel); color: var(--ink); box-shadow: var(--shadow); }
+@media (hover: hover) { .seg button:hover { color: var(--ink); } }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2);
+  min-height: 48px; padding: 0 var(--s-5);
+  border-radius: var(--r-btn); border: 1px solid transparent;
+  font: 500 var(--fs-base)/1 var(--font-sans); text-decoration: none; white-space: nowrap; cursor: pointer;
+  transition: background-color var(--dur-hover) var(--ease-out), border-color var(--dur-hover) var(--ease-out), color var(--dur-hover) var(--ease-out);
+}
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+@media (hover: hover) { .btn-primary:hover { background: var(--accent-hover); color: var(--accent-ink); } }
+.btn-ghost { background: var(--panel); color: var(--ink); border-color: var(--line); box-shadow: var(--shadow); }
+@media (hover: hover) { .btn-ghost:hover { border-color: var(--accent); color: var(--accent); } }
+.btn-block { flex: 1 1 auto; }
+
+/* ---------- panneau principal ---------- */
+.main { padding: var(--s-9) clamp(24px, 6vw, 112px); min-width: 0; }
+.main > section { max-width: 900px; margin: 0 auto; }
+.main > section + section { margin-top: var(--s-8); padding-top: var(--s-8); border-top: 1px solid var(--line); }
+.h2 { font-size: var(--fs-h2); font-weight: 600; letter-spacing: -.035em; line-height: 1.1; }
+.h2 .serif { font-size: 1.1em; }
+.lede-soft { margin-top: var(--s-3); color: var(--ink-soft); max-width: 60ch; }
+.mobile-only { display: none; }
+
+/* accueil */
+.hero-top { --od-gap: var(--s-4) var(--s-6); justify-content: space-between; align-items: flex-end; }
+.pill {
+  display: inline-flex; align-items: center; gap: var(--s-2);
+  min-height: 40px; padding: 0 var(--s-4);
+  background: var(--panel-2); border: 1px solid var(--line); border-radius: 999px;
+  font-size: var(--fs-s); font-weight: 500;
+}
+.pill .i { color: var(--accent); width: 18px; height: 18px; }
+.annot { display: flex; align-items: flex-end; gap: var(--s-1); color: var(--accent); font-size: 28px; line-height: 1; transform: rotate(-4deg); }
+.annot svg { width: 36px; height: 40px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; }
+.h1 { margin-top: var(--s-6); font-size: var(--fs-h1); font-weight: 600; letter-spacing: -.04em; line-height: 1.04; max-width: 15ch; }
+.h1 .serif { font-size: 1.12em; letter-spacing: -.02em; }
+.hero-lede { margin-top: var(--s-5); font-size: var(--fs-l); line-height: 1.6; color: var(--ink-soft); max-width: 58ch; }
+.hero-ctas { margin-top: var(--s-6); --od-gap: var(--s-3); }
+.tools-label { margin-top: var(--s-8); font-size: var(--fs-s); font-weight: 500; color: var(--ink-soft); }
+.tools { margin-top: var(--s-4); display: grid; gap: var(--s-3); grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+.tool {
+  --od-gap: var(--s-3);
+  padding: var(--s-4); min-height: 80px;
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-card);
+}
+.tool-logo { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: var(--r-sm); background: var(--panel-2); border: 1px solid var(--line); }
+.tool-logo img { display: block; width: 22px; height: 22px; filter: var(--logo-filter); }
+.tool-name { font-weight: 600; line-height: 1.3; }
+.tool-use { font-size: var(--fs-s); color: var(--ink-soft); line-height: 1.35; }
+
+/* note */
+.note p { margin-top: var(--s-5); font-size: var(--fs-l); line-height: 1.65; max-width: 62ch; }
+.note .h2 + p { margin-top: var(--s-6); }
+.note-sign { margin-top: var(--s-6); display: grid; gap: var(--s-1); }
+.note-sign .hand { font-size: 38px; line-height: 1; transform: rotate(-3deg); transform-origin: left center; }
+.note-sign span:last-child { font-size: var(--fs-s); color: var(--ink-soft); }
+
+/* parcours */
+.jobs { margin-top: var(--s-7); display: grid; gap: var(--s-7); }
+.job { display: grid; gap: var(--s-3); grid-template-columns: minmax(0, 1fr); }
+.job-when { font-size: var(--fs-s); color: var(--ink-soft); }
+.job-head { --od-gap: var(--s-2) var(--s-3); }
+.job-title { font-size: var(--fs-xl); font-weight: 600; letter-spacing: -.02em; line-height: 1.3; }
+.badge {
+  display: inline-flex; align-items: center; min-height: 28px; padding: 0 var(--s-3);
+  border-radius: 999px; background: var(--accent-soft); color: var(--accent);
+  font-size: var(--fs-s); font-weight: 600; white-space: nowrap;
+}
+.job-ctx { font-size: var(--fs-s); color: var(--ink-soft); }
+.bullets { margin-top: var(--s-2); display: grid; gap: var(--s-2); }
+.bullets li { position: relative; padding-left: var(--s-5); color: var(--ink); }
+.bullets li::before { content: ""; position: absolute; left: 6px; top: .72em; width: 6px; height: 6px; border-radius: 50%; background: var(--ink-soft); }
+.nums { font-weight: 600; white-space: nowrap; }
+
+/* formation */
+.rows { margin-top: var(--s-6); border-top: 1px solid var(--line); }
+.row-item { --od-gap: var(--s-4); padding: var(--s-4) 0; border-bottom: 1px solid var(--line); }
+.row-ic { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: var(--r-sm); background: var(--accent-soft); color: var(--accent); }
+.row-title { font-weight: 600; line-height: 1.35; }
+.row-org { font-size: var(--fs-s); color: var(--ink-soft); }
+.row-when { font-size: var(--fs-s); color: var(--ink-soft); white-space: nowrap; }
+
+/* projets */
+.projects { margin-top: var(--s-7); display: grid; gap: var(--s-5); grid-template-columns: minmax(0, 1fr); }
+.proj { display: grid; gap: var(--s-4); padding: var(--s-3); background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-panel); }
+.proj figure { border-radius: var(--r-card); overflow: hidden; border: 1px solid var(--line); background: var(--panel-2); }
+.proj-body { display: grid; gap: var(--s-3); padding: var(--s-2) var(--s-3) var(--s-3); align-content: start; }
+.proj-meta { --od-gap: var(--s-2); }
+.proj-type { display: inline-flex; align-items: center; min-height: 28px; padding: 0 var(--s-3); border-radius: 999px; background: var(--panel-2); border: 1px solid var(--line); font-size: var(--fs-xs); font-weight: 600; }
+.proj-name { font-size: var(--fs-xl); font-weight: 600; letter-spacing: -.02em; line-height: 1.25; }
+.proj-desc { color: var(--ink-soft); }
+.stack { --od-gap: var(--s-2); }
+.stack li { font-size: var(--fs-xs); padding: 2px var(--s-2); border: 1px solid var(--line); border-radius: 8px; color: var(--ink-soft); }
+.proj-link { display: inline-flex; align-items: center; gap: var(--s-2); min-height: 44px; font-weight: 600; text-decoration: none; }
+.proj-link .i { width: 18px; height: 18px; }
+@media (hover: hover) { .proj-link:hover { text-decoration: underline; } }
+@media (min-width: 1280px) {
+  .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .proj.featured { grid-column: 1 / -1; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: center; }
+}
+
+/* contact */
+.mail-big {
+  display: inline-block; margin-top: var(--s-6);
+  font-size: clamp(28px, 4.4vw, 56px); font-weight: 600; letter-spacing: -.035em; line-height: 1.1;
+  color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .14em;
+  overflow-wrap: anywhere;
+}
+@media (hover: hover) { .mail-big:hover { color: var(--accent); } }
+.contact-row { margin-top: var(--s-6); --od-gap: var(--s-3); }
+.copy-status { min-height: 1.6em; margin-top: var(--s-3); font-size: var(--fs-s); color: var(--ink-soft); }
+.foot { margin-top: var(--s-8); padding-top: var(--s-5); border-top: 1px solid var(--line); font-size: var(--fs-s); color: var(--ink-soft); --od-gap: var(--s-3); justify-content: space-between; }
+
+/* ---------- responsive ---------- */
+@media (min-width: 768px) {
+  .job { grid-template-columns: 180px minmax(0, 1fr); column-gap: var(--s-6); }
+  .job-when { padding-top: 4px; }
+}
+@media (max-width: 1023px) {
+  :root { --shell-pad: 12px; }
+  html { scroll-padding-top: 104px; }
+  .shell { grid-template-columns: minmax(0, 1fr); gap: var(--s-3); }
+  .sidebar { position: sticky; top: var(--shell-pad); z-index: 30; height: auto; overflow: visible; gap: var(--s-2); }
+  .profile { padding: var(--s-3) var(--s-3) var(--s-3) var(--s-4); }
+  .profile-head { --od-gap: var(--s-3); }
+  .avatar { width: 48px; height: 48px; border-radius: 12px; }
+  .p-name { font-size: var(--fs-base); }
+  .menu-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 48px; height: 48px; border-radius: var(--r-btn);
+    background: var(--panel-2); color: var(--ink); border: 1px solid var(--line); cursor: pointer;
+  }
+  .profile-more { display: none; }
+  .drawer {
+    display: none; padding: var(--s-4);
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-panel); box-shadow: var(--shadow);
+    max-height: calc(100vh - 110px); overflow-y: auto;
+  }
+  .drawer.is-open { display: flex; animation: drop var(--dur-in) var(--ease-out); }
+  .nav a[aria-current="location"] { background: var(--panel-2); box-shadow: none; }
+  .side-foot { margin-top: var(--s-2); }
+  .mobile-only { display: block; }
+  .main { padding: var(--s-7) var(--s-5); }
+}
+@keyframes drop { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+
+.m-intro { margin-bottom: var(--s-6); padding: var(--s-4); border: 1px solid var(--line); border-radius: var(--r-card); background: var(--panel-2); }
+.m-intro .facts { margin-top: var(--s-4); padding-top: var(--s-4); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+}
+</style>
 </head>
 <body>
-  <a class="skip-link" href="#main-content" data-i18n="a11y.skip">Aller au contenu</a>
+<a class="skip" href="#contenu" data-i18n="skip">Aller au contenu</a>
 
-  <header class="site-header">
-    <a class="brand" href="#top" aria-label="Abdel Arbaoui — Accueil" data-i18n-aria="a11y.home">
-      <span class="brand-mark" aria-hidden="true">AA</span>
-      <span>
-        <strong>Abdel Arbaoui</strong>
-        <small>Product · Data · CS Systems</small>
-      </span>
-    </a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-briefcase" viewBox="0 0 24 24"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></symbol>
+  <symbol id="i-lang" viewBox="0 0 24 24"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></symbol>
+  <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></symbol>
+  <symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
+  <symbol id="i-radio" viewBox="0 0 24 24"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+  <symbol id="i-badge" viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></symbol>
+</svg>
 
-    <nav class="desktop-nav" aria-label="Navigation principale" data-i18n-aria="a11y.navigation">
-      <a href="#expertise" data-i18n="nav.expertise">Expertise</a>
-      <a href="#projects" data-i18n="nav.projects">Projets</a>
-      <a href="#method" data-i18n="nav.method">Méthode</a>
-      <a href="cv.html" data-i18n="nav.cv">CV</a>
-    </nav>
-
-    <div class="header-actions">
-      <span class="availability">
-        <i aria-hidden="true"></i>
-        <span data-i18n="nav.available">Portfolio · 2026</span>
-      </span>
-      <button class="language-button" type="button" data-language-toggle aria-label="Afficher le site en anglais">
-        EN
-      </button>
+<div class="shell">
+  <aside class="sidebar" aria-label="Profil et navigation" data-i18n-attr="aria-label:a_sidebar">
+    <div class="card profile">
+      <div class="profile-head od-row">
+        <img class="avatar od-fixed" src="assets/abdel-arbaoui.jpg" width="640" height="640" alt="Portrait d'Abdel Arbaoui" data-i18n-attr="alt:a_avatar">
+        <div class="od-field od-fill">
+          <span class="p-name">Abdel Arbaoui</span>
+          <span class="p-role">Customer Success Manager</span>
+        </div>
+        <button class="menu-btn od-fixed" type="button" aria-expanded="false" aria-controls="drawer">
+          <svg class="i" aria-hidden="true"><use href="#i-menu"/></svg>
+          <span class="sr-only">Ouvrir le menu</span>
+        </button>
+      </div>
+      <div class="profile-more">
+        <p class="bio" data-i18n="bio">Trois ans en relation client B2B, en cybersécurité. J'utilise la donnée et l'automatisation pour soutenir l'adoption produit et l'expérience client.</p>
+        <p class="signature hand" aria-hidden="true">Abdel Arbaoui</p>
+        <ul class="facts">
+          <li class="avail"><svg class="i" aria-hidden="true"><use href="#i-zap"/></svg><span data-i18n="avail">Ouvert à un CDI de CSM, en France et à l'international</span></li>
+          <li><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>Paris, France</li>
+          <li><svg class="i" aria-hidden="true"><use href="#i-briefcase"/></svg><span data-i18n="f_exp">3 ans en B2B, dont Thales</span></li>
+          <li><svg class="i" aria-hidden="true"><use href="#i-lang"/></svg><span data-i18n="f_lang">Français, anglais, arabe</span></li>
+        </ul>
+      </div>
     </div>
-  </header>
 
-  <nav class="mobile-nav" aria-label="Navigation mobile" data-i18n-aria="a11y.mobileNavigation">
-    <a href="cv.html" data-i18n="nav.cv">CV</a>
-    <a href="#projects" data-i18n="nav.projects">Projets</a>
-    <a href="#method" data-i18n="nav.method">Méthode</a>
-    <a href="#contact" data-i18n="nav.contact">Contact</a>
-  </nav>
-
-  <main id="main-content">
-    <section class="hero section-shell" id="top" aria-labelledby="hero-title" data-motion-hero>
-      <div class="hero-copy">
-        <p class="role-label motion-hero-item">
-          <span aria-hidden="true">01</span>
-          <span data-i18n="hero.role">Customer Success Ops · Product · Data</span>
-        </p>
-        <h1 id="hero-title" class="text-balance">
-          <span data-i18n="hero.titleMain">Des besoins métier aux</span>
-          <em data-i18n="hero.titleAccent">produits fiables et démontrables.</em>
-        </h1>
-        <p class="hero-lead text-pretty motion-hero-item" data-i18n="hero.lead">
-          Ce portfolio présente ma façon d’analyser un problème, de concevoir une solution et d’aller jusqu’à un produit fonctionnel, testable et clair.
-        </p>
-
-        <div class="hero-actions motion-hero-item">
-          <a class="button button-primary" href="#projects">
-            <span data-i18n="hero.viewWork">Découvrir mes projets</span>
-            <span aria-hidden="true">↓</span>
-          </a>
-          <a class="button button-secondary" href="cv.html">
-            <span data-i18n="hero.cv">Voir mon CV</span>
-            <span aria-hidden="true">→</span>
-          </a>
+    <div class="drawer" id="drawer">
+      <nav class="nav" aria-label="Navigation principale" data-i18n-attr="aria-label:a_nav">
+        <a href="#accueil" data-nav="accueil" aria-current="location"><svg class="i" aria-hidden="true"><use href="#i-home"/></svg><span data-i18n="n_home">Accueil</span></a>
+        <a href="#parcours" data-nav="parcours"><svg class="i" aria-hidden="true"><use href="#i-briefcase"/></svg><span data-i18n="n_exp">Parcours</span></a>
+        <a href="#projets" data-nav="projets"><svg class="i" aria-hidden="true"><use href="#i-folder"/></svg><span data-i18n="n_proj">Projets</span></a>
+        <a href="#contact" data-nav="contact"><svg class="i" aria-hidden="true"><use href="#i-send"/></svg><span>Contact</span></a>
+      </nav>
+      <div class="side-foot">
+        <div class="side-row od-cluster">
+          <a class="icon-btn" href="https://www.linkedin.com/in/abdelkader-arbaoui-423852197/" target="_blank" rel="noopener" aria-label="LinkedIn (nouvel onglet)" data-i18n-attr="aria-label:a_li"><svg class="i" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
+          <a class="icon-btn" href="https://github.com/AbdelArbaoui" target="_blank" rel="noopener" aria-label="GitHub (nouvel onglet)" data-i18n-attr="aria-label:a_gh"><svg class="i" aria-hidden="true"><use href="#i-github"/></svg></a>
+          <div class="seg" role="group" aria-label="Langue" data-i18n-attr="aria-label:a_langgroup">
+            <button type="button" data-lang-set="fr" lang="fr" aria-pressed="true" aria-label="Français">FR</button>
+            <button type="button" data-lang-set="en" lang="en" aria-pressed="false" aria-label="English">EN</button>
+          </div>
+          <div class="seg" role="group" aria-label="Thème" data-i18n-attr="aria-label:a_themegroup">
+            <button type="button" data-theme-set="light" aria-pressed="true"><svg class="i" aria-hidden="true"><use href="#i-sun"/></svg><span class="sr-only" data-i18n="a_light">Mode clair</span></button>
+            <button type="button" data-theme-set="dark" aria-pressed="false"><svg class="i" aria-hidden="true"><use href="#i-moon"/></svg><span class="sr-only" data-i18n="a_dark">Mode sombre</span></button>
+          </div>
         </div>
+        <div class="side-row od-row">
+          <a class="btn btn-primary btn-block" data-cv href="assets/cv/CV_Abdelkader_Arbaoui_FR.pdf" download><svg class="i" aria-hidden="true"><use href="#i-download"/></svg><span data-i18n="cv_dl">Télécharger le CV</span></a>
+          <a class="icon-btn" href="mailto:abdelarbb@gmail.com" aria-label="M'écrire par e-mail" data-i18n-attr="aria-label:a_mail"><svg class="i" aria-hidden="true"><use href="#i-mail"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </aside>
 
-        <dl class="proof-strip" aria-label="Indicateurs clés" data-i18n-aria="a11y.proof">
-          <div>
-            <dt class="tabular-nums" data-count="2" data-count-pad="2">02</dt>
-            <dd data-i18n="proof.products">produits fonctionnels</dd>
-          </div>
-          <div>
-            <dt class="tabular-nums" data-count="211" data-count-suffix="+">211+</dt>
-            <dd data-i18n="proof.tests">tests automatisés</dd>
-          </div>
-          <div>
-            <dt class="tabular-nums" data-count="100" data-count-suffix="%">100%</dt>
-            <dd data-i18n="proof.local">traitement local</dd>
-          </div>
-        </dl>
+  <main class="main card" id="contenu">
+    <!-- Accueil -->
+    <section id="accueil" data-nav="accueil" aria-labelledby="accueil-title">
+      <div class="m-intro mobile-only">
+        <p class="bio" data-i18n="bio">Trois ans en relation client B2B, en cybersécurité. J'utilise la donnée et l'automatisation pour soutenir l'adoption produit et l'expérience client.</p>
+        <ul class="facts">
+          <li class="avail"><svg class="i" aria-hidden="true"><use href="#i-zap"/></svg><span data-i18n="avail">Ouvert à un CDI de CSM, en France et à l'international</span></li>
+          <li><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>Paris, France</li>
+          <li><svg class="i" aria-hidden="true"><use href="#i-briefcase"/></svg><span data-i18n="f_exp">3 ans en B2B, dont Thales</span></li>
+          <li><svg class="i" aria-hidden="true"><use href="#i-lang"/></svg><span data-i18n="f_lang">Français, anglais, arabe</span></li>
+        </ul>
       </div>
 
-      <div class="hero-system" aria-label="Vue d’un système opérationnel local" data-i18n-aria="a11y.system">
-        <div class="system-window">
-          <header class="system-header">
-            <div>
-              <span class="window-dot"></span>
-              <span class="window-dot"></span>
-              <span class="window-dot"></span>
-            </div>
-            <span class="system-name">CS / OPERATING SYSTEM</span>
-            <span class="live-state"><i aria-hidden="true"></i> LIVE</span>
-          </header>
-
-          <div class="system-body">
-            <div class="system-sidebar" aria-hidden="true">
-              <span class="sidebar-brand">AA</span>
-              <span class="sidebar-item is-active">01</span>
-              <span class="sidebar-item">02</span>
-              <span class="sidebar-item">03</span>
-            </div>
-
-            <div class="system-canvas">
-              <div class="system-topline">
-                <div>
-                  <small data-i18n="system.flowLabel">Flux opérationnel</small>
-                  <strong data-i18n="system.flowTitle">De la donnée à la décision</strong>
-                </div>
-                <span class="local-badge" data-i18n="system.local">Local-first</span>
-              </div>
-
-              <div class="flow-stack">
-                <article class="flow-card flow-source">
-                  <span class="flow-index tabular-nums">01</span>
-                  <div>
-                    <small data-i18n="system.sourceLabel">Sources</small>
-                    <strong data-i18n="system.sourceTitle">Données brutes</strong>
-                    <p>CSV · Excel · APIs</p>
-                  </div>
-                  <span class="flow-state" aria-hidden="true">●</span>
-                </article>
-
-                <span class="flow-line" aria-hidden="true"></span>
-
-                <article class="flow-card flow-engine">
-                  <span class="flow-index tabular-nums">02</span>
-                  <div>
-                    <small data-i18n="system.engineLabel">Logique</small>
-                    <strong data-i18n="system.engineTitle">Moteur local</strong>
-                    <p>Python · JavaScript</p>
-                  </div>
-                  <span class="flow-state" aria-hidden="true">●</span>
-                </article>
-
-                <span class="flow-line" aria-hidden="true"></span>
-
-                <article class="flow-card flow-output">
-                  <span class="flow-index tabular-nums">03</span>
-                  <div>
-                    <small data-i18n="system.outputLabel">Sorties</small>
-                    <strong data-i18n="system.outputTitle">Décisions lisibles</strong>
-                    <p>KPIs · Forecast · PPTX</p>
-                  </div>
-                  <span class="flow-state" aria-hidden="true">●</span>
-                </article>
-              </div>
-
-              <div class="system-note">
-                <span data-i18n="system.note">Données sensibles conservées sur la machine</span>
-                <span class="tabular-nums">00:01.42</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <p class="visual-caption">
-          <span>FIG. 01</span>
-          <span data-i18n="system.caption">Un système utile rend le flux visible, pas la complexité.</span>
+      <div class="hero-top od-cluster">
+        <p class="pill"><svg class="i" aria-hidden="true"><use href="#i-radio"/></svg><span data-i18n="pill">Customer Success · cybersécurité B2B</span></p>
+        <p class="annot hand" aria-hidden="true">
+          <svg viewBox="0 0 36 40"><path d="M30 4C14 6 6 16 8 34"/><path d="M3 28l5 7 6-6"/></svg>
+          <span data-i18n="annot">du CRM au code, vraiment</span>
         </p>
+      </div>
+      <h1 class="h1" id="accueil-title" data-i18n="h1">Je fidélise des clients B2B, et je <span class="serif">code mes outils</span>.</h1>
+      <p class="hero-lede" data-i18n="lede">Chez Thales, j'ai suivi <span class="nums">~40 comptes</span> pour <span class="nums">93 % de rétention</span> et <span class="nums">500 K€</span> d'ARR. En parallèle, j'ai conçu CS Analytics, adopté par 4 collègues, et JobLeaf, un SaaS en production.</p>
+      <div class="hero-ctas od-cluster">
+        <a class="btn btn-primary" href="mailto:abdelarbb@gmail.com"><svg class="i" aria-hidden="true"><use href="#i-mail"/></svg><span data-i18n="cta_mail">M'écrire</span></a>
+        <a class="btn btn-ghost" href="#projets"><span data-i18n="cta_proj">Voir les projets</span><svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+
+      <h2 class="tools-label" data-i18n="tools">Avec quoi je travaille</h2>
+      <ul class="tools">
+        <li class="tool od-row"><span class="tool-logo od-fixed"><img src="assets/logos/salesforce.svg" width="22" height="22" alt=""></span><span class="od-field"><span class="tool-name">Salesforce</span><span class="tool-use">CRM</span></span></li>
+        <li class="tool od-row"><span class="tool-logo od-fixed"><img src="assets/logos/hubspot.svg" width="22" height="22" alt=""></span><span class="od-field"><span class="tool-name">HubSpot</span><span class="tool-use">CRM</span></span></li>
+        <li class="tool od-row"><span class="tool-logo od-fixed"><img src="assets/logos/python.svg" width="22" height="22" alt=""></span><span class="od-field"><span class="tool-name">Python</span><span class="tool-use" data-i18n="t_py">Analyse et automatisation</span></span></li>
+        <li class="tool od-row"><span class="tool-logo od-fixed"><img src="assets/logos/postgresql.svg" width="22" height="22" alt=""></span><span class="od-field"><span class="tool-name">SQL</span><span class="tool-use" data-i18n="t_sql">Requêtes et données</span></span></li>
+        <li class="tool od-row"><span class="tool-logo od-fixed"><img src="assets/logos/powerbi.svg" width="22" height="22" alt=""></span><span class="od-field"><span class="tool-name">Power BI</span><span class="tool-use">Reporting</span></span></li>
+        <li class="tool od-row"><span class="tool-logo od-fixed"><img src="assets/logos/notion.svg" width="22" height="22" alt=""></span><span class="od-field"><span class="tool-name">Notion</span><span class="tool-use">Documentation</span></span></li>
+        <li class="tool od-row"><span class="tool-logo od-fixed"><img src="assets/logos/jira.svg" width="22" height="22" alt=""></span><span class="od-field"><span class="tool-name">Jira</span><span class="tool-use" data-i18n="t_jira">Suivi produit</span></span></li>
+        <li class="tool od-row"><span class="tool-logo od-fixed"><img src="assets/logos/supabase.svg" width="22" height="22" alt=""></span><span class="od-field"><span class="tool-name">Supabase</span><span class="tool-use" data-i18n="t_supa">Back-end de JobLeaf</span></span></li>
+      </ul>
+    </section>
+
+    <!-- Note -->
+    <section id="note" class="note" data-nav="accueil" aria-labelledby="note-title">
+      <h2 class="h2" id="note-title" data-i18n="note_h">Une <span class="serif">courte note</span>, avant les chiffres.</h2>
+      <p data-i18n="note_1">J'ai commencé côté vente, chez Inetum : appels d'offres, rendez-vous clients et une équipe de cinq consultants à suivre. J'y ai aussi développé un outil IA pour retrouver les bons profils en interne, puis formé l'équipe à s'en servir.</p>
+      <p data-i18n="note_2">Chez Thales, je suis passé au Customer Success sur une plateforme de messagerie chiffrée : QBR avec des RSSI, incidents à coordonner, renouvellements. Le reporting prenait du temps, alors j'ai construit <a href="#projets">CS Analytics</a>, qui fait gagner deux heures par rapport.</p>
+      <p data-i18n="note_3">Depuis, je continue : <a href="https://jobleaf.app" target="_blank" rel="noopener">JobLeaf</a> est en production, avec plus de 350 CV analysés. Le principe reste le même : comprendre le besoin, puis livrer quelque chose qui sert vraiment.</p>
+      <div class="note-sign">
+        <span class="hand" aria-hidden="true">Abdel</span>
+        <span>Abdel Arbaoui, Customer Success Manager</span>
       </div>
     </section>
 
-    <section class="signal-strip" aria-label="Compétences principales" data-i18n-aria="a11y.skills">
-      <div class="signal-track">
-        <div class="signal-group">
-          <span>Customer Success Ops</span><i aria-hidden="true">✦</i>
-          <span>Local-first</span><i aria-hidden="true">✦</i>
-          <span>Data storytelling</span><i aria-hidden="true">✦</i>
-          <span>Workflow automation</span><i aria-hidden="true">✦</i>
-          <span>Python + JavaScript</span><i aria-hidden="true">✦</i>
-        </div>
-        <div class="signal-group" aria-hidden="true">
-          <span>Customer Success Ops</span><i>✦</i>
-          <span>Local-first</span><i>✦</i>
-          <span>Data storytelling</span><i>✦</i>
-          <span>Workflow automation</span><i>✦</i>
-          <span>Python + JavaScript</span><i>✦</i>
-        </div>
-      </div>
-    </section>
-
-    <section class="expertise section-shell" id="expertise" aria-labelledby="expertise-title">
-      <header class="section-intro motion-reveal">
-        <p class="section-number">02 / <span data-i18n="expertise.kicker">Compétences démontrées</span></p>
-        <div>
-          <h2 id="expertise-title" class="text-balance" data-i18n="expertise.title">Trois compétences au cœur de mes projets.</h2>
-          <p class="text-pretty" data-i18n="expertise.intro">
-            Ces réalisations montrent comment je relie compréhension métier, développement produit et présentation de la donnée.
-          </p>
-        </div>
-      </header>
-
-      <ol class="expertise-grid">
-        <li class="motion-reveal">
-          <span class="item-index tabular-nums">01</span>
-          <div class="item-icon" aria-hidden="true">⌁</div>
-          <h3 data-i18n="expertise.diagnoseTitle">Analyse métier</h3>
-          <p class="text-pretty" data-i18n="expertise.diagnoseText">Identifier les frictions, les données disponibles, les contraintes et la décision attendue.</p>
+    <!-- Parcours -->
+    <section id="parcours" data-nav="parcours" aria-labelledby="parcours-title">
+      <h2 class="h2" id="parcours-title" data-i18n="exp_h">De la <span class="serif">vente</span> au produit.</h2>
+      <p class="lede-soft" data-i18n="exp_lede">Trois expériences, du plus récent au plus ancien. Le détail complet est dans le CV.</p>
+      <ol class="jobs">
+        <li class="job">
+          <p class="job-when od-nowrap" data-i18n="j1_when">2026 – en cours</p>
+          <div>
+            <div class="job-head od-cluster"><h3 class="job-title" data-i18n="j1_title">Créateur et Product Owner</h3><span class="badge">JobLeaf</span></div>
+            <p class="job-ctx" data-i18n="j1_ctx">SaaS de recherche d'emploi · projet personnel</p>
+            <ul class="bullets">
+              <li data-i18n="j1_b1">SaaS multi-tenant en production : Node.js, Supabase/PostgreSQL, Cloudflare, Stripe, PostHog.</li>
+              <li data-i18n="j1_b0"><span class="nums">350+ CV</span> analysés en production.</li>
+              <li data-i18n="j1_b2"><span class="nums">850+ tests</span> automatisés, données isolées par compte, livraisons versionnées avec retour arrière.</li>
+              <li data-i18n="j1_b3">Onboarding en 4 étapes et page « Aujourd'hui » pour amener chaque utilisateur à sa première valeur, sans accompagnement.</li>
+            </ul>
+          </div>
         </li>
-        <li class="motion-reveal">
-          <span class="item-index tabular-nums">02</span>
-          <div class="item-icon" aria-hidden="true">↯</div>
-          <h3 data-i18n="expertise.automateTitle">Développement produit</h3>
-          <p class="text-pretty" data-i18n="expertise.automateText">Transformer un besoin en workflow local, modulaire, contrôlable et testable.</p>
+        <li class="job">
+          <p class="job-when od-nowrap" data-i18n="j2_when">Août 2025 – sept. 2026</p>
+          <div>
+            <div class="job-head od-cluster"><h3 class="job-title">Customer Success Manager</h3><span class="badge">Thales</span></div>
+            <p class="job-ctx" data-i18n="j2_ctx">Cybersécurité et communications sécurisées · Citadel / Cryptobox</p>
+            <ul class="bullets">
+              <li data-i18n="j2_b1"><span class="nums">~40 comptes</span>, du CAC 40 aux plus petites structures : <span class="nums">93 % de rétention</span>, <span class="nums">500 K€</span> d'ARR, upsell jusqu'à <span class="nums">100 K€</span>.</li>
+              <li data-i18n="j2_b2">Reporting SLA mensuel et QBR trimestriels avec les C-level et RSSI.</li>
+              <li data-i18n="j2_b3">Incidents de sécurité coordonnés avec Sales, Produit, Support et R&amp;D.</li>
+              <li data-i18n="j2_b4">CS Analytics (Python, SQL) : reporting PPTX et Power BI automatisé, adopté par 4 personnes, <span class="nums">2 h</span> gagnées par rapport.</li>
+            </ul>
+          </div>
         </li>
-        <li class="motion-reveal">
-          <span class="item-index tabular-nums">03</span>
-          <div class="item-icon" aria-hidden="true">◫</div>
-          <h3 data-i18n="expertise.explainTitle">Data storytelling</h3>
-          <p class="text-pretty" data-i18n="expertise.explainText">Hiérarchiser les métriques pour faire émerger une lecture et une prochaine action claires.</p>
+        <li class="job">
+          <p class="job-when od-nowrap" data-i18n="j3_when">Sept. 2022 – nov. 2024</p>
+          <div>
+            <div class="job-head od-cluster"><h3 class="job-title" data-i18n="j3_title">Ingénieur Commercial</h3><span class="badge">Inetum</span></div>
+            <p class="job-ctx" data-i18n="j3_ctx">Cybersécurité, cloud et infrastructure</p>
+            <ul class="bullets">
+              <li data-i18n="j3_b1"><span class="nums">500 K€+</span> de chiffre d'affaires généré et <span class="nums">200 K€+</span> de revenus additionnels via des appels d'offres.</li>
+              <li data-i18n="j3_b2">Encadrement de 5 consultants et développeurs : suivi, affectations, mentorat.</li>
+              <li data-i18n="j3_b3">Outil IA interne de recherche de profils : adoption pilotée, utilisateurs formés, documentation rédigée.</li>
+            </ul>
+          </div>
         </li>
       </ol>
     </section>
 
-    <section class="projects section-shell" id="projects" aria-labelledby="projects-title">
-      <header class="section-intro motion-reveal">
-        <p class="section-number">03 / <span data-i18n="projects.kicker">Projets sélectionnés</span></p>
-        <div>
-          <h2 id="projects-title" class="text-balance" data-i18n="projects.title">Cinq projets pour montrer ce que je sais construire.</h2>
-          <p class="text-pretty" data-i18n="projects.intro">Chaque démonstration rend mes choix de conception et mon niveau de finition directement observables.</p>
-        </div>
-      </header>
+    <!-- Formation -->
+    <section id="formation" data-nav="parcours" aria-labelledby="formation-title">
+      <h2 class="h2" id="formation-title" data-i18n="edu_h">Certifications et <span class="serif">formation</span>.</h2>
+      <ul class="rows">
+        <li class="row-item od-row">
+          <span class="row-ic od-fixed"><svg class="i" aria-hidden="true"><use href="#i-badge"/></svg></span>
+          <span class="od-field od-fill"><span class="row-title">AZ-900 · Azure Fundamentals</span><span class="row-org">Microsoft</span></span>
+          <span class="row-when od-fixed">Certification</span>
+        </li>
+        <li class="row-item od-row">
+          <span class="row-ic od-fixed"><svg class="i" aria-hidden="true"><use href="#i-cap"/></svg></span>
+          <span class="od-field od-fill"><span class="row-title">MSc Business Development</span><span class="row-org">INSEEC Paris</span></span>
+          <span class="row-when od-fixed">2025 – 2026</span>
+        </li>
+        <li class="row-item od-row">
+          <span class="row-ic od-fixed"><svg class="i" aria-hidden="true"><use href="#i-cap"/></svg></span>
+          <span class="od-field od-fill"><span class="row-title" data-i18n="edu_master">Master en Ingénierie Commerciale</span><span class="row-org">Euridis Business School</span></span>
+          <span class="row-when od-fixed">2022 – 2024</span>
+        </li>
+        <li class="row-item od-row">
+          <span class="row-ic od-fixed"><svg class="i" aria-hidden="true"><use href="#i-lang"/></svg></span>
+          <span class="od-field od-fill"><span class="row-title" data-i18n="edu_lang">Français C2 · Anglais C1 · Arabe C2</span><span class="row-org" data-i18n="edu_lang_l">Langues</span></span>
+        </li>
+      </ul>
+    </section>
 
-      <div class="project-list">
-        <article class="project-card motion-reveal motion-project-card">
-          <figure class="project-visual">
-            <img src="assets/cs_analytics.png" alt="Aperçu de CS Analytics" data-i18n-alt="projects.csAlt">
-            <figcaption>
-              <span>CASE 01</span>
-              <span data-i18n="projects.demo">Démonstration interactive</span>
-            </figcaption>
-          </figure>
-          <div class="project-body">
-            <div class="project-heading">
-              <p data-i18n="projects.csType">Customer Success · Analytics · Reporting</p>
-              <h3>CS Analytics</h3>
-            </div>
-            <p class="project-summary text-pretty" data-i18n="projects.csSummary">
-              Une suite desktop qui transforme des exports dispersés en analyses exploitables, rapports PowerPoint et actions d’infrastructure sécurisées.
-            </p>
-            <dl class="project-evidence">
-              <div>
-                <dt data-i18n="projects.problem">Problème</dt>
-                <dd data-i18n="projects.csProblem">Reporting lent et données difficiles à comparer.</dd>
-              </div>
-              <div>
-                <dt data-i18n="projects.answer">Réponse</dt>
-                <dd data-i18n="projects.csAnswer">Un workflow local de l’import au livrable.</dd>
-              </div>
-              <div>
-                <dt data-i18n="projects.proof">Preuve</dt>
-                <dd data-i18n="projects.csProof">Génération de rapports et scénarios testables.</dd>
-              </div>
-            </dl>
-            <ul class="tech-list" aria-label="Technologies">
-              <li>Python</li>
-              <li>pandas</li>
-              <li>python-pptx</li>
-              <li>PyWebView</li>
-            </ul>
-            <div class="project-actions">
-              <button class="button button-dark" type="button" data-open-project="cs">
-                <span data-i18n="projects.open">Explorer le projet</span>
-                <span aria-hidden="true">↗</span>
-              </button>
-              <button class="icon-button" type="button" data-open-external="cs" aria-label="Ouvrir CS Analytics dans un nouvel onglet" data-i18n-aria="a11y.csExternal">↗</button>
-            </div>
+    <!-- Projets -->
+    <section id="projets" data-nav="projets" aria-labelledby="projets-title">
+      <h2 class="h2" id="projets-title" data-i18n="proj_h">Les <span class="serif">projets</span>, à ouvrir.</h2>
+      <p class="lede-soft" data-i18n="proj_lede">Un produit en ligne, deux démos et deux études de cas.</p>
+      <div class="projects">
+        <article class="proj featured">
+          <figure><img class="od-media" src="assets/jobleaf.png" width="2940" height="1604" alt="Capture d'écran de l'application JobLeaf" data-i18n-attr="alt:alt_jl" loading="lazy"></figure>
+          <div class="proj-body">
+            <div class="proj-meta od-cluster"><span class="proj-type" data-i18n="type_live">Produit en ligne</span></div>
+            <h3 class="proj-name">JobLeaf</h3>
+            <p class="proj-desc" data-i18n="d_jl">Aide un chercheur d'emploi à savoir quoi faire ensuite : suivi des candidatures, analyse offre et parcours avec preuves citées, CV adapté sans rien inventer, rien envoyé à sa place.</p>
+            <ul class="stack od-cluster" aria-label="Technologies"><li>Node.js</li><li>Supabase</li><li>Cloudflare</li><li>Stripe</li></ul>
+            <a class="proj-link" href="https://jobleaf.app" target="_blank" rel="noopener"><span data-i18n="l_jl">Ouvrir jobleaf.app</span><svg class="i" aria-hidden="true"><use href="#i-out"/></svg></a>
           </div>
         </article>
-
-        <article class="project-card project-card-reverse motion-reveal motion-project-card">
-          <figure class="project-visual">
-            <img src="assets/money_tracker.png" alt="Aperçu de Money Tracker" data-i18n-alt="projects.moneyAlt">
-            <figcaption>
-              <span>CASE 02</span>
-              <span data-i18n="projects.demo">Démonstration interactive</span>
-            </figcaption>
-          </figure>
-          <div class="project-body">
-            <div class="project-heading">
-              <p data-i18n="projects.moneyType">Finance personnelle · Local-first</p>
-              <h3>Money Tracker</h3>
-            </div>
-            <p class="project-summary text-pretty" data-i18n="projects.moneySummary">
-              Un cockpit financier hors-ligne pour suivre comptes, investissements, abonnements et scénarios d’intérêts composés sans exposer de données personnelles.
-            </p>
-            <dl class="project-evidence">
-              <div>
-                <dt data-i18n="projects.problem">Problème</dt>
-                <dd data-i18n="projects.moneyProblem">Vision fragmentée des finances personnelles.</dd>
-              </div>
-              <div>
-                <dt data-i18n="projects.answer">Réponse</dt>
-                <dd data-i18n="projects.moneyAnswer">Un tableau de bord privé, cohérent et hors-ligne.</dd>
-              </div>
-              <div>
-                <dt data-i18n="projects.proof">Preuve</dt>
-                <dd data-i18n="projects.moneyProof">Données persistées localement et projections simulables.</dd>
-              </div>
-            </dl>
-            <ul class="tech-list" aria-label="Technologies">
-              <li>JavaScript</li>
-              <li>Chart.js</li>
-              <li>LocalStorage</li>
-              <li>FastAPI mock</li>
-            </ul>
-            <div class="project-actions">
-              <button class="button button-dark" type="button" data-open-project="money">
-                <span data-i18n="projects.open">Explorer le projet</span>
-                <span aria-hidden="true">↗</span>
-              </button>
-              <button class="icon-button" type="button" data-open-external="money" aria-label="Ouvrir Money Tracker dans un nouvel onglet" data-i18n-aria="a11y.moneyExternal">↗</button>
-            </div>
+        <article class="proj">
+          <figure><img class="od-media" src="assets/cs_analytics.png" width="2940" height="1604" alt="Capture d'écran de l'application CS Analytics" data-i18n-attr="alt:alt_cs" loading="lazy"></figure>
+          <div class="proj-body">
+            <div class="proj-meta od-cluster"><span class="proj-type" data-i18n="type_demo">Démo interactive</span></div>
+            <h3 class="proj-name">CS Analytics</h3>
+            <p class="proj-desc" data-i18n="d_cs">Transforme exports CRM et données d'usage en analyses par compte et en rapports PowerPoint ou Power BI.</p>
+            <ul class="stack od-cluster" aria-label="Technologies"><li>Python</li><li>pandas</li><li>python-pptx</li></ul>
+            <a class="proj-link" data-demo href="https://abdelarbaoui.github.io/Portfolio/apps/CS-Analytics/index.html" target="_blank" rel="noopener"><span data-i18n="l_demo">Ouvrir la démo</span><svg class="i" aria-hidden="true"><use href="#i-out"/></svg></a>
           </div>
         </article>
-
-        <article class="project-card motion-reveal motion-project-card">
-          <figure class="project-visual">
-            <img src="assets/sap_dashboards.svg" alt="Aperçu de SAP Dashboards" data-i18n-alt="projects.sapAlt">
-            <figcaption>
-              <span>CASE 03</span>
-              <span data-i18n="projects.caseStudy">Étude de cas interactive</span>
-            </figcaption>
-          </figure>
-          <div class="project-body">
-            <div class="project-heading">
-              <p data-i18n="projects.sapType">Finance · Excel · Automatisation</p>
-              <h3>SAP Dashboards</h3>
-            </div>
-            <p class="project-summary text-pretty" data-i18n="projects.sapSummary">
-              Un classeur Excel autonome qui transforme des balances SAP en bilan Magnitude multi-périodes, avec mapping hiérarchique, contrôles et export PDF.
-            </p>
-            <dl class="project-evidence">
-              <div>
-                <dt data-i18n="projects.problem">Problème</dt>
-                <dd data-i18n="projects.sapProblem">Consolidation manuelle lente et difficile à fiabiliser.</dd>
-              </div>
-              <div>
-                <dt data-i18n="projects.answer">Réponse</dt>
-                <dd data-i18n="projects.sapAnswer">Un workflow Excel guidé, local et sans installation.</dd>
-              </div>
-              <div>
-                <dt data-i18n="projects.proof">Preuve</dt>
-                <dd data-i18n="projects.sapProof">Comparaisons, écarts, contrôles d’équilibre et PDF.</dd>
-              </div>
-            </dl>
-            <ul class="tech-list" aria-label="Technologies">
-              <li>Excel</li>
-              <li>VBA</li>
-              <li>TreeView</li>
-              <li>PDF</li>
-            </ul>
-            <div class="project-actions">
-              <button class="button button-dark" type="button" data-open-project="sap">
-                <span data-i18n="projects.open">Explorer le projet</span>
-                <span aria-hidden="true">↗</span>
-              </button>
-              <button class="icon-button" type="button" data-open-external="sap" aria-label="Ouvrir SAP Dashboards dans un nouvel onglet" data-i18n-aria="a11y.sapExternal">↗</button>
-            </div>
+        <article class="proj">
+          <figure><img class="od-media" src="assets/sap_dashboards.svg" width="1280" height="900" alt="Schéma du classeur SAP Dashboards" data-i18n-attr="alt:alt_sap" loading="lazy"></figure>
+          <div class="proj-body">
+            <div class="proj-meta od-cluster"><span class="proj-type" data-i18n="type_case">Étude de cas</span></div>
+            <h3 class="proj-name">SAP Dashboards</h3>
+            <p class="proj-desc" data-i18n="d_sap">Un classeur Excel autonome qui transforme des balances SAP en bilan multi-périodes : mapping hiérarchique, contrôles d'équilibre, export PDF.</p>
+            <ul class="stack od-cluster" aria-label="Technologies"><li>Excel</li><li>VBA</li><li>PDF</li></ul>
+            <a class="proj-link" data-demo href="https://abdelarbaoui.github.io/Portfolio/apps/SAP-Dashboards/index.html" target="_blank" rel="noopener"><span data-i18n="l_case">Lire l'étude de cas</span><svg class="i" aria-hidden="true"><use href="#i-out"/></svg></a>
           </div>
         </article>
-
-        <article class="project-card project-card-reverse motion-reveal motion-project-card">
-          <figure class="project-visual">
-            <img src="assets/help_center_migration.svg" alt="Aperçu du Help Center SecureDrive et TeamChat" data-i18n-alt="projects.helpAlt">
-            <figcaption>
-              <span>CASE 04</span>
-              <span data-i18n="projects.caseStudy">Étude de cas interactive</span>
-            </figcaption>
-          </figure>
-          <div class="project-body">
-            <div class="project-heading">
-              <p data-i18n="projects.helpType">Documentation · Migration · Product Discovery</p>
-              <h3>SecureDrive &amp; TeamChat Help Center</h3>
-            </div>
-            <p class="project-summary text-pretty" data-i18n="projects.helpSummary">
-              Un POC anonymisé qui organise deux parcours documentaires dans un Help Center statique, versionné et facilement consultable.
-            </p>
-            <dl class="project-evidence">
-              <div>
-                <dt data-i18n="projects.problem">Problème</dt>
-                <dd data-i18n="projects.helpProblem">Documentation difficile à versionner et dépendance à un éditeur hébergé.</dd>
-              </div>
-              <div>
-                <dt data-i18n="projects.answer">Réponse</dt>
-                <dd data-i18n="projects.helpAnswer">Un hub MkDocs-like avec des espaces SecureDrive et TeamChat séparés.</dd>
-              </div>
-              <div>
-                <dt data-i18n="projects.proof">Preuve</dt>
-                <dd data-i18n="projects.helpProof">Interfaces reconstituées, composants interactifs, arbitrages et estimation d’environ 4K€ par an.</dd>
-              </div>
-            </dl>
-            <ul class="tech-list" aria-label="Technologies utilisées">
-              <li>MkDocs Material</li>
-              <li>Markdown</li>
-              <li>Mermaid</li>
-              <li>Git</li>
-            </ul>
-            <div class="project-actions">
-              <button class="button button-dark" type="button" data-open-project="help">
-                <span data-i18n="projects.open">Explorer le projet</span>
-                <span aria-hidden="true">↗</span>
-              </button>
-              <button class="icon-button" type="button" data-open-external="help" aria-label="Ouvrir le Help Center dans un nouvel onglet" data-i18n-aria="a11y.helpExternal">↗</button>
-            </div>
+        <article class="proj">
+          <figure><img class="od-media" src="assets/money_tracker.png" width="2940" height="1604" alt="Capture d'écran du tableau de bord Money Tracker" data-i18n-attr="alt:alt_mt" loading="lazy"></figure>
+          <div class="proj-body">
+            <div class="proj-meta od-cluster"><span class="proj-type" data-i18n="type_demo">Démo interactive</span></div>
+            <h3 class="proj-name">Money Tracker</h3>
+            <p class="proj-desc" data-i18n="d_mt">Comptes, investissements et abonnements dans un tableau de bord hors-ligne, avec un simulateur d'intérêts composés.</p>
+            <ul class="stack od-cluster" aria-label="Technologies"><li>JavaScript</li><li>Chart.js</li><li>LocalStorage</li></ul>
+            <a class="proj-link" data-demo href="https://abdelarbaoui.github.io/Portfolio/apps/money-tracker/index.html" target="_blank" rel="noopener"><span data-i18n="l_demo">Ouvrir la démo</span><svg class="i" aria-hidden="true"><use href="#i-out"/></svg></a>
           </div>
         </article>
-        <article class="project-card motion-reveal motion-project-card" id="project-jobleaf">
-          <figure class="project-visual project-visual-mockup">
-            <img src="assets/jobleaf.png" alt="Page d’accueil de JobLeaf" data-i18n-alt="projects.jobleafAlt" loading="lazy">
-            <figcaption>
-              <span>CASE 05</span>
-              <span data-i18n="projects.liveProduct">Produit en ligne</span>
-            </figcaption>
-          </figure>
-          <div class="project-body">
-            <div class="project-heading">
-              <p data-i18n="projects.jobleafType">SaaS · Recherche d’emploi · IA sourcée</p>
-              <h3>JobLeaf</h3>
-            </div>
-            <p class="project-summary text-pretty" data-i18n="projects.jobleafSummary">Une application web qui rassemble offres et candidatures, dit quoi faire ensuite et prépare les documents avec une IA qui ne cite que ce que la personne a vraiment fait.</p>
-            <dl class="project-evidence">
-              <div>
-                <dt data-i18n="projects.problem">Problème</dt>
-                <dd data-i18n="projects.jobleafProblem">Offres, CV et relances sont dispersés, et une IA générique peut inventer des faits.</dd>
-              </div>
-              <div>
-                <dt data-i18n="projects.answer">Réponse</dt>
-                <dd data-i18n="projects.jobleafAnswer">Un onboarding guidé, une page « Aujourd’hui », une analyse offre/parcours avec preuves, un CV adapté sous contrôles et une veille d’offres.</dd>
-              </div>
-              <div>
-                <dt data-i18n="projects.proof">Preuve</dt>
-                <dd data-i18n="projects.jobleafProof">850+ tests automatisés, données isolées par compte, conformité RGPD/AI Act documentée ; aucune candidature automatique.</dd>
-              </div>
-            </dl>
-            <ul class="tech-list" aria-label="Technologies utilisées">
-              <li>Node.js</li>
-              <li>Supabase</li>
-              <li>Cloudflare</li>
-              <li>Stripe</li>
-            </ul>
-            <div class="project-actions">
-              <a class="button button-dark" href="https://jobleaf.app" target="_blank" rel="noopener noreferrer">
-                <span data-i18n="projects.visit">Voir le produit</span>
-                <span aria-hidden="true">↗</span>
-              </a>
-            </div>
+        <article class="proj">
+          <figure><img class="od-media" src="assets/help_center_migration.svg" width="1800" height="1260" alt="Schéma de la migration vers un Help Center statique" data-i18n-attr="alt:alt_hc" loading="lazy"></figure>
+          <div class="proj-body">
+            <div class="proj-meta od-cluster"><span class="proj-type" data-i18n="type_case">Étude de cas</span></div>
+            <h3 class="proj-name">Help Center</h3>
+            <p class="proj-desc" data-i18n="d_hc">POC anonymisé : deux documentations produit migrées vers un Help Center statique, versionné sous Git, avec arbitrages et budget estimé.</p>
+            <ul class="stack od-cluster" aria-label="Technologies"><li>MkDocs</li><li>Mermaid</li><li>Git</li></ul>
+            <a class="proj-link" data-demo href="https://abdelarbaoui.github.io/Portfolio/apps/Help-Center-Migration/index.html" target="_blank" rel="noopener"><span data-i18n="l_case">Lire l'étude de cas</span><svg class="i" aria-hidden="true"><use href="#i-out"/></svg></a>
           </div>
         </article>
       </div>
     </section>
 
-    <section class="method section-shell" id="method" aria-labelledby="method-title">
-      <div class="method-panel">
-        <header class="motion-reveal">
-          <p class="section-number section-number-dark">04 / <span data-i18n="method.kicker">Ma manière de travailler</span></p>
-          <h2 id="method-title" class="text-balance" data-i18n="method.title">Comprendre avant de construire. Prouver avant de promettre.</h2>
-        </header>
-        <ol class="method-steps">
-          <li class="motion-reveal">
-            <span class="tabular-nums">01</span>
-            <div>
-              <h3 data-i18n="method.understandTitle">Comprendre le flux</h3>
-              <p data-i18n="method.understandText">Données, contraintes, risques et décision attendue.</p>
-            </div>
-          </li>
-          <li class="motion-reveal">
-            <span class="tabular-nums">02</span>
-            <div>
-              <h3 data-i18n="method.modelTitle">Modéliser le système</h3>
-              <p data-i18n="method.modelText">Règles explicites, modules simples et états visibles.</p>
-            </div>
-          </li>
-          <li class="motion-reveal">
-            <span class="tabular-nums">03</span>
-            <div>
-              <h3 data-i18n="method.buildTitle">Construire l’usage</h3>
-              <p data-i18n="method.buildText">Une interface alignée sur le travail, pas sur la technologie.</p>
-            </div>
-          </li>
-          <li class="motion-reveal">
-            <span class="tabular-nums">04</span>
-            <div>
-              <h3 data-i18n="method.proveTitle">Démontrer la fiabilité</h3>
-              <p data-i18n="method.proveText">Tests, erreurs compréhensibles et démonstration concrète.</p>
-            </div>
-          </li>
-        </ol>
+    <!-- Contact -->
+    <section id="contact" data-nav="contact" aria-labelledby="contact-title">
+      <h2 class="h2" id="contact-title" data-i18n="c_h">On en <span class="serif">parle</span> ?</h2>
+      <p class="lede-soft" data-i18n="c_lede">Pour un poste, une mission ou une question sur un projet, le plus simple reste un e-mail.</p>
+      <a class="mail-big" href="mailto:abdelarbb@gmail.com">abdelarbb@gmail.com</a>
+      <div class="contact-row od-cluster">
+        <button class="btn btn-ghost" type="button" data-copy="abdelarbb@gmail.com"><svg class="i" aria-hidden="true"><use href="#i-copy"/></svg><span data-i18n="c_copy">Copier l'adresse</span></button>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/abdelkader-arbaoui-423852197/" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="#i-linkedin"/></svg>LinkedIn</a>
+        <a class="btn btn-ghost" href="https://github.com/AbdelArbaoui" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a>
+        <a class="btn btn-ghost" href="assets/cv/CV_Abdelkader_Arbaoui_FR.pdf" download><svg class="i" aria-hidden="true"><use href="#i-file"/></svg><span data-i18n="c_cvfr">CV (PDF)</span></a>
+        <a class="btn btn-ghost" href="https://abdelarbaoui.github.io/Portfolio/assets/cv/CV_Abdelkader_Arbaoui_EN.pdf" target="_blank" rel="noopener" hreflang="en"><svg class="i" aria-hidden="true"><use href="#i-file"/></svg><span data-i18n="c_cven">Résumé (EN)</span></a>
       </div>
-    </section>
-
-    <section class="contact section-shell" id="contact" aria-labelledby="contact-title">
-      <p class="section-number motion-reveal">05 / <span data-i18n="contact.kicker">Poursuivre l’échange</span></p>
-      <div class="contact-main motion-reveal">
-        <div>
-          <h2 id="contact-title" class="text-balance" data-i18n="contact.title">Ces projets donnent un aperçu. L’entretien permet d’aller plus loin.</h2>
-          <p class="text-pretty" data-i18n="contact.text">Je peux détailler les arbitrages produit, les choix techniques et les enseignements tirés de chaque réalisation.</p>
-        </div>
-        <div class="contact-links">
-          <a class="button button-primary" href="mailto:abdelarbb@gmail.com">
-            <span data-i18n="contact.email">Me contacter</span>
-            <span aria-hidden="true">↗</span>
-          </a>
-          <a href="https://www.linkedin.com/in/abdelkader-arbaoui-423852197/" target="_blank" rel="noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
-          <a href="https://github.com/AbdelArbaoui" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
-        </div>
+      <p class="copy-status" role="status" aria-live="polite"></p>
+      <div class="foot od-cluster">
+        <p>© 2026 Abdel Arbaoui · Paris</p>
+        <a href="#accueil" data-i18n="c_top">Retour en haut</a>
       </div>
     </section>
   </main>
+</div>
 
-  <footer class="site-footer">
-    <span>© <span data-current-year>2026</span> Abdel Arbaoui</span>
-    <span data-i18n="footer.note">Conçu et développé avec une approche local-first.</span>
-    <a href="#top" data-i18n="footer.back">Retour en haut ↑</a>
-  </footer>
+<script>
+(() => {
+  const root = document.documentElement;
 
-  <dialog class="demo-dialog" id="demo-dialog" aria-labelledby="demo-title">
-    <div class="demo-shell">
-      <header class="demo-header">
-        <button class="demo-close" type="button" data-close-project aria-label="Fermer la démonstration" data-i18n-aria="a11y.closeDemo">←</button>
-        <div class="demo-title">
-          <i aria-hidden="true"></i>
-          <div>
-            <strong id="demo-title">CS Analytics</strong>
-            <span data-i18n="demo.live">Démonstration active</span>
-          </div>
-        </div>
-        <div class="demo-actions">
-          <button class="language-button language-button-dark" type="button" data-language-toggle aria-label="Afficher le site en anglais">EN</button>
-          <button class="demo-external" type="button" data-demo-external>
-            <span data-i18n="demo.external">Nouvel onglet</span>
-            <span aria-hidden="true">↗</span>
-          </button>
-        </div>
-      </header>
-      <div class="demo-frame-wrap">
-        <div class="demo-loader" data-demo-loader aria-live="polite">
-          <span aria-hidden="true"></span>
-          <p data-i18n="demo.loading">Chargement de la démonstration…</p>
-        </div>
-        <iframe id="demo-frame" title="Démonstration interactive" data-i18n-title="a11y.demoFrame" src="about:blank"></iframe>
-      </div>
-    </div>
-  </dialog>
+  // ---------- Traductions (le français est dans le HTML) ----------
+  const EN = {
+    skip: 'Skip to content',
+    bio: 'Three years in B2B client relations, in cybersecurity. I use data and automation to drive product adoption and customer experience.',
+    avail: 'Open to a permanent CSM role, in France and worldwide',
+    f_exp: '3 years in B2B, including Thales',
+    f_lang: 'French, English, Arabic',
+    n_home: 'Home',
+    n_exp: 'Experience',
+    n_proj: 'Projects',
+    a_light: 'Light mode',
+    a_dark: 'Dark mode',
+    cv_dl: 'Download CV',
+    pill: 'Customer Success · B2B cybersecurity',
+    annot: 'from CRM to code, really',
+    h1: 'I retain B2B clients, and I <span class="serif">build my own tools</span>.',
+    lede: 'At Thales, I managed <span class="nums">~40 accounts</span> with <span class="nums">93% retention</span> and <span class="nums">€500K</span> in ARR. Alongside, I built CS Analytics, adopted by 4 colleagues, and JobLeaf, a SaaS in production.',
+    cta_mail: 'Email me',
+    cta_proj: 'See projects',
+    tools: 'What I work with',
+    t_py: 'Analysis &amp; automation',
+    t_sql: 'Queries &amp; data',
+    t_jira: 'Product tracking',
+    t_supa: 'JobLeaf back end',
+    note_h: 'A <span class="serif">short note</span>, before the numbers.',
+    note_1: 'I started on the sales side, at Inetum: tenders, client meetings and a team of five consultants to look after. I also built an AI tool there to find the right internal profiles, then trained the team to use it.',
+    note_2: 'At Thales, I moved into Customer Success on an encrypted messaging platform: QBRs with CISOs, incidents to coordinate, renewals. Reporting took time, so I built <a href="#projets">CS Analytics</a>, which saves two hours per report.',
+    note_3: 'I have kept building since: <a href="https://jobleaf.app" target="_blank" rel="noopener">JobLeaf</a> is in production, with more than 350 CVs analysed. The principle has not changed: understand the need, then ship something that actually helps.',
+    exp_h: 'From <span class="serif">sales</span> to product.',
+    exp_lede: 'Three roles, most recent first. Full details are in the CV.',
+    j1_when: '2026 – present',
+    j1_title: 'Creator &amp; Product Owner',
+    j1_ctx: 'Job-search SaaS · personal project',
+    j1_b1: 'Multi-tenant SaaS in production: Node.js, Supabase/PostgreSQL, Cloudflare, Stripe, PostHog.',
+    j1_b0: '<span class="nums">350+ CVs</span> analysed in production.',
+    j1_b2: '<span class="nums">850+</span> automated tests, per-account data isolation, versioned releases with rollback.',
+    j1_b3: '4-step onboarding and a “Today” page that bring every user to first value without hand-holding.',
+    j2_when: 'Aug 2025 – Sep 2026',
+    j2_ctx: 'Cybersecurity &amp; secure communications · Citadel / Cryptobox',
+    j2_b1: '<span class="nums">~40 accounts</span>, from CAC 40 groups to smaller organisations: <span class="nums">93% retention</span>, <span class="nums">€500K</span> ARR, upsells up to <span class="nums">€100K</span>.',
+    j2_b2: 'Monthly SLA reporting and quarterly QBRs with C-level executives and CISOs.',
+    j2_b3: 'Security incidents coordinated across Sales, Product, Support and R&amp;D.',
+    j2_b4: 'CS Analytics (Python, SQL): automated PPTX and Power BI reporting, adopted by 4 people, <span class="nums">2 h</span> saved per report.',
+    j3_when: 'Sep 2022 – Nov 2024',
+    j3_title: 'Sales Engineer',
+    j3_ctx: 'Cybersecurity, cloud &amp; infrastructure',
+    j3_b1: '<span class="nums">€500K+</span> in revenue generated and <span class="nums">€200K+</span> in additional revenue through tenders.',
+    j3_b2: 'Managed 5 consultants and developers: follow-up, staffing, mentoring.',
+    j3_b3: 'Internal AI tool for profile search: drove adoption, trained users, wrote the documentation.',
+    edu_h: 'Certifications &amp; <span class="serif">education</span>.',
+    edu_master: 'Master’s in Sales Engineering',
+    edu_lang: 'French C2 · English C1 · Arabic C2',
+    edu_lang_l: 'Languages',
+    proj_h: '<span class="serif">Projects</span> you can open.',
+    proj_lede: 'One live product, two demos and two case studies.',
+    type_live: 'Live product',
+    type_demo: 'Interactive demo',
+    type_case: 'Case study',
+    d_jl: 'Helps job seekers know what to do next: application tracking, job-to-background analysis with cited evidence, a tailored CV that invents nothing, and nothing sent on their behalf.',
+    d_cs: 'Turns CRM exports and usage data into per-account analysis and PowerPoint or Power BI reports.',
+    d_sap: 'A standalone Excel workbook that turns SAP trial balances into a multi-period balance sheet: hierarchical mapping, balance checks, PDF export.',
+    d_mt: 'Accounts, investments and subscriptions in an offline dashboard, with a compound-interest simulator.',
+    d_hc: 'Anonymised POC: two product documentation sets migrated to a static, Git-versioned Help Center, with trade-offs and an estimated budget.',
+    l_jl: 'Open jobleaf.app',
+    l_demo: 'Open the demo',
+    l_case: 'Read the case study',
+    c_h: 'Let’s <span class="serif">talk</span>.',
+    c_lede: 'For a role, a project or a question about my work, email is the simplest way.',
+    c_copy: 'Copy address',
+    c_cvfr: 'CV in French (PDF)',
+    c_cven: 'Résumé in English (PDF)',
+    c_top: 'Back to top'
+  };
+  const EN_ATTR = {
+    a_sidebar: 'Profile and navigation',
+    a_avatar: 'Portrait of Abdel Arbaoui',
+    a_nav: 'Main navigation',
+    a_li: 'LinkedIn (new tab)',
+    a_gh: 'GitHub (new tab)',
+    a_langgroup: 'Language',
+    a_themegroup: 'Theme',
+    a_mail: 'Email me',
+    alt_jl: 'Screenshot of the JobLeaf app',
+    alt_cs: 'Screenshot of the CS Analytics desktop app',
+    alt_sap: 'Diagram of the SAP Dashboards workbook',
+    alt_mt: 'Screenshot of the Money Tracker dashboard',
+    alt_hc: 'Diagram of the migration to a static Help Center'
+  };
+  const UI = {
+    fr: {
+      title: 'Abdel Arbaoui — Customer Success Manager',
+      desc: 'Customer Success Manager en cybersécurité B2B. Parcours chez Thales et Inetum, projets JobLeaf, CS Analytics, SAP Dashboards.',
+      menuOpen: 'Ouvrir le menu', menuClose: 'Fermer le menu',
+      copied: 'Adresse copiée dans le presse-papiers.',
+      copyFail: 'Copie impossible ici : sélectionnez l’adresse ci-dessus.'
+    },
+    en: {
+      title: 'Abdel Arbaoui — Customer Success Manager',
+      desc: 'Customer Success Manager in B2B cybersecurity. Experience at Thales and Inetum; projects JobLeaf, CS Analytics, SAP Dashboards.',
+      menuOpen: 'Open menu', menuClose: 'Close menu',
+      copied: 'Address copied to clipboard.',
+      copyFail: 'Copy unavailable here: select the address above.'
+    }
+  };
+  const CV = {
+    fr: { href: 'assets/cv/CV_Abdelkader_Arbaoui_FR.pdf', external: false },
+    en: { href: 'https://abdelarbaoui.github.io/Portfolio/assets/cv/CV_Abdelkader_Arbaoui_EN.pdf', external: true }
+  };
+
+  // Mémorise le français d'origine
+  const textNodes = [...document.querySelectorAll('[data-i18n]')];
+  const frText = new Map(textNodes.map(el => [el, el.innerHTML]));
+  const attrNodes = [...document.querySelectorAll('[data-i18n-attr]')];
+  const frAttr = new Map(attrNodes.map(el => {
+    const pairs = el.dataset.i18nAttr.split('|').map(p => p.split(':'));
+    return [el, pairs.map(([attr, key]) => ({ attr, key, fr: el.getAttribute(attr) }))];
+  }));
+  const metaDesc = document.querySelector('meta[name="description"]');
+  const cvBtn = document.querySelector('[data-cv]');
+  const demoLinks = [...document.querySelectorAll('[data-demo]')];
+  const langBtns = document.querySelectorAll('[data-lang-set]');
+  const menuBtn = document.querySelector('.menu-btn');
+  const menuLabel = menuBtn.querySelector('.sr-only');
+  let lang = root.dataset.lang === 'en' ? 'en' : 'fr';
+
+  function applyLang(l) {
+    lang = l;
+    root.lang = l;
+    root.dataset.lang = l;
+    textNodes.forEach(el => {
+      const key = el.dataset.i18n;
+      el.innerHTML = l === 'en' && EN[key] !== undefined ? EN[key] : frText.get(el);
+    });
+    frAttr.forEach((list, el) => list.forEach(({ attr, key, fr }) => {
+      el.setAttribute(attr, l === 'en' && EN_ATTR[key] ? EN_ATTR[key] : fr);
+    }));
+    document.title = UI[l].title;
+    metaDesc.setAttribute('content', UI[l].desc);
+    cvBtn.setAttribute('href', CV[l].href);
+    if (CV[l].external) { cvBtn.removeAttribute('download'); cvBtn.target = '_blank'; cvBtn.rel = 'noopener'; }
+    else { cvBtn.setAttribute('download', ''); cvBtn.removeAttribute('target'); cvBtn.removeAttribute('rel'); }
+    demoLinks.forEach(a => { const u = new URL(a.href); u.searchParams.set('lang', l); a.href = u.toString(); });
+    langBtns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.langSet === l)));
+    menuLabel.textContent = menuBtn.getAttribute('aria-expanded') === 'true' ? UI[l].menuClose : UI[l].menuOpen;
+  }
+  langBtns.forEach(b => b.addEventListener('click', () => {
+    applyLang(b.dataset.langSet);
+    try { localStorage.setItem('lang', b.dataset.langSet); } catch (e) {}
+  }));
+  applyLang(lang);
+
+  // ---------- Thème clair / sombre ----------
+  const themeBtns = document.querySelectorAll('[data-theme-set]');
+  const syncTheme = () => themeBtns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.themeSet === root.dataset.theme)));
+  themeBtns.forEach(b => b.addEventListener('click', () => {
+    root.dataset.theme = b.dataset.themeSet;
+    try { localStorage.setItem('theme', b.dataset.themeSet); } catch (e) {}
+    syncTheme();
+  }));
+  syncTheme();
+
+  // ---------- Menu mobile ----------
+  const drawer = document.getElementById('drawer');
+  const menuIcon = menuBtn.querySelector('use');
+  const setMenu = open => {
+    menuBtn.setAttribute('aria-expanded', String(open));
+    drawer.classList.toggle('is-open', open);
+    menuLabel.textContent = open ? UI[lang].menuClose : UI[lang].menuOpen;
+    menuIcon.setAttribute('href', open ? '#i-x' : '#i-menu');
+  };
+  menuBtn.addEventListener('click', () => setMenu(menuBtn.getAttribute('aria-expanded') !== 'true'));
+  drawer.querySelectorAll('.nav a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && drawer.classList.contains('is-open')) { setMenu(false); menuBtn.focus(); }
+  });
+  matchMedia('(min-width: 1024px)').addEventListener('change', e => { if (e.matches) setMenu(false); });
+
+  // ---------- Section active dans la navigation ----------
+  const links = [...document.querySelectorAll('.nav a')];
+  const setCurrent = key => links.forEach(a => {
+    if (a.dataset.nav === key) a.setAttribute('aria-current', 'location');
+    else a.removeAttribute('aria-current');
+  });
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) setCurrent(en.target.dataset.nav); });
+  }, { rootMargin: '-35% 0px -60% 0px' });
+  document.querySelectorAll('.main section[data-nav]').forEach(s => io.observe(s));
+
+  // ---------- Copier l'adresse ----------
+  const copyBtn = document.querySelector('[data-copy]');
+  const status = document.querySelector('.copy-status');
+  let timer;
+  copyBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(copyBtn.dataset.copy);
+      status.textContent = UI[lang].copied;
+    } catch (e) {
+      status.textContent = UI[lang].copyFail;
+    }
+    clearTimeout(timer);
+    timer = setTimeout(() => { status.textContent = ''; }, 4000);
+  });
+})();
+</script>
 </body>
 </html>
