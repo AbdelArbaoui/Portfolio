@@ -197,7 +197,7 @@ a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset:
 .sidebar {
   position: sticky; top: var(--shell-pad);
   height: calc(100vh - 2 * var(--shell-pad));
-  display: flex; flex-direction: column; gap: var(--s-5);
+  display: flex; flex-direction: column; gap: var(--s-3);
   overflow-y: auto; scrollbar-width: none;
 }
 .sidebar::-webkit-scrollbar { display: none; }
@@ -205,26 +205,26 @@ a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset:
   background: var(--panel); border: 1px solid var(--line);
   border-radius: var(--r-panel); box-shadow: var(--shadow);
 }
-.profile { padding: var(--s-5); }
+.profile { padding: var(--s-4) var(--s-5); }
 .profile-head { --od-gap: var(--s-4); }
-.avatar { display: block; width: 72px; height: 72px; border-radius: 18px; border: 1px solid var(--line); }
+.avatar { display: block; width: 56px; height: 56px; border-radius: 14px; border: 1px solid var(--line); }
 .p-name { font-size: var(--fs-l); font-weight: 600; letter-spacing: -.02em; line-height: 1.25; }
 .p-role { font-size: var(--fs-s); color: var(--ink-soft); line-height: 1.4; }
 .menu-btn { display: none; }
-.profile-more { margin-top: var(--s-5); }
-.bio { font-size: var(--fs-s); color: var(--ink-soft); line-height: 1.6; }
-.signature { margin-top: var(--s-3); font-size: 34px; line-height: 1; color: var(--ink); transform: rotate(-3deg); transform-origin: left center; }
-.facts { margin-top: var(--s-5); padding-top: var(--s-5); border-top: 1px solid var(--line); display: grid; gap: var(--s-3); }
+.profile-more { margin-top: var(--s-3); }
+.bio { font-size: var(--fs-s); color: var(--ink-soft); line-height: 1.5; }
+.signature { margin-top: var(--s-2); font-size: 30px; line-height: 1; color: var(--ink); transform: rotate(-3deg); transform-origin: left center; }
+.facts { margin-top: var(--s-4); padding-top: var(--s-4); border-top: 1px solid var(--line); display: grid; gap: var(--s-2); }
 .facts li { display: flex; align-items: center; gap: var(--s-3); font-size: var(--fs-s); line-height: 1.4; }
 .facts .i { color: var(--ink-soft); }
 .facts .avail { font-weight: 600; }
 .facts .avail .i { color: var(--accent); }
 
-.drawer { display: flex; flex-direction: column; gap: var(--s-5); flex: 1 1 auto; }
-.nav { display: grid; gap: var(--s-1); }
+.drawer { display: flex; flex-direction: column; gap: var(--s-3); flex: 1 1 auto; }
+.nav { display: grid; gap: 2px; }
 .nav a {
   display: flex; align-items: center; gap: var(--s-3);
-  min-height: 48px; padding: 0 var(--s-4);
+  min-height: 40px; padding: 0 var(--s-4);
   border-radius: var(--r-btn); border: 1px solid transparent;
   color: var(--ink-soft); font-size: var(--fs-base); font-weight: 500; text-decoration: none;
   transition: background-color var(--dur-hover) var(--ease-out), color var(--dur-hover) var(--ease-out);
@@ -232,7 +232,19 @@ a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset:
 @media (hover: hover) { .nav a:hover { color: var(--ink); background: var(--panel); } }
 .nav a[aria-current="location"] { color: var(--ink); background: var(--panel); border-color: var(--line); box-shadow: var(--shadow); }
 
-.side-foot { margin-top: auto; display: grid; gap: var(--s-3); }
+.side-foot { margin-top: auto; display: grid; gap: var(--s-2); }
+.sidebar .icon-btn { width: 44px; height: 44px; }
+.side-foot .btn { min-height: 44px; }
+
+/* écrans peu hauts : la barre latérale tient sans défiler */
+@media (min-width: 1024px) and (max-height: 800px) {
+  :root { --shell-pad: 16px; }
+  .signature { display: none; }
+}
+@media (min-width: 1024px) and (max-height: 700px) {
+  .bio { display: none; }
+  .profile-more { margin-top: 0; }
+}
 .side-row { --od-gap: var(--s-2); }
 .icon-btn {
   display: inline-flex; align-items: center; justify-content: center;
@@ -394,6 +406,7 @@ a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset:
     max-height: calc(100vh - 110px); overflow-y: auto;
   }
   .drawer.is-open { display: flex; animation: drop var(--dur-in) var(--ease-out); }
+  .nav a { min-height: 48px; }
   .nav a[aria-current="location"] { background: var(--panel-2); box-shadow: none; }
   .side-foot { margin-top: var(--s-2); }
   .mobile-only { display: block; }
